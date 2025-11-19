@@ -32,13 +32,20 @@ This directory contains the complete documentation for the Agentic-Writer projec
 
 To populate the GitHub Wiki with these pages:
 
-1. Go to your repository's Wiki tab on GitHub
-2. Clone the wiki repository:
+**Important:** The wiki repository doesn't exist until you create the first page via the web interface.
+
+1. **Initialize the wiki:**
+   - Go to https://github.com/eggressive/agentic-writer/wiki
+   - Click "Create the first page"
+   - Create a page titled "Home" with content from `wiki/Home.md`
+   - This creates the wiki repository
+
+2. **Clone the wiki repository** (now it exists):
    ```bash
    git clone https://github.com/eggressive/agentic-writer.wiki.git
    ```
-3. Copy all markdown files from this directory to the wiki repository
-4. Commit and push:
+
+3. **Copy all markdown files:**
    ```bash
    cp wiki/*.md agentic-writer.wiki/
    cd agentic-writer.wiki
@@ -46,6 +53,8 @@ To populate the GitHub Wiki with these pages:
    git commit -m "Add comprehensive wiki documentation"
    git push
    ```
+
+**Alternative:** Use the web interface to create all pages manually. See [WIKI-SETUP.md](../WIKI-SETUP.md) for detailed instructions.
 
 ### As Standalone Documentation
 

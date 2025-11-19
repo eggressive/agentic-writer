@@ -4,12 +4,48 @@ This guide explains how to populate your GitHub Wiki with the comprehensive docu
 
 ## Quick Setup
 
-### Method 1: Clone and Copy (Recommended)
+### Method 1: GitHub Web Interface (Recommended)
+
+This is the easiest method since the wiki repository doesn't exist until you create the first page.
 
 1. **Enable Wiki on GitHub**
-   - Go to your repository on GitHub
+   - Go to https://github.com/eggressive/agentic-writer
    - Navigate to Settings → Features
    - Enable "Wikis" if not already enabled
+
+2. **Create the First Page**
+   - Go to https://github.com/eggressive/agentic-writer/wiki
+   - Click "Create the first page"
+   - For the first page, use the title "Home"
+   - Copy and paste the content from `wiki/Home.md`
+   - Click "Save Page"
+
+3. **Add Remaining Pages**
+   - Click "New Page" for each additional page
+   - Use the following titles (without the .md extension):
+     - Getting-Started
+     - Installation
+     - Usage-Guide
+     - Architecture
+     - API-Reference
+     - Roadmap
+     - FAQ
+     - Troubleshooting
+     - Contributing
+   - Copy the content from the corresponding `wiki/*.md` files
+   - Save each page
+
+4. **Verify**
+   - All 10 wiki pages should now be visible
+   - Navigation between pages should work
+
+### Method 2: Clone and Copy (After Wiki is Initialized)
+
+**Note:** This method only works after you've created at least one page via the web interface (Method 1, step 2).
+
+1. **Initialize Wiki First**
+   - Follow Method 1 to create the first page (Home)
+   - This creates the wiki repository
 
 2. **Clone the Wiki Repository**
    ```bash
@@ -33,34 +69,6 @@ This guide explains how to populate your GitHub Wiki with the comprehensive docu
 5. **Verify**
    - Visit https://github.com/eggressive/agentic-writer/wiki
    - You should see all 10 wiki pages
-
-### Method 2: GitHub Web Interface
-
-1. Go to https://github.com/eggressive/agentic-writer/wiki
-2. Click "Create the first page" or "New Page"
-3. For each file in `wiki/`:
-   - Create a new page with the title (e.g., "Home", "Getting Started")
-   - Copy and paste the content from the markdown file
-   - Save the page
-4. Repeat for all 10 pages
-
-### Method 3: GitHub API (Advanced)
-
-Use the GitHub API to automatically create wiki pages:
-
-```bash
-# Set your GitHub token
-export GITHUB_TOKEN="your_token_here"
-
-# Create pages via API
-for file in wiki/*.md; do
-  page_name=$(basename "$file" .md)
-  curl -X PUT \
-    "https://api.github.com/repos/eggressive/agentic-writer/wiki/$page_name" \
-    -H "Authorization: token $GITHUB_TOKEN" \
-    -d @"$file"
-done
-```
 
 ## Wiki Pages Overview
 
