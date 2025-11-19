@@ -4,9 +4,9 @@ This document describes the architecture and design of the Automated Content Cre
 
 ## System Overview
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│                    Content Creation Pipeline                 │
+│                    Content Creation Pipeline                │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -20,13 +20,13 @@ This document describes the architecture and design of the Automated Content Cre
           ▼                   ▼                   ▼
     ┌─────────┐         ┌─────────┐        ┌─────────┐
     │ Stage 1 │         │ Stage 2 │        │ Stage 3 │
-    │Research │───────▶ │ Writing │──────▶ │ Images  │
+    │Research │───────▶ │ Writing │──────▶ │ Images │
     └─────────┘         └─────────┘        └─────────┘
           │                                       │
           │                                       ▼
           │                                 ┌─────────┐
           │                                 │ Stage 4 │
-          └────────────────────────────────▶│Publish  │
+          └───────────────────────────────▶│ Publish │
                                             └─────────┘
 ```
 
@@ -37,6 +37,7 @@ This document describes the architecture and design of the Automated Content Cre
 **Role**: Coordinates all agents and manages the pipeline flow
 
 **Responsibilities**:
+
 - Initialize and configure all agents
 - Execute the 4-stage pipeline sequentially
 - Handle errors and retries
@@ -44,6 +45,7 @@ This document describes the architecture and design of the Automated Content Cre
 - Generate execution summaries
 
 **Key Methods**:
+
 - `create_content()`: Main pipeline execution
 - `get_summary()`: Generate human-readable summary
 
@@ -58,7 +60,8 @@ This document describes the architecture and design of the Automated Content Cre
 - Automatic retry with exponential backoff
 
 **Pipeline**:
-```
+
+```text
 Topic Input
     │
     ▼
