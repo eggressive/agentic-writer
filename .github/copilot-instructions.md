@@ -32,6 +32,12 @@
 - Unit tests cover utils + publisher; integration tests (`tests/test_integration.py`) rely on `unittest.mock.patch` to fake `ChatOpenAI` and DuckDuckGo—follow that pattern for anything touching external APIs.
 - Formatting/linting: `black src tests` and `ruff check src tests --fix`; keep type hints (project already uses them everywhere) and prefer explicit return dicts over loosely shaped objects.
 
+## Code style
+- Follow PEP 8 baseline with Black's 88-character line limit (not 79).
+- Prefer double quotes for strings (enforced by Black).
+- Use type hints where they add clarity for function parameters and return values—already standard across the codebase.
+- Write docstrings for all public functions and classes using Google-style format; include parameter descriptions and return value documentation.
+
 ## Extending the system
 - New agents belong in `src/agents/`, exported via `src/agents/__init__.py`, registered in `ContentCreationOrchestrator.__init__`, and reflected in `ARCHITECTURE.md`.
 - When altering pipeline outputs, update `orchestrator.get_summary()`, CLI summary panels, and the metadata JSON schema simultaneously to avoid drift.
