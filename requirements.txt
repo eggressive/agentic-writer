@@ -2,6 +2,7 @@
 langchain>=0.1.0
 langchain-openai>=0.0.5
 langchain-community>=0.0.20
+langchain-core>=0.1.0
 
 # API clients
 openai>=1.10.0
@@ -15,7 +16,7 @@ duckduckgo-search>=4.0.0
 pillow>=10.0.0
 
 # Publishing platforms
-medium-api>=1.0.0
+medium-api>=0.6.0
 
 # Utilities
 python-dotenv>=1.0.0

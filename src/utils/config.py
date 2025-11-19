@@ -22,7 +22,7 @@ class Config(BaseModel):
     def from_env(cls) -> "Config":
         """Load configuration from environment variables."""
         load_dotenv()
-        
+
         return cls(
             openai_api_key=os.getenv("OPENAI_API_KEY", ""),
             medium_access_token=os.getenv("MEDIUM_ACCESS_TOKEN"),

@@ -1,6 +1,5 @@
 """Tests for configuration management."""
 
-import os
 import pytest
 from src.utils.config import Config
 
@@ -19,7 +18,7 @@ def test_config_from_env(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
     monkeypatch.setenv("OPENAI_MODEL", "gpt-3.5-turbo")
     monkeypatch.setenv("TEMPERATURE", "0.5")
-    
+
     config = Config.from_env()
     assert config.openai_api_key == "test-key"
     assert config.openai_model == "gpt-3.5-turbo"
@@ -29,7 +28,7 @@ def test_config_from_env(monkeypatch):
 def test_config_validation_missing_key():
     """Test validation fails when API key is missing."""
     config = Config(openai_api_key="")
-    
+
     with pytest.raises(ValueError, match="OPENAI_API_KEY is required"):
         config.validate_required()
 
