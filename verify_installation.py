@@ -113,7 +113,7 @@ def main():
     """Run all verification checks."""
     console.print(
         Panel.fit(
-            "[bold cyan]Agentic-V Installation Verification[/bold cyan]",
+            "[bold cyan]Agentic-Writer Installation Verification[/bold cyan]",
             border_style="cyan",
         )
     )

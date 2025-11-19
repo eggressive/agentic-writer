@@ -1,4 +1,4 @@
-# Agentic-V Architecture
+# Agentic-Writer Architecture
 
 This document describes the architecture and design of the Automated Content Creation & Management system.
 

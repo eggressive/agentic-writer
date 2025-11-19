@@ -1,8 +1,8 @@
-# Agentic-V: Project Summary
+# Agentic-Writer: Project Summary
 
 ## Overview
 
-**Agentic-V** is a complete automated content creation and management system that uses AI agents to handle the entire content lifecycle from research to publication.
+**Agentic-Writer** is a complete automated content creation and management system that uses AI agents to handle the entire content lifecycle from research to publication.
 
 ## Implementation Statistics
 
@@ -15,7 +15,7 @@
 
 ### Project Structure
 ```
-agentic-v/
+agentic-writer/
 ├── 📄 Documentation (5 files)
 │   ├── README.md          - Main documentation
 │   ├── DEMO.md           - Usage guide
@@ -359,13 +359,13 @@ MIT License - See LICENSE file for details
 
 ## Contributors
 
-- Implementation: Agentic-V Development Team
+- Implementation: Agentic-Writer Development Team
 - Framework: Built with LangChain
 - AI: Powered by OpenAI
 
 ## Conclusion
 
-Agentic-V successfully implements a complete automated content creation and management system. The implementation is:
+Agentic-Writer successfully implements a complete automated content creation and management system. The implementation is:
 
 - **Complete**: All requirements met
 - **Tested**: 100% test pass rate

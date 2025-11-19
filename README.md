@@ -1,4 +1,4 @@
-# Agentic-V: Automated Content Creation & Management
+# Agentic-Writer: Automated Content Creation & Management
 
 An intelligent AI agent system that handles the entire content lifecycle, from research to publication. Built with LangChain and powered by OpenAI's GPT models.
 
@@ -32,8 +32,8 @@ All agents are coordinated by the `ContentCreationOrchestrator` which manages th
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/eggressive/agentic-v.git
-cd agentic-v
+git clone https://github.com/eggressive/agentic-writer.git
+cd agentic-writer
 ```
 
 2. Install dependencies:
@@ -118,7 +118,7 @@ print(orchestrator.get_summary(results))
 ## Project Structure
 
 ```
-agentic-v/
+agentic-writer/
 ├── src/
 │   ├── agents/
 │   │   ├── __init__.py
