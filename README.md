@@ -2,6 +2,8 @@
 
 An intelligent AI agent system that handles the entire content lifecycle, from research to publication. Built with LangChain and powered by OpenAI's GPT models.
 
+📚 **[View Complete Wiki Documentation](wiki/Home.md)** | 🚀 **[Quick Start](wiki/Getting-Started.md)** | 📖 **[API Reference](wiki/API-Reference.md)**
+
 ## Features
 
 ✨ **Automated Research** - Intelligently searches and gathers information from multiple sources  
@@ -235,9 +237,24 @@ The system includes:
 - Web research depends on DuckDuckGo availability
 - Generated content should be reviewed before publishing
 
+## Documentation
+
+This project includes comprehensive documentation:
+
+- 📚 **[Complete Wiki](wiki/Home.md)** - Full documentation with 10+ pages
+- 🚀 **[Getting Started Guide](wiki/Getting-Started.md)** - 5-minute quick start
+- 📦 **[Installation Guide](wiki/Installation.md)** - Detailed setup instructions
+- 📖 **[Usage Guide](wiki/Usage-Guide.md)** - Complete usage documentation
+- 🔧 **[API Reference](wiki/API-Reference.md)** - Python API documentation
+- 🏗️ **[Architecture](wiki/Architecture.md)** - System design and components
+- 🗺️ **[Roadmap](wiki/Roadmap.md)** - Future plans and features
+- ❓ **[FAQ](wiki/FAQ.md)** - Frequently asked questions
+- 🔍 **[Troubleshooting](wiki/Troubleshooting.md)** - Common issues and solutions
+- 🤝 **[Contributing Guide](wiki/Contributing.md)** - How to contribute
+
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please see our [Contributing Guide](wiki/Contributing.md) for details on how to get started.
 
 ## License
 
