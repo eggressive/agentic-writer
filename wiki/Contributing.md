@@ -318,6 +318,8 @@ Follow PEP 8 with these specifics:
 
 **Line Length**: 88 characters (Black default)
 
+*Note: This differs from PEP 8's traditional 79-character limit. We use Black's default of 88 characters for better code readability.*
+
 **Quotes**: Double quotes for strings
 ```python
 # Good
