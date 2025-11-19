@@ -1,6 +1,6 @@
-# Contributing to Agentic-V
+# Contributing to Agentic-Writer
 
-Thank you for your interest in contributing to Agentic-V! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to Agentic-Writer! This document provides guidelines and instructions for contributing.
 
 ## Code of Conduct
 
@@ -13,7 +13,7 @@ Thank you for your interest in contributing to Agentic-V! This document provides
 
 ### Reporting Bugs
 
-1. Check if the bug has already been reported in [Issues](https://github.com/eggressive/agentic-v/issues)
+1. Check if the bug has already been reported in [Issues](https://github.com/eggressive/agentic-writer/issues)
 2. If not, create a new issue with:
    - Clear, descriptive title
    - Detailed description of the problem
@@ -55,8 +55,8 @@ Thank you for your interest in contributing to Agentic-V! This document provides
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/agentic-v.git
-cd agentic-v
+git clone https://github.com/YOUR_USERNAME/agentic-writer.git
+cd agentic-writer
 
 # Create virtual environment
 python -m venv venv
@@ -147,7 +147,7 @@ def test_config_validation_fails():
 ## Project Structure
 
 ```
-agentic-v/
+agentic-writer/
 ├── src/                    # Source code
 │   ├── agents/            # Agent implementations
 │   ├── utils/             # Utility functions
@@ -311,4 +311,4 @@ Feel free to reach out by:
 - Starting a discussion
 - Contacting maintainers
 
-Thank you for contributing to Agentic-V! 🎉
+Thank you for contributing to Agentic-Writer! 🎉

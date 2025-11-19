@@ -1,4 +1,4 @@
-# Agentic-V Demo Guide
+# Agentic-Writer Demo Guide
 
 This guide demonstrates how to use the Automated Content Creation & Management Agent.
 
@@ -15,8 +15,8 @@ This guide demonstrates how to use the Automated Content Creation & Management A
 
 ```bash
 # Clone the repository
-git clone https://github.com/eggressive/agentic-v.git
-cd agentic-v
+git clone https://github.com/eggressive/agentic-writer.git
+cd agentic-writer
 
 # Install dependencies
 pip install -r requirements.txt

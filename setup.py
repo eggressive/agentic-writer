@@ -6,13 +6,13 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="agentic-v",
+    name="agentic-writer",
     version="0.1.0",
     author="Dimitar",
     description="Automated content creation and management using LangChain agents",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/eggressive/agentic-v",
+    url="https://github.com/eggressive/agentic-writer",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
