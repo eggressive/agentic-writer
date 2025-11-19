@@ -244,11 +244,10 @@ else:
 
 Now that you're set up, explore these resources:
 
-1. **[Usage Guide](Usage-Guide.md)** - Learn all the command options and features
+1. **[Usage Guide](Usage-Guide.md)** - Learn all the command options, features, and see real-world examples
 2. **[Architecture](Architecture.md)** - Understand how the system works
 3. **[API Reference](API-Reference.md)** - Dive into the Python API
-4. **[Examples](Examples.md)** - See more real-world examples
-5. **[FAQ](FAQ.md)** - Find answers to common questions
+4. **[FAQ](FAQ.md)** - Find answers to common questions
 
 ## Troubleshooting Quick Fixes
 

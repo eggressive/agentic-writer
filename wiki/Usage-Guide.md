@@ -657,7 +657,6 @@ Typical content creation takes 2-5 minutes:
 
 - 📖 Learn about [Architecture](Architecture.md)
 - 🔧 Explore [API Reference](API-Reference.md)
-- 💡 See [Examples](Examples.md)
 - 🐛 Check [Troubleshooting](Troubleshooting.md)
 
 ---
