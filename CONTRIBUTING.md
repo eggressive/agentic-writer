@@ -163,24 +163,51 @@ agentic-writer/
 
 ## Commit Message Guidelines
 
-Use clear, descriptive commit messages:
+We use [Conventional Commits](https://www.conventionalcommits.org/) for automated release management.
+
+### Format
 
 ```
-Add feature X to improve Y
+<type>[optional scope]: <description>
 
-- Implement feature X
-- Add tests for X
-- Update documentation
+[optional body]
+
+[optional footer(s)]
 ```
 
-Types of commits:
-- `feat:` New feature
-- `fix:` Bug fix
+### Examples
+
+```
+feat: add support for custom image generation
+fix: resolve crash when API key is missing
+docs: update installation instructions
+chore: upgrade langchain dependencies
+```
+
+### Commit Types
+
+- `feat:` New feature (triggers minor version bump)
+- `fix:` Bug fix (triggers patch version bump)
 - `docs:` Documentation changes
 - `test:` Test additions/changes
 - `refactor:` Code refactoring
 - `style:` Code style changes
 - `chore:` Maintenance tasks
+- `build:` Build system changes
+- `ci:` CI/CD changes
+
+> **Note:** Commits with certain types (such as `style:`, `chore:`, `build:`, and `ci:`) do **not** trigger changelog entries and will not appear in the generated changelog. Only `feat:`, `fix:`, and other types explicitly configured in `release-please-config.json` are included. This helps keep the changelog focused on user-facing changes.
+### Breaking Changes
+
+For breaking changes, add `!` after the type or add `BREAKING CHANGE:` in the footer:
+
+```
+feat!: change API signature for ContentCreationOrchestrator
+
+BREAKING CHANGE: create_content() now requires additional parameter
+```
+
+This triggers a major version bump (e.g., 0.1.0 → 1.0.0)
 
 ## Adding New Features
 
@@ -280,11 +307,41 @@ def research(self, topic: str) -> Dict[str, Any]:
 
 ## Release Process
 
-We use semantic versioning (MAJOR.MINOR.PATCH):
+We use [release-please](https://github.com/googleapis/release-please) for automated release management based on [Semantic Versioning](https://semver.org/).
 
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backwards compatible)
-- **PATCH**: Bug fixes
+### Version Numbering (MAJOR.MINOR.PATCH)
+
+- **MAJOR**: Breaking changes (e.g., 1.0.0 → 2.0.0)
+- **MINOR**: New features (backwards compatible) (e.g., 1.0.0 → 1.1.0)
+- **PATCH**: Bug fixes (e.g., 1.0.0 → 1.0.1)
+
+### How Releases Work
+
+1. **Commits**: Use conventional commits (see Commit Message Guidelines above)
+2. **Pull Request**: When commits are merged to `main`, release-please analyzes them
+3. **Release PR**: release-please automatically creates/updates a release PR with:
+   - Updated version numbers in `setup.py` and `src/__init__.py`
+   - Generated CHANGELOG.md entries
+   - Proper version bump based on commit types
+4. **Publishing**: When the release PR is merged:
+   - A GitHub release is created automatically
+   - Release notes are generated from commits
+   - Version tags are created
+
+### Manual Release Steps
+
+Maintainers only need to:
+1. Review and merge the release-please PR when ready
+2. The GitHub release is created automatically
+3. Optional: Publish to PyPI manually (if configured)
+
+### Creating a Release
+
+No manual version bumping needed! Just:
+1. Use conventional commits in your PRs
+2. Merge PRs to `main`
+3. Wait for release-please to create a release PR
+4. Review and merge the release PR when ready for release
 
 ## Getting Help
 

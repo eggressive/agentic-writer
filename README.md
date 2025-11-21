@@ -254,7 +254,12 @@ This project includes comprehensive documentation:
 
 ## Contributing
 
-Contributions are welcome! Please see our [Contributing Guide](wiki/Contributing.md) for details on how to get started.
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
+
+We use [Conventional Commits](https://www.conventionalcommits.org/) and automated releases via [release-please](https://github.com/googleapis/release-please). This means:
+- Use conventional commit format (e.g., `feat:`, `fix:`, `docs:`)
+- Releases are automated based on your commits
+- Version bumping and changelog generation happen automatically
 
 ## License
 
