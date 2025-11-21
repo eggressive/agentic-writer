@@ -1,69 +1,68 @@
-# Welcome to Agentic-Writer Wiki
+# Welcome to the Agentic-Writer Wiki
 
-![Agentic-Writer](https://img.shields.io/badge/AI-Powered-blue) ![Python](https://img.shields.io/badge/Python-3.8+-green) ![LangChain](https://img.shields.io/badge/LangChain-Enabled-orange)
+![Agentic-Writer](https://img.shields.io/badge/AI-Powered-blue) ![Python](https://img.shields.io/badge/Python-3.8+-green) ![LangChain](https://img.shields.io/badge/LangChain-Enabled-orange) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 **Agentic-Writer** is an intelligent AI agent system that automates the entire content creation lifecycle—from research to publication. Built with LangChain and powered by OpenAI's GPT models, it orchestrates specialized agents to research topics, write high-quality articles, curate images, and publish to multiple platforms.
 
-## 🚀 Quick Links
+---
 
-- **[Getting Started](Getting-Started.md)** - Installation and first steps
-- **[Installation Guide](Installation.md)** - Detailed setup instructions
-- **[Usage Guide](Usage-Guide.md)** - How to use the system
-- **[Architecture](Architecture.md)** - System design and components
-- **[API Reference](API-Reference.md)** - Python API documentation
-- **[Contributing](Contributing.md)** - How to contribute
-- **[Roadmap](Roadmap.md)** - Future plans and features
-- **[FAQ](FAQ.md)** - Frequently asked questions
-- **[Troubleshooting](Troubleshooting.md)** - Common issues and solutions
+## 📚 Documentation Hub
+
+| 🚀 **Getting Started** | 📘 **Guides & Usage** | 🛠️ **Development** |
+|:-------------------|:-------------------|:-------------------|
+| [**Installation**](Installation.md) - Setup instructions | [**Usage Guide**](Usage-Guide.md) - How to use the CLI | [**Architecture**](Architecture.md) - System design |
+| [**Quick Start**](Getting-Started.md) - First steps | [**Configuration**](Usage-Guide.md#configuration) - Env vars & settings | [**API Reference**](API-Reference.md) - Code documentation |
+| [**FAQ**](FAQ.md) - Common questions | [**Troubleshooting**](Troubleshooting.md) - Fix common issues | [**Contributing**](Contributing.md) - How to help |
+| | | [**Roadmap**](Roadmap.md) - Future plans |
+
+---
 
 ## ✨ Key Features
 
 ### 🔍 Automated Research
+
 - Intelligent web searches using DuckDuckGo
 - Multi-source information gathering
 - Topic analysis and synthesis
 - Automatic retry with exponential backoff
 
 ### ✍️ AI-Powered Writing
+
 - Well-structured articles (1200-1500 words)
 - Multiple writing styles (professional, casual, technical)
 - Markdown formatting
 - Automatic metadata and tag generation
 
 ### 🖼️ Image Curation
+
 - Contextual image search
 - Unsplash API integration
 - Diverse, high-quality image selection
 - Automatic attribution
 
 ### 📤 Multi-Platform Publishing
+
 - Local file system (Markdown + JSON)
 - Medium integration (with API token)
 - Extensible for additional platforms
 
 ## 🏗️ System Architecture
 
-```
-┌─────────────────────────────────────────────┐
-│        ContentCreationOrchestrator          │
-└─────────────────────────────────────────────┘
-                    │
-    ┌───────────────┼───────────────┐
-    │               │               │
-    ▼               ▼               ▼
-┌─────────┐   ┌─────────┐   ┌─────────┐
-│Research │──▶│ Writing │──▶│ Images  │
-│ Agent   │   │  Agent  │   │  Agent  │
-└─────────┘   └─────────┘   └─────────┘
-                                  │
-                                  ▼
-                            ┌─────────┐
-                            │Publisher│
-                            │  Agent  │
-                            └─────────┘
+The system uses a sequential orchestrator pattern to manage specialized agents:
+
+```mermaid
+graph TD
+    Start([Start]) --> Orch{Orchestrator}
+    Orch --> Research[🔍 Research Agent]
+    Research --> Writing[✍️ Writer Agent]
+    Writing --> Images[🖼️ Image Agent]
+    Images --> Publish[📤 Publisher Agent]
+    Publish --> End([End])
 ```
 
-## 📊 Current Status
+*(See [Architecture](Architecture.md) for detailed diagrams)*
+
+## 📊 Project Status
 
 | Component | Status | Coverage |
 |-----------|--------|----------|
@@ -73,7 +72,6 @@
 | Publisher Agent | ✅ Complete | 100% |
 | CLI Interface | ✅ Complete | 100% |
 | Tests | ✅ 16/16 Passing | High |
-| Documentation | ✅ Complete | Full |
 
 ## 🎯 Use Cases
 
@@ -102,11 +100,11 @@
 - **Publishing**: <5 seconds
 - **Total Time**: 2-5 minutes typical
 
-## 🤝 Community
+## 🤝 Community & Support
 
-- **Issues** - [Report bugs or request features](https://github.com/eggressive/agentic-writer/issues)
-- **Discussions** - [Join the conversation](https://github.com/eggressive/agentic-writer/discussions)
-- **Contributing** - See our [Contributing Guide](Contributing.md)
+- **Found a bug?** [Open an issue](https://github.com/eggressive/agentic-writer/issues)
+- **Have a question?** [Start a discussion](https://github.com/eggressive/agentic-writer/discussions)
+- **Want to contribute?** Read our [Contributing Guide](Contributing.md)
 
 ## 📄 License
 
@@ -121,4 +119,4 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ---
 
-**Need Help?** Check out our [FAQ](FAQ.md) or [Troubleshooting](Troubleshooting.md) guides, or open an [issue](https://github.com/eggressive/agentic-writer/issues).
+**Need Help?** Check out our [FAQ](FAQ.md) or [Troubleshooting](Troubleshooting.md) guides.
