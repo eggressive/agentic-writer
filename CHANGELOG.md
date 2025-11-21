@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.1.0...agentic-writer-v0.2.0) (2025-11-21)
+
+
+### Features
+
+* add wiki documentation ([#6](https://github.com/eggressive/agentic-writer/issues/6)) ([626f839](https://github.com/eggressive/agentic-writer/commit/626f8390c1b14a50945b3e0e6235fcc3a48db1ed))
+
+
+### Code Refactoring
+
+* update Home.md for improved documentation structure and clarity ([#9](https://github.com/eggressive/agentic-writer/issues/9)) ([5b7b00c](https://github.com/eggressive/agentic-writer/commit/5b7b00c93e70479abca9aaf8bf8db1bb7ba8eecf))
+
 ## [Unreleased]
 
 ### Added
