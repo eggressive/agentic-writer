@@ -196,6 +196,7 @@ chore: upgrade langchain dependencies
 - `build:` Build system changes
 - `ci:` CI/CD changes
 
+> **Note:** Commits with certain types (such as `style:`, `chore:`, `build:`, and `ci:`) do **not** trigger changelog entries and will not appear in the generated changelog. Only `feat:`, `fix:`, and other types explicitly configured in `release-please-config.json` are included. This helps keep the changelog focused on user-facing changes.
 ### Breaking Changes
 
 For breaking changes, add `!` after the type or add `BREAKING CHANGE:` in the footer:
