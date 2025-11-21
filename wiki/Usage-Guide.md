@@ -32,6 +32,7 @@ python main.py create "Your Topic Here" [options]
 ```
 
 **Options:**
+
 - `--style TEXT` - Writing style (default: professional)
 - `--audience TEXT` - Target audience (default: general audience)
 - `--platform TEXT` - Publishing platform(s) (default: file)
@@ -63,6 +64,7 @@ python main.py create "The Future of AI"
 ```
 
 Creates an article with default settings:
+
 - Style: professional
 - Audience: general audience
 - Platform: file
@@ -244,36 +246,44 @@ for platform, result in publication_results.items():
 Choose a style that matches your content goals:
 
 #### Professional
+
 ```bash
 --style professional
 ```
+
 - Formal tone
 - Business-appropriate language
 - Structured and organized
 - Ideal for: Business articles, reports, whitepapers
 
 #### Casual
+
 ```bash
 --style casual
 ```
+
 - Conversational tone
 - Friendly and approachable
 - Easy to read
 - Ideal for: Blog posts, personal stories, tutorials
 
 #### Technical
+
 ```bash
 --style technical
 ```
+
 - Detailed explanations
 - Technical terminology
 - In-depth analysis
 - Ideal for: Documentation, technical guides, research
 
 #### Accessible
+
 ```bash
 --style accessible
 ```
+
 - Simple language
 - Clear explanations
 - Beginner-friendly
@@ -284,33 +294,41 @@ Choose a style that matches your content goals:
 Define your audience for better-tailored content:
 
 #### General Audience
+
 ```bash
 --audience "general audience"
 ```
+
 Suitable for most readers without specialized knowledge.
 
 #### Professionals
+
 ```bash
 --audience "business executives"
 --audience "software developers"
 --audience "marketing professionals"
 ```
+
 Industry-specific language and examples.
 
 #### Skill Levels
+
 ```bash
 --audience "beginners"
 --audience "intermediate users"
 --audience "advanced practitioners"
 ```
+
 Adjusted complexity and depth.
 
 #### Demographics
+
 ```bash
 --audience "high school students"
 --audience "university graduates"
 --audience "retirees"
 ```
+
 Age-appropriate language and references.
 
 ### Publishing Platforms
@@ -318,21 +336,27 @@ Age-appropriate language and references.
 Specify where to publish your content:
 
 #### File System (Default)
+
 ```bash
 --platform file
 ```
+
 Saves markdown and JSON files locally.
 
 #### Medium
+
 ```bash
 --platform medium
 ```
+
 Publishes to Medium (requires `MEDIUM_ACCESS_TOKEN`).
 
 #### Multiple Platforms
+
 ```bash
 --platform file --platform medium
 ```
+
 Publishes to multiple destinations.
 
 ## Configuration
@@ -362,25 +386,31 @@ MAX_RETRIES=3                      # 1 to 5
 ### Model Selection
 
 #### GPT-4 Turbo (Recommended)
+
 ```bash
 OPENAI_MODEL=gpt-4-turbo-preview
 ```
+
 - Best quality
 - Latest features
 - Higher cost
 
 #### GPT-4
+
 ```bash
 OPENAI_MODEL=gpt-4
 ```
+
 - High quality
 - Reliable
 - Moderate cost
 
 #### GPT-3.5 Turbo
+
 ```bash
 OPENAI_MODEL=gpt-3.5-turbo
 ```
+
 - Good quality
 - Fast
 - Lower cost
@@ -535,11 +565,13 @@ except Exception as e:
 ### 1. Topic Selection
 
 ✅ **Good Topics:**
+
 - "The Impact of AI on Healthcare Diagnostics"
 - "Best Practices for Remote Team Management"
 - "Understanding Kubernetes Architecture"
 
 ❌ **Avoid:**
+
 - Vague topics: "AI stuff"
 - Too broad: "Everything about computers"
 - Too narrow: "Python list.append() function"
@@ -547,17 +579,20 @@ except Exception as e:
 ### 2. Audience Definition
 
 ✅ **Be Specific:**
+
 - "software engineers with 3-5 years experience"
 - "small business owners in retail"
 - "college students studying data science"
 
 ❌ **Too Generic:**
+
 - "people"
 - "everyone"
 
 ### 3. Style Selection
 
 Match style to purpose:
+
 - **Blog posts** → casual or accessible
 - **Business reports** → professional
 - **Technical docs** → technical
@@ -566,6 +601,7 @@ Match style to purpose:
 ### 4. Review Before Publishing
 
 Always review generated content:
+
 - ✅ Check factual accuracy
 - ✅ Verify tone and style
 - ✅ Ensure logical flow
@@ -600,6 +636,7 @@ Always review generated content:
 ### Execution Time
 
 Typical content creation takes 2-5 minutes:
+
 - Research: 10-30 seconds
 - Writing: 30-60 seconds
 - Images: 5-15 seconds
@@ -608,11 +645,13 @@ Typical content creation takes 2-5 minutes:
 ### Optimization
 
 1. **Use faster models** for drafts:
+
    ```bash
    OPENAI_MODEL=gpt-3.5-turbo
    ```
 
 2. **Reduce research sources**:
+
    ```bash
    MAX_RESEARCH_SOURCES=3
    ```
@@ -628,6 +667,7 @@ Typical content creation takes 2-5 minutes:
 **Issue**: Content creation takes too long
 
 **Solutions:**
+
 - Use `gpt-3.5-turbo` model
 - Reduce `MAX_RESEARCH_SOURCES`
 - Check internet connection
@@ -638,6 +678,7 @@ Typical content creation takes 2-5 minutes:
 **Issue**: Generated content isn't good enough
 
 **Solutions:**
+
 - Use `gpt-4-turbo-preview` or `gpt-4`
 - Increase `TEMPERATURE` for creativity
 - Provide more specific topic
@@ -648,6 +689,7 @@ Typical content creation takes 2-5 minutes:
 **Issue**: OpenAI API errors
 
 **Solutions:**
+
 - Check API key validity
 - Verify account has credits
 - Check rate limits
