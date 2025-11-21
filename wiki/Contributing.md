@@ -58,6 +58,7 @@ Thank you for your interest in contributing to Agentic-Writer! This guide will h
 ### Good First Issues
 
 Look for issues labeled:
+
 - `good first issue` - Perfect for newcomers
 - `help wanted` - Community help needed
 - `documentation` - Docs improvements
@@ -78,6 +79,7 @@ Look for issues labeled:
    - Configuration (redact API keys!)
 
 **Example Bug Report**:
+
 ```markdown
 ### Description
 Research agent fails when topic contains special characters
@@ -110,6 +112,7 @@ Error: UnicodeEncodeError...
    - Examples (optional)
 
 **Example Feature Request**:
+
 ```markdown
 ### Feature
 Support for custom article length
@@ -132,6 +135,7 @@ Add `--word-count` CLI option and config parameter
 Documentation improvements are always welcome!
 
 **What to improve**:
+
 - Fix typos or grammar
 - Add examples
 - Clarify confusing sections
@@ -140,6 +144,7 @@ Documentation improvements are always welcome!
 - Update outdated information
 
 **Process**:
+
 1. Fork repository
 2. Edit documentation
 3. Submit PR
@@ -164,6 +169,7 @@ git checkout -b fix/bug-description
 ```
 
 **Branch naming**:
+
 - `feature/feature-name` - New features
 - `fix/bug-name` - Bug fixes
 - `docs/change-description` - Documentation
@@ -271,7 +277,8 @@ git commit -m "feat: add custom article length support"
 ```
 
 **Commit message format**:
-```
+
+```text
 <type>: <description>
 
 [optional body]
@@ -280,6 +287,7 @@ git commit -m "feat: add custom article length support"
 ```
 
 **Types**:
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `docs` - Documentation
@@ -289,6 +297,7 @@ git commit -m "feat: add custom article length support"
 - `chore` - Maintenance
 
 **Examples**:
+
 ```bash
 git commit -m "feat: add WordPress publishing support"
 git commit -m "fix: handle special characters in topics"
@@ -321,6 +330,7 @@ Follow PEP 8 with these specifics:
 *Note: This differs from PEP 8's traditional 79-character limit. We use Black's default of 88 characters for better code readability.*
 
 **Quotes**: Double quotes for strings
+
 ```python
 # Good
 message = "Hello, world!"
@@ -330,6 +340,7 @@ message = 'Hello, world!'
 ```
 
 **Type Hints**: Use where helpful
+
 ```python
 def process_data(topic: str, style: str = "professional") -> Dict[str, Any]:
     """Process data and return results."""
@@ -337,6 +348,7 @@ def process_data(topic: str, style: str = "professional") -> Dict[str, Any]:
 ```
 
 **Docstrings**: Google-style for all public functions
+
 ```python
 def create_article(topic: str, style: str) -> Dict[str, Any]:
     """Create article on given topic.
@@ -359,6 +371,7 @@ def create_article(topic: str, style: str) -> Dict[str, Any]:
 ```
 
 **Imports**: Organized and sorted
+
 ```python
 # Standard library
 import logging
@@ -414,6 +427,7 @@ class Agent:
 **Location**: `tests/` directory
 
 **Structure**:
+
 ```python
 """Tests for WriterAgent."""
 
@@ -450,11 +464,13 @@ class TestWriterAgent:
 ### Test Coverage
 
 Aim for:
+
 - **Core components**: >80% coverage
 - **Utilities**: 100% coverage
 - **Integration**: Key workflows covered
 
 Check coverage:
+
 ```bash
 pytest tests/ --cov=src --cov-report=html
 open htmlcov/index.html
@@ -463,6 +479,7 @@ open htmlcov/index.html
 ### Mocking
 
 Mock external APIs in tests:
+
 ```python
 @patch('src.agents.researcher.DDGS')
 def test_search_web(mock_ddgs):
@@ -482,6 +499,7 @@ def test_search_web(mock_ddgs):
 ### Code Documentation
 
 **Docstrings**: All public functions/classes
+
 ```python
 def function(param: str) -> Dict:
     """Brief description.
@@ -502,6 +520,7 @@ def function(param: str) -> Dict:
 ```
 
 **Comments**: Explain complex logic
+
 ```python
 # Calculate optimal temperature based on style
 # Higher temp for creative styles, lower for factual
@@ -514,6 +533,7 @@ else:
 ### User Documentation
 
 Update when adding features:
+
 - README.md - Overview and quick start
 - Wiki pages - Detailed documentation
 - DEMO.md - Usage examples
@@ -585,6 +605,7 @@ How was this tested?
 ### Recognition
 
 Contributors are recognized through:
+
 - GitHub contributors page
 - Release notes
 - Special mentions for significant contributions

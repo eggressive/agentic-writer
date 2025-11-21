@@ -21,7 +21,7 @@ Agentic-Writer is built on a multi-agent architecture where specialized agents w
 
 ### High-Level Architecture
 
-```
+```text
 ┌────────────────────────────────────────────────────┐
 │              User Interface Layer                  │
 │        (CLI / Python API / Future: Web UI)         │
@@ -56,7 +56,7 @@ Agentic-Writer is built on a multi-agent architecture where specialized agents w
 
 ### Pipeline Flow
 
-```
+```text
 Input Topic
     │
     ├─▶ [Stage 1: Research] ──▶ Web Search + Analysis
@@ -78,6 +78,7 @@ Input Topic
 **Location**: `src/orchestrator.py`
 
 **Responsibilities**:
+
 - Initialize and configure all agents
 - Execute 4-stage pipeline sequentially
 - Manage state and data flow between agents
@@ -110,6 +111,7 @@ class ContentCreationOrchestrator:
 **Location**: `src/agents/researcher.py`
 
 **Responsibilities**:
+
 - Analyze topics and generate research questions
 - Search the web using DuckDuckGo
 - Synthesize information from multiple sources
@@ -117,7 +119,7 @@ class ContentCreationOrchestrator:
 
 **Pipeline**:
 
-```
+```text
 Topic Input
     │
     ▼
@@ -161,6 +163,7 @@ class ResearchAgent:
 **Location**: `src/agents/writer.py`
 
 **Responsibilities**:
+
 - Create detailed article outlines
 - Generate full articles (1200-1500 words)
 - Create titles and meta descriptions
@@ -169,7 +172,7 @@ class ResearchAgent:
 
 **Pipeline**:
 
-```
+```text
 Research Data + Style + Audience
     │
     ▼
@@ -218,6 +221,7 @@ class WriterAgent:
 **Location**: `src/agents/image_handler.py`
 
 **Responsibilities**:
+
 - Generate contextual image search queries
 - Search Unsplash for relevant images
 - Select diverse, high-quality images
@@ -225,7 +229,7 @@ class WriterAgent:
 
 **Pipeline**:
 
-```
+```text
 Article Content + Title
     │
     ▼
@@ -276,6 +280,7 @@ class ImageAgent:
 **Location**: `src/agents/publisher.py`
 
 **Responsibilities**:
+
 - Save articles as markdown files
 - Export metadata as JSON
 - Publish to Medium (if configured)
@@ -283,7 +288,7 @@ class ImageAgent:
 
 **Pipeline**:
 
-```
+```text
 Article + Images + Metadata
     │
     ├─▶ File Platform
@@ -457,7 +462,7 @@ result = chain.invoke({
 ### Core Dependencies
 
 | Package | Version | Purpose |
-|---------|---------|---------|
+| ------- | ------- | ------- |
 | **langchain** | ≥0.1.0 | AI agent framework |
 | **langchain-core** | ≥0.1.0 | Core utilities |
 | **langchain-openai** | ≥0.0.2 | OpenAI integration |
@@ -548,6 +553,7 @@ def search_web(self, topic: str):
 **Authentication**: API key
 
 **Usage**:
+
 - Topic analysis
 - Content generation
 - Metadata creation
@@ -562,6 +568,7 @@ def search_web(self, topic: str):
 **Authentication**: None required
 
 **Usage**:
+
 - Topic research
 - Information gathering
 
@@ -574,6 +581,7 @@ def search_web(self, topic: str):
 **Authentication**: Access key (optional)
 
 **Usage**:
+
 - Image search
 - High-quality photos
 
@@ -586,6 +594,7 @@ def search_web(self, topic: str):
 **Authentication**: Access token (optional)
 
 **Usage**:
+
 - Article publishing
 - Author posting
 
@@ -621,7 +630,7 @@ def find_images(self, ...):
 
 ### Error Propagation
 
-```
+```text
 Agent Error
     │
     ├─▶ Log error

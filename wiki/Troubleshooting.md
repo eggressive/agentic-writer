@@ -120,22 +120,26 @@ pip check
 **Solutions**:
 
 1. **Create `.env` file**:
+
 ```bash
 cp .env.example .env
 ```
 
-2. **Add your API key**:
+1. **Add your API key**:
+
 ```bash
 # Edit .env file
 OPENAI_API_KEY=sk-your-actual-key-here
 ```
 
-3. **Verify**:
+1. **Verify**:
+
 ```bash
 python main.py config
 ```
 
 **Common mistakes**:
+
 - ❌ Extra spaces: `OPENAI_API_KEY = sk-...`
 - ❌ Quotes: `OPENAI_API_KEY="sk-..."`
 - ✅ Correct: `OPENAI_API_KEY=sk-...`
@@ -254,7 +258,7 @@ curl https://api.openai.com/v1/models \
 MAX_RETRIES=5
 ```
 
-4. **Network restrictions**: Ensure DuckDuckGo isn't blocked
+1. **Network restrictions**: Ensure DuckDuckGo isn't blocked
 
 ### "No research results found"
 
@@ -312,6 +316,7 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Problem**: No credits remaining
 
 **Solutions**:
+
 1. Add credits to OpenAI account
 2. Check billing settings
 3. Wait for free tier reset (if applicable)
@@ -321,6 +326,7 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Problem**: Rate limiting
 
 **Solutions**:
+
 1. Wait 60 seconds and retry
 2. Reduce MAX_RESEARCH_SOURCES
 3. Upgrade API tier
@@ -336,6 +342,7 @@ OPENAI_MODEL=gpt-3.5-turbo
 1. **Optional**: Unsplash is optional, system works without it
 2. **Get key**: [Unsplash Developers](https://unsplash.com/developers)
 3. **Add to .env**:
+
 ```bash
 UNSPLASH_ACCESS_KEY=your-access-key
 ```
@@ -345,6 +352,7 @@ UNSPLASH_ACCESS_KEY=your-access-key
 **Problem**: 50 requests/hour limit reached
 
 **Solutions**:
+
 1. **Wait**: Limit resets hourly
 2. **Continue**: System works without images
 3. **Upgrade**: Apply for higher limits
@@ -371,20 +379,22 @@ UNSPLASH_ACCESS_KEY=your-access-key
 **Solutions**:
 
 1. **Use faster model**:
+
 ```bash
 OPENAI_MODEL=gpt-3.5-turbo
 ```
 
-2. **Reduce research sources**:
+1. **Reduce research sources**:
+
 ```bash
 MAX_RESEARCH_SOURCES=3
 ```
 
-3. **Check internet speed**: Slow connection affects performance
+1. **Check internet speed**: Slow connection affects performance
 
-4. **Skip images**: Don't configure Unsplash
+2. **Skip images**: Don't configure Unsplash
 
-5. **Check system load**: Close other applications
+3. **Check system load**: Close other applications
 
 ### "High memory usage"
 
@@ -405,13 +415,14 @@ MAX_RESEARCH_SOURCES=3
 
 1. **Wait longer**: Some operations take time
 2. **Check logs**: Enable DEBUG logging
+
 ```bash
 python main.py create "topic" --log-level DEBUG
 ```
 
-3. **Kill and retry**: Ctrl+C to stop, try again
-4. **Check API status**: Verify services are up
-5. **Network issues**: Check connectivity
+1. **Kill and retry**: Ctrl+C to stop, try again
+2. **Check API status**: Verify services are up
+3. **Network issues**: Check connectivity
 
 ## Output Issues
 
@@ -422,19 +433,22 @@ python main.py create "topic" --log-level DEBUG
 **Solutions**:
 
 1. **Check permissions**: Ensure write access to output directory
+
 ```bash
 ls -ld output/
 chmod 755 output/
 ```
 
-2. **Verify path**: Check output directory exists
+1. **Verify path**: Check output directory exists
+
 ```bash
 mkdir -p output
 ```
 
-3. **Check errors**: Look for error messages in output
+1. **Check errors**: Look for error messages in output
 
-4. **Absolute paths**: Use full path
+2. **Absolute paths**: Use full path
+
 ```bash
 python main.py create "topic" --output-dir /full/path/to/output
 ```
@@ -457,22 +471,24 @@ python main.py create "topic" --output-dir /full/path/to/output
 **Solutions**:
 
 1. **Use better model**:
+
 ```bash
 OPENAI_MODEL=gpt-4-turbo-preview
 ```
 
-2. **Adjust temperature**:
+1. **Adjust temperature**:
+
 ```bash
 TEMPERATURE=0.7  # Balance
 # or
 TEMPERATURE=0.3  # More focused
 ```
 
-3. **Better topic**: More specific topics = better content
+1. **Better topic**: More specific topics = better content
 
-4. **Define audience**: Be specific about target audience
+2. **Define audience**: Be specific about target audience
 
-5. **Review prompts**: Check agent prompts in source
+3. **Review prompts**: Check agent prompts in source
 
 ### "Images not included"
 
@@ -505,6 +521,7 @@ TEMPERATURE=0.3  # More focused
 **Problem**: Cannot run activation script
 
 **Solution**:
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
@@ -514,6 +531,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Problem**: Scripts not found
 
 **Solution**:
+
 ```cmd
 # Use full path
 python C:\path\to\agentic-writer\main.py create "topic"
@@ -526,6 +544,7 @@ python C:\path\to\agentic-writer\main.py create "topic"
 **Problem**: Encoding issues with special characters
 
 **Solution**:
+
 ```cmd
 # Set UTF-8
 chcp 65001
@@ -541,6 +560,7 @@ $env:PYTHONIOENCODING="utf-8"
 **Problem**: SSL verification fails
 
 **Solution**:
+
 ```bash
 /Applications/Python\ 3.11/Install\ Certificates.command
 ```
@@ -550,6 +570,7 @@ $env:PYTHONIOENCODING="utf-8"
 **Problem**: Cannot execute scripts
 
 **Solution**:
+
 ```bash
 chmod +x main.py example.py verify_installation.py
 ```
@@ -561,6 +582,7 @@ chmod +x main.py example.py verify_installation.py
 **Problem**: Wrong Python version
 
 **Solution**:
+
 ```bash
 # Use python3 explicitly
 python3 -m pip install -r requirements.txt
@@ -575,6 +597,7 @@ alias python=python3
 **Problem**: System dependencies missing
 
 **Solution**:
+
 ```bash
 # Ubuntu/Debian
 sudo apt update
@@ -649,6 +672,7 @@ If you've tried these solutions and still have issues:
 ### 3. Report a Bug
 
 Include:
+
 - Clear description
 - Steps to reproduce
 - Expected vs actual behavior
