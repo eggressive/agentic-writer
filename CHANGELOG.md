@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Conventional Commits guidelines in CONTRIBUTING.md
 - Release process documentation
 
-## [0.1.0] - 2024-01-01
+## [0.1.0] - historical baseline
 
 ### Added
 - Initial release of Agentic-Writer
