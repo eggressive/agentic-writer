@@ -617,7 +617,7 @@ Contributors are recognized through:
 - 💬 Ask in [Discussions](https://github.com/eggressive/agentic-writer/discussions)
 - 🐛 Report [Issues](https://github.com/eggressive/agentic-writer/issues)
 
-## Thank You
+## Thank You!
 
 Every contribution, no matter how small, makes Agentic-Writer better. Thank you for being part of our community! 🎉
 
