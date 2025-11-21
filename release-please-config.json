@@ -1,0 +1,21 @@
+{
+  "release-type": "python",
+  "packages": {
+    ".": {
+      "package-name": "agentic-writer",
+      "extra-files": [
+        "src/__init__.py"
+      ],
+      "changelog-sections": [
+        { "type": "feat", "section": "Features" },
+        { "type": "fix", "section": "Bug Fixes" },
+        { "type": "docs", "section": "Documentation" },
+        { "type": "chore", "section": "Miscellaneous" },
+        { "type": "refactor", "section": "Code Refactoring" },
+        { "type": "test", "section": "Tests" },
+        { "type": "build", "section": "Build System" },
+        { "type": "ci", "section": "Continuous Integration" }
+      ]
+    }
+  }
+}

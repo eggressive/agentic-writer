@@ -1,0 +1,22 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          # Use Python release type for proper version management
+          release-type: python
+          # Version is maintained in both setup.py and src/__init__.py
+          extra-files: |
+            src/__init__.py
