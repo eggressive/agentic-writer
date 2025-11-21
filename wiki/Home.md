@@ -14,6 +14,7 @@
 | [**Quick Start**](Getting-Started.md) - First steps | [**Configuration**](Usage-Guide.md#configuration) - Env vars & settings | [**API Reference**](API-Reference.md) - Code documentation |
 | [**FAQ**](FAQ.md) - Common questions | [**Troubleshooting**](Troubleshooting.md) - Fix common issues | [**Contributing**](Contributing.md) - How to help |
 | | | [**Roadmap**](Roadmap.md) - Future plans |
+| | | [**Project Summary**](Project-Summary.md) - Status & metrics |
 
 ---
 

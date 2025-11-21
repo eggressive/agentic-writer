@@ -14,7 +14,7 @@ Thank you for your interest in contributing to Agentic-Writer! This document pro
 ### Reporting Bugs
 
 1. Check if the bug has already been reported in [Issues](https://github.com/eggressive/agentic-writer/issues)
-2. If not, create a new issue with:
+1. If not, create a new issue with:
    - Clear, descriptive title
    - Detailed description of the problem
    - Steps to reproduce
@@ -25,7 +25,7 @@ Thank you for your interest in contributing to Agentic-Writer! This document pro
 ### Suggesting Features
 
 1. Check existing issues for similar suggestions
-2. Create a new issue with:
+1. Create a new issue with:
    - Clear description of the feature
    - Use case and benefits
    - Proposed implementation (if applicable)
@@ -33,15 +33,15 @@ Thank you for your interest in contributing to Agentic-Writer! This document pro
 ### Pull Requests
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Write or update tests
-5. Ensure all tests pass
-6. Format code with black
-7. Run linting with ruff
-8. Commit with clear messages
-9. Push to your fork
-10. Open a Pull Request
+1. Create a feature branch (`git checkout -b feature/amazing-feature`)
+1. Make your changes
+1. Write or update tests
+1. Ensure all tests pass
+1. Format code with black
+1. Run linting with ruff
+1. Commit with clear messages
+1. Push to your fork
+1. Open a Pull Request
 
 ## Development Setup
 
@@ -146,7 +146,7 @@ def test_config_validation_fails():
 
 ## Project Structure
 
-```
+```text
 agentic-writer/
 ├── src/                    # Source code
 │   ├── agents/            # Agent implementations
@@ -167,7 +167,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) for automate
 
 ### Format
 
-```
+```text
 <type>[optional scope]: <description>
 
 [optional body]
@@ -177,7 +177,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) for automate
 
 ### Examples
 
-```
+```text
 feat: add support for custom image generation
 fix: resolve crash when API key is missing
 docs: update installation instructions
@@ -197,11 +197,12 @@ chore: upgrade langchain dependencies
 - `ci:` CI/CD changes
 
 > **Note:** Commits with certain types (such as `style:`, `chore:`, `build:`, and `ci:`) do **not** trigger changelog entries and will not appear in the generated changelog. Only `feat:`, `fix:`, and other types explicitly configured in `release-please-config.json` are included. This helps keep the changelog focused on user-facing changes.
+
 ### Breaking Changes
 
 For breaking changes, add `!` after the type or add `BREAKING CHANGE:` in the footer:
 
-```
+```text
 feat!: change API signature for ContentCreationOrchestrator
 
 BREAKING CHANGE: create_content() now requires additional parameter
@@ -214,11 +215,11 @@ This triggers a major version bump (e.g., 0.1.0 → 1.0.0)
 ### Adding a New Agent
 
 1. Create agent file in `src/agents/`
-2. Implement agent class with required methods
-3. Add to `src/agents/__init__.py`
-4. Update orchestrator to use new agent
-5. Write tests
-6. Update documentation
+1. Implement agent class with required methods
+1. Add to `src/agents/__init__.py`
+1. Update orchestrator to use new agent
+1. Write tests
+1. Update documentation
 
 Example agent structure:
 
@@ -248,10 +249,10 @@ class NewAgent:
 ### Adding a Publishing Platform
 
 1. Add platform method to `PublisherAgent`
-2. Update `publish()` method to handle new platform
-3. Add configuration for platform API keys
-4. Write tests
-5. Update documentation
+1. Update `publish()` method to handle new platform
+1. Add configuration for platform API keys
+1. Write tests
+1. Update documentation
 
 ## Documentation
 
@@ -318,12 +319,12 @@ We use [release-please](https://github.com/googleapis/release-please) for automa
 ### How Releases Work
 
 1. **Commits**: Use conventional commits (see Commit Message Guidelines above)
-2. **Pull Request**: When commits are merged to `main`, release-please analyzes them
-3. **Release PR**: release-please automatically creates/updates a release PR with:
+1. **Pull Request**: When commits are merged to `main`, release-please analyzes them
+1. **Release PR**: release-please automatically creates/updates a release PR with:
    - Updated version numbers in `setup.py` and `src/__init__.py`
    - Generated CHANGELOG.md entries
    - Proper version bump based on commit types
-4. **Publishing**: When the release PR is merged:
+1. **Publishing**: When the release PR is merged:
    - A GitHub release is created automatically
    - Release notes are generated from commits
    - Version tags are created
@@ -331,17 +332,19 @@ We use [release-please](https://github.com/googleapis/release-please) for automa
 ### Manual Release Steps
 
 Maintainers only need to:
+
 1. Review and merge the release-please PR when ready
-2. The GitHub release is created automatically
-3. Optional: Publish to PyPI manually (if configured)
+1. The GitHub release is created automatically
+1. Optional: Publish to PyPI manually (if configured)
 
 ### Creating a Release
 
 No manual version bumping needed! Just:
+
 1. Use conventional commits in your PRs
-2. Merge PRs to `main`
-3. Wait for release-please to create a release PR
-4. Review and merge the release PR when ready for release
+1. Merge PRs to `main`
+1. Wait for release-please to create a release PR
+1. Review and merge the release PR when ready for release
 
 ## Getting Help
 
@@ -353,6 +356,7 @@ No manual version bumping needed! Just:
 ## Recognition
 
 Contributors are recognized in:
+
 - GitHub contributors list
 - Release notes
 - Special mentions for significant contributions
@@ -364,6 +368,7 @@ By contributing, you agree that your contributions will be licensed under the MI
 ## Questions?
 
 Feel free to reach out by:
+
 - Opening an issue
 - Starting a discussion
 - Contacting maintainers

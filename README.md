@@ -2,7 +2,7 @@
 
 An intelligent AI agent system that handles the entire content lifecycle, from research to publication. Built with LangChain and powered by OpenAI's GPT models.
 
-📚 **[View Complete Wiki Documentation](wiki/Home.md)** | 🚀 **[Quick Start](wiki/Getting-Started.md)** | 📖 **[API Reference](wiki/API-Reference.md)**
+📚 **[View Complete Wiki Documentation](https://github.com/eggressive/agentic-writer/wiki)** | 🚀 **[Quick Start](https://github.com/eggressive/agentic-writer/wiki/Getting-Started)** | 📖 **[API Reference](https://github.com/eggressive/agentic-writer/wiki/API-Reference)**
 
 ## Features
 
@@ -17,9 +17,9 @@ An intelligent AI agent system that handles the entire content lifecycle, from r
 The system consists of four specialized agents:
 
 1. **ResearchAgent** - Conducts web research, analyzes topics, and synthesizes findings
-2. **WriterAgent** - Creates outlines, writes articles, generates metadata and tags
-3. **ImageAgent** - Searches for relevant images and curates visual content
-4. **PublisherAgent** - Handles publication to various platforms
+1. **WriterAgent** - Creates outlines, writes articles, generates metadata and tags
+1. **ImageAgent** - Searches for relevant images and curates visual content
+1. **PublisherAgent** - Handles publication to various platforms
 
 All agents are coordinated by the `ContentCreationOrchestrator` which manages the workflow state and error handling.
 
@@ -33,31 +33,37 @@ All agents are coordinated by the `ContentCreationOrchestrator` which manages th
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/eggressive/agentic-writer.git
 cd agentic-writer
 ```
 
-2. Install dependencies:
+1. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 Or install in development mode:
+
 ```bash
 pip install -e .
 ```
 
-3. Configure environment variables:
+1. Configure environment variables:
+
 ```bash
 cp .env.example .env
 # Edit .env and add your API keys
 ```
 
 Required configuration:
+
 - `OPENAI_API_KEY` - Your OpenAI API key (required)
 
 Optional configuration:
+
 - `MEDIUM_ACCESS_TOKEN` - For publishing to Medium
 - `UNSPLASH_ACCESS_KEY` - For image search functionality
 - `OPENAI_MODEL` - Model to use (default: gpt-4-turbo-preview)
@@ -68,11 +74,13 @@ Optional configuration:
 ### Command Line Interface
 
 Create content on a topic:
+
 ```bash
 python main.py create "Artificial Intelligence in Healthcare"
 ```
 
 With options:
+
 ```bash
 python main.py create "Sustainable Energy Solutions" \
   --style professional \
@@ -82,11 +90,13 @@ python main.py create "Sustainable Energy Solutions" \
 ```
 
 Check configuration:
+
 ```bash
 python main.py config
 ```
 
 View version:
+
 ```bash
 python main.py version
 ```
@@ -119,7 +129,7 @@ print(orchestrator.get_summary(results))
 
 ## Project Structure
 
-```
+```text
 agentic-writer/
 ├── src/
 │   ├── agents/
@@ -151,10 +161,11 @@ agentic-writer/
 The agent creates two files per article:
 
 1. **Markdown file** - The complete article with metadata
-2. **JSON metadata file** - Structured data including tags, images, and statistics
+1. **JSON metadata file** - Structured data including tags, images, and statistics
 
 Example output structure:
-```
+
+```text
 output/
 ├── artificial_intelligence_in_healthcare.md
 ├── artificial_intelligence_in_healthcare_metadata.json
@@ -164,12 +175,14 @@ output/
 ## Features in Detail
 
 ### Research Agent
+
 - Performs web searches using DuckDuckGo
 - Analyzes topics and generates research questions
 - Synthesizes findings from multiple sources
 - Provides structured research data for writing
 
 ### Writer Agent
+
 - Creates detailed article outlines
 - Generates well-structured content (1200-1500 words)
 - Produces engaging titles and meta descriptions
@@ -177,12 +190,14 @@ output/
 - Supports multiple writing styles and audiences
 
 ### Image Agent
+
 - Generates contextual image search queries
 - Searches Unsplash for high-quality images
 - Selects diverse, relevant images
 - Provides image suggestions when API is unavailable
 
 ### Publisher Agent
+
 - Saves articles as markdown files
 - Exports metadata as JSON
 - Ready for Medium API integration
@@ -224,6 +239,7 @@ ruff check src/ tests/
 ## Error Handling
 
 The system includes:
+
 - Automatic retry logic with exponential backoff
 - Comprehensive error logging
 - Graceful degradation (continues without optional features)
@@ -241,22 +257,23 @@ The system includes:
 
 This project includes comprehensive documentation:
 
-- 📚 **[Complete Wiki](wiki/Home.md)** - Full documentation with 10+ pages
-- 🚀 **[Getting Started Guide](wiki/Getting-Started.md)** - 5-minute quick start
-- 📦 **[Installation Guide](wiki/Installation.md)** - Detailed setup instructions
-- 📖 **[Usage Guide](wiki/Usage-Guide.md)** - Complete usage documentation
-- 🔧 **[API Reference](wiki/API-Reference.md)** - Python API documentation
-- 🏗️ **[Architecture](wiki/Architecture.md)** - System design and components
-- 🗺️ **[Roadmap](wiki/Roadmap.md)** - Future plans and features
-- ❓ **[FAQ](wiki/FAQ.md)** - Frequently asked questions
-- 🔍 **[Troubleshooting](wiki/Troubleshooting.md)** - Common issues and solutions
-- 🤝 **[Contributing Guide](wiki/Contributing.md)** - How to contribute
+- 📚 **[Complete Wiki](https://github.com/eggressive/agentic-writer/wiki)** - Full documentation with 10+ pages
+- 🚀 **[Getting Started Guide](https://github.com/eggressive/agentic-writer/wiki/Getting-Started)** - 5-minute quick start
+- 📦 **[Installation Guide](https://github.com/eggressive/agentic-writer/wiki/Installation)** - Detailed setup instructions
+- 📖 **[Usage Guide](https://github.com/eggressive/agentic-writer/wiki/Usage-Guide)** - Complete usage documentation
+- 🔧 **[API Reference](https://github.com/eggressive/agentic-writer/wiki/API-Reference)** - Python API documentation
+- 🏗️ **[Architecture](https://github.com/eggressive/agentic-writer/wiki/Architecture)** - System design and components
+- 🗺️ **[Roadmap](https://github.com/eggressive/agentic-writer/wiki/Roadmap)** - Future plans and features
+- ❓ **[FAQ](https://github.com/eggressive/agentic-writer/wiki/FAQ)** - Frequently asked questions
+- 🔍 **[Troubleshooting](https://github.com/eggressive/agentic-writer/wiki/Troubleshooting)** - Common issues and solutions
+- 🤝 **[Contributing Guide](https://github.com/eggressive/agentic-writer/wiki/Contributing)** - How to contribute
 
 ## Contributing
 
 Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
 
 We use [Conventional Commits](https://www.conventionalcommits.org/) and automated releases via [release-please](https://github.com/googleapis/release-please). This means:
+
 - Use conventional commit format (e.g., `feat:`, `fix:`, `docs:`)
 - Releases are automated based on your commits
 - Version bumping and changelog generation happen automatically
