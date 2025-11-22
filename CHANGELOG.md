@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.2.0...agentic-writer-v0.3.0) (2025-11-22)
+
+
+### Features
+
+* add markdownlint GitHub Action workflow ([#17](https://github.com/eggressive/agentic-writer/issues/17)) ([420c89d](https://github.com/eggressive/agentic-writer/commit/420c89dfa2f553ce9207f9879af012a7c572af3f))
+
+
+### Bug Fixes
+
+* **markdownlint:** add CHANGELOG.md to ignores list ([#19](https://github.com/eggressive/agentic-writer/issues/19)) ([cfc8135](https://github.com/eggressive/agentic-writer/commit/cfc8135f25976ce9e4c6055242831bcc72428116))
+
 ## [0.2.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.1.0...agentic-writer-v0.2.0) (2025-11-22)
 
 ### Features
