@@ -27,9 +27,11 @@ ContentCreationOrchestrator(config: Config)
 ```
 
 **Parameters**:
+
 - `config` (Config): Configuration object with API keys and settings
 
 **Example**:
+
 ```python
 from src.orchestrator import ContentCreationOrchestrator
 from src.utils import Config
@@ -55,6 +57,7 @@ create_content(
 Execute the complete content creation pipeline.
 
 **Parameters**:
+
 - `topic` (str): The topic to write about
 - `style` (str): Writing style - "professional", "casual", "technical", or "accessible"
 - `target_audience` (str): Description of target audience
@@ -62,6 +65,7 @@ Execute the complete content creation pipeline.
 - `output_dir` (str): Directory to save output files
 
 **Returns**:
+
 ```python
 {
     "status": "completed" | "failed",
@@ -74,6 +78,7 @@ Execute the complete content creation pipeline.
 ```
 
 **Example**:
+
 ```python
 results = orchestrator.create_content(
     topic="Machine Learning Basics",
@@ -96,12 +101,15 @@ get_summary(results: Dict[str, Any]) -> str
 Generate human-readable summary of results.
 
 **Parameters**:
+
 - `results` (Dict): Results from `create_content()`
 
 **Returns**:
+
 - `str`: Formatted summary string
 
 **Example**:
+
 ```python
 summary = orchestrator.get_summary(results)
 print(summary)
@@ -141,9 +149,11 @@ def from_env(cls) -> "Config"
 Load configuration from environment variables.
 
 **Returns**:
+
 - `Config`: Configuration object
 
 **Example**:
+
 ```python
 from src.utils import Config
 
@@ -160,9 +170,11 @@ def validate_required(self) -> None
 Validate that required configuration is present.
 
 **Raises**:
+
 - `ValueError`: If required configuration is missing
 
 **Example**:
+
 ```python
 try:
     config.validate_required()
@@ -186,6 +198,7 @@ ResearchAgent(llm: ChatOpenAI, max_sources: int = 5)
 ```
 
 **Parameters**:
+
 - `llm` (ChatOpenAI): Language model instance
 - `max_sources` (int): Maximum number of sources to research
 
@@ -200,9 +213,11 @@ research(topic: str) -> Dict[str, Any]
 Conduct full research pipeline.
 
 **Parameters**:
+
 - `topic` (str): Topic to research
 
 **Returns**:
+
 ```python
 {
     "topic": str,
@@ -214,6 +229,7 @@ Conduct full research pipeline.
 ```
 
 **Example**:
+
 ```python
 from src.agents import ResearchAgent
 from langchain_openai import ChatOpenAI
@@ -234,9 +250,11 @@ analyze_topic(topic: str) -> str
 Analyze topic and identify key areas.
 
 **Parameters**:
+
 - `topic` (str): Topic to analyze
 
 **Returns**:
+
 - `str`: Topic analysis
 
 ##### search_web()
@@ -248,9 +266,11 @@ search_web(topic: str) -> List[Dict[str, str]]
 Search the web using DuckDuckGo.
 
 **Parameters**:
+
 - `topic` (str): Search query
 
 **Returns**:
+
 ```python
 [
     {
@@ -270,10 +290,12 @@ synthesize_research(topic: str, results: List[Dict]) -> str
 Synthesize research findings.
 
 **Parameters**:
+
 - `topic` (str): Original topic
 - `results` (List[Dict]): Search results
 
 **Returns**:
+
 - `str`: Research synthesis
 
 ### WriterAgent
@@ -289,6 +311,7 @@ WriterAgent(llm: ChatOpenAI)
 ```
 
 **Parameters**:
+
 - `llm` (ChatOpenAI): Language model instance
 
 #### Methods
@@ -306,11 +329,13 @@ write_article(
 Generate complete article with metadata.
 
 **Parameters**:
+
 - `research_data` (Dict): Results from ResearchAgent
 - `style` (str): Writing style
 - `target_audience` (str): Target audience description
 
 **Returns**:
+
 ```python
 {
     "title": str,
@@ -324,6 +349,7 @@ Generate complete article with metadata.
 ```
 
 **Example**:
+
 ```python
 from src.agents import WriterAgent
 
@@ -383,6 +409,7 @@ ImageAgent(llm: ChatOpenAI, unsplash_access_key: Optional[str] = None)
 ```
 
 **Parameters**:
+
 - `llm` (ChatOpenAI): Language model instance
 - `unsplash_access_key` (Optional[str]): Unsplash API key
 
@@ -397,10 +424,12 @@ find_images(article_content: str, article_title: str) -> Dict[str, Any]
 Find relevant images for article.
 
 **Parameters**:
+
 - `article_content` (str): Article content
 - `article_title` (str): Article title
 
 **Returns**:
+
 ```python
 {
     "images": [
@@ -415,6 +444,7 @@ Find relevant images for article.
 ```
 
 **Example**:
+
 ```python
 from src.agents import ImageAgent
 
@@ -461,6 +491,7 @@ PublisherAgent(medium_access_token: Optional[str] = None)
 ```
 
 **Parameters**:
+
 - `medium_access_token` (Optional[str]): Medium API token
 
 #### Methods
@@ -479,12 +510,14 @@ publish(
 Publish to specified platforms.
 
 **Parameters**:
+
 - `article` (Dict): Article data from WriterAgent
 - `images` (Dict): Images from ImageAgent
 - `platforms` (List[str]): Target platforms
 - `output_dir` (str): Output directory
 
 **Returns**:
+
 ```python
 {
     "file": {
@@ -503,6 +536,7 @@ Publish to specified platforms.
 ```
 
 **Example**:
+
 ```python
 from src.agents import PublisherAgent
 
@@ -561,14 +595,17 @@ setup_logger(
 Setup configured logger.
 
 **Parameters**:
+
 - `name` (str): Logger name
 - `level` (str): Log level (DEBUG, INFO, WARNING, ERROR)
 - `log_file` (Optional[str]): Path to log file
 
 **Returns**:
+
 - `logging.Logger`: Configured logger
 
 **Example**:
+
 ```python
 from src.utils import setup_logger
 
@@ -597,6 +634,7 @@ def run_cli() -> None
 Main CLI entry point.
 
 **Usage**:
+
 ```bash
 python main.py create "topic" [options]
 python main.py config

@@ -17,11 +17,13 @@ Yes, Agentic-Writer itself is free and open source (MIT License). However, it re
 **Agentic-Writer**: Free (open source)
 
 **OpenAI API** (required):
+
 - GPT-4 Turbo: ~$0.10-$0.30 per article
 - GPT-4: ~$0.30-$0.60 per article
 - GPT-3.5 Turbo: ~$0.01-$0.05 per article
 
 **Optional APIs**:
+
 - Unsplash: Free (50 requests/hour)
 - Medium: Free API access
 
@@ -47,10 +49,10 @@ See [Installation Guide](Installation.md) for details.
 ### How do I get an OpenAI API key?
 
 1. Visit [OpenAI Platform](https://platform.openai.com/)
-2. Sign up or log in
-3. Go to [API Keys](https://platform.openai.com/api-keys)
-4. Create a new secret key
-5. Copy and save it securely
+1. Sign up or log in
+1. Go to [API Keys](https://platform.openai.com/api-keys)
+1. Create a new secret key
+1. Copy and save it securely
 
 ### Why am I getting "No module named 'langchain'" error?
 
@@ -71,6 +73,7 @@ Yes! Agentic-Writer works on Windows, macOS, and Linux. See [Installation Guide]
 ### How long does it take to create an article?
 
 Typically 2-5 minutes:
+
 - Research: 10-30 seconds
 - Writing: 30-60 seconds
 - Images: 5-15 seconds
@@ -85,6 +88,7 @@ The system generates articles of 1200-1500 words by default. This is currently n
 ### What writing styles are available?
 
 Current styles:
+
 - **professional** - Formal, business-appropriate
 - **casual** - Conversational, friendly
 - **technical** - Detailed, expert-focused
@@ -105,6 +109,7 @@ Be specific for best results: "small business owners", "college students studyin
 ### Where are the generated articles saved?
 
 By default, articles are saved in the `output/` directory as:
+
 - `article_title.md` - Markdown file
 - `article_title_metadata.json` - Metadata file
 
@@ -115,7 +120,7 @@ You can specify a custom directory with `--output-dir`.
 Yes, if you have a Medium API token:
 
 1. Add `MEDIUM_ACCESS_TOKEN` to your `.env` file
-2. Use `--platform medium` when creating content
+1. Use `--platform medium` when creating content
 
 Note: Medium API support is prepared but requires testing with a valid token.
 
@@ -128,6 +133,7 @@ Yes! The system searches Unsplash for relevant images. You need an Unsplash API 
 ### What topics can I write about?
 
 Almost anything! The system works best with:
+
 - Technology topics
 - Business and entrepreneurship
 - Education and tutorials
@@ -136,6 +142,7 @@ Almost anything! The system works best with:
 - Personal development
 
 Avoid:
+
 - Topics requiring very recent information (within last 24 hours)
 - Highly specialized niche topics with limited web information
 - Illegal or harmful content
@@ -151,6 +158,7 @@ No, the system does not currently include plagiarism checking. However, content 
 ### Can I use this for commercial purposes?
 
 Yes! Agentic-Writer is licensed under MIT License, which allows commercial use. However:
+
 - Review generated content before publishing
 - Ensure compliance with your industry regulations
 - Follow OpenAI's usage policies
@@ -159,6 +167,7 @@ Yes! Agentic-Writer is licensed under MIT License, which allows commercial use. 
 ### Does it do SEO optimization?
 
 Basic SEO features are included:
+
 - Meta descriptions
 - Relevant tags
 - Proper heading structure
@@ -182,6 +191,7 @@ Support for other providers (Claude, Gemini, local models) is planned.
 ### Can I run this offline?
 
 No, internet connection is required for:
+
 - OpenAI API calls
 - Web research (DuckDuckGo)
 - Image search (Unsplash)
@@ -191,6 +201,7 @@ However, local LLM support is planned for future releases.
 ### Is there a rate limit?
 
 Rate limits depend on your OpenAI account tier:
+
 - Free tier: Limited requests per minute
 - Pay-as-you-go: Higher limits
 - Enterprise: Custom limits
@@ -200,6 +211,7 @@ The system includes automatic retry logic to handle rate limits.
 ### Can I run multiple instances simultaneously?
 
 Yes, but be mindful of:
+
 - OpenAI rate limits
 - API costs
 - System resources
@@ -231,6 +243,7 @@ OPENAI_API_KEY=sk-your-key-here
 ### "Rate limit exceeded"
 
 You've hit your OpenAI rate limit. Solutions:
+
 - Wait a few minutes
 - Upgrade your OpenAI account
 - Use a slower model (gpt-3.5-turbo)
@@ -238,6 +251,7 @@ You've hit your OpenAI rate limit. Solutions:
 ### Generated content quality is poor
 
 Try:
+
 - Use GPT-4 or GPT-4 Turbo
 - Increase temperature for creativity
 - Provide more specific topics
@@ -251,6 +265,7 @@ Currently, length is fixed at 1200-1500 words. Configurable length is planned fo
 ### Images aren't being included
 
 Possible causes:
+
 - No Unsplash API key configured
 - Network issues
 - API rate limit reached
@@ -260,6 +275,7 @@ The system continues without images if Unsplash fails.
 ### It's taking too long
 
 Normal! Content creation takes 2-5 minutes. If longer:
+
 - Check internet connection
 - Verify OpenAI API status
 - Try using gpt-3.5-turbo for speed
@@ -279,6 +295,7 @@ For more troubleshooting, see our [Troubleshooting Guide](Troubleshooting.md).
 ### What data is collected?
 
 Agentic-Writer itself collects no data. However:
+
 - OpenAI may log API requests per their policy
 - Unsplash logs image searches
 - Medium logs publications
@@ -286,6 +303,7 @@ Agentic-Writer itself collects no data. However:
 ### Can I use this for sensitive topics?
 
 Use caution:
+
 - Don't include confidential information in topics
 - Review generated content before sharing
 - Be aware of API providers' data policies
@@ -294,6 +312,7 @@ Use caution:
 ### Is the code audited for security?
 
 Yes:
+
 - Regular CodeQL security scans
 - Open source for community review
 - No known vulnerabilities
@@ -304,6 +323,7 @@ Yes:
 ### Why is it slow?
 
 Content creation involves multiple AI operations:
+
 - Topic analysis
 - Web research synthesis
 - Article writing
@@ -314,6 +334,7 @@ Each requires API calls to OpenAI. Total time: 2-5 minutes.
 ### Can I make it faster?
 
 Yes:
+
 - Use gpt-3.5-turbo (faster but lower quality)
 - Reduce MAX_RESEARCH_SOURCES
 - Skip optional features (images)
@@ -322,6 +343,7 @@ Yes:
 ### Does it use a lot of resources?
 
 No:
+
 - Memory: 100-200 MB
 - CPU: Low (mostly waiting for APIs)
 - Network: Moderate
@@ -351,7 +373,7 @@ Be mindful of API rate limits and costs.
 ### How do I report a bug?
 
 1. Check if it's already reported in [Issues](https://github.com/eggressive/agentic-writer/issues)
-2. If not, create a new issue with:
+1. If not, create a new issue with:
    - Clear description
    - Steps to reproduce
    - Expected vs actual behavior
@@ -360,15 +382,17 @@ Be mindful of API rate limits and costs.
 ### Can I request features?
 
 Yes! Create an issue with the `enhancement` label:
+
 1. Describe the feature
-2. Explain the use case
-3. Suggest implementation (optional)
+1. Explain the use case
+1. Suggest implementation (optional)
 
 See our [Roadmap](Roadmap.md) for planned features.
 
 ### How can I contribute?
 
 See our [Contributing Guide](Contributing.md) for:
+
 - Code contributions
 - Documentation improvements
 - Bug reports
@@ -377,6 +401,7 @@ See our [Contributing Guide](Contributing.md) for:
 ### Is there a community?
 
 Join us on:
+
 - [GitHub Discussions](https://github.com/eggressive/agentic-writer/discussions)
 - [GitHub Issues](https://github.com/eggressive/agentic-writer/issues)
 
@@ -385,6 +410,7 @@ Join us on:
 ### How is this different from ChatGPT?
 
 Agentic-Writer:
+
 - ✅ Automated research from web
 - ✅ Structured article format
 - ✅ Multi-agent collaboration
@@ -394,6 +420,7 @@ Agentic-Writer:
 - ✅ Repeatable workflow
 
 ChatGPT:
+
 - ✅ Interactive conversation
 - ✅ Real-time responses
 - ✅ Broader capabilities
@@ -401,6 +428,7 @@ ChatGPT:
 ### How is this different from other content tools?
 
 Agentic-Writer is:
+
 - **Open Source** - Full code access
 - **Automated** - End-to-end pipeline
 - **AI-Powered** - Latest GPT models
@@ -412,6 +440,7 @@ Agentic-Writer is:
 ### What license is it under?
 
 MIT License - very permissive:
+
 - ✅ Commercial use
 - ✅ Modification
 - ✅ Distribution
@@ -422,6 +451,7 @@ See [LICENSE](https://github.com/eggressive/agentic-writer/blob/main/LICENSE) fi
 ### Can I use it in my product?
 
 Yes! MIT License allows:
+
 - Integration into your product
 - Modification of the code
 - Commercial use
@@ -432,6 +462,7 @@ Just include the original license.
 ### Can I sell content created with it?
 
 Yes! You own the content generated. However:
+
 - Review content before selling
 - Ensure quality and accuracy
 - Follow your industry regulations

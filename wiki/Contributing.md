@@ -47,17 +47,18 @@ Thank you for your interest in contributing to Agentic-Writer! This guide will h
 ### First Steps
 
 1. **Star the repository** ⭐
-2. **Fork the repository** on GitHub
-3. **Read the documentation**:
-   - [README](https://github.com/eggressive/agentic-writer/blob/main/README.md)
-   - [Architecture](Architecture.md)
+1. **Fork the repository** on GitHub
+1. **Read the documentation**:
+   - [Installation Guide](Installation.md)
    - [Usage Guide](Usage-Guide.md)
-4. **Join discussions** on GitHub
-5. **Look for good first issues**
+   - [Architecture](Architecture.md)
+1. **Join discussions** on GitHub
+1. **Look for good first issues**
 
 ### Good First Issues
 
 Look for issues labeled:
+
 - `good first issue` - Perfect for newcomers
 - `help wanted` - Community help needed
 - `documentation` - Docs improvements
@@ -67,24 +68,18 @@ Look for issues labeled:
 
 ### Reporting Bugs
 
-1. **Search existing issues** first
-2. **Use the bug report template**
-3. **Include**:
-   - Clear description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - System info (OS, Python version)
-   - Error messages and logs
-   - Configuration (redact API keys!)
+1. Check existing issues for similar suggestions
+1. Create a new issue with:
 
 **Example Bug Report**:
+
 ```markdown
 ### Description
 Research agent fails when topic contains special characters
 
 ### Steps to Reproduce
 1. Run: `python main.py create "AI & ML"`
-2. Error occurs during research phase
+1. Error occurs during research phase
 
 ### Expected
 Should handle special characters in topics
@@ -101,15 +96,16 @@ Error: UnicodeEncodeError...
 ### Suggesting Features
 
 1. **Check the [Roadmap](Roadmap.md)** first
-2. **Search existing issues**
-3. **Use the feature request template**
-4. **Include**:
+1. **Search existing issues**
+1. **Use the feature request template**
+1. **Include**:
    - Clear description
    - Use case and benefits
    - Proposed implementation (optional)
    - Examples (optional)
 
 **Example Feature Request**:
+
 ```markdown
 ### Feature
 Support for custom article length
@@ -132,6 +128,7 @@ Add `--word-count` CLI option and config parameter
 Documentation improvements are always welcome!
 
 **What to improve**:
+
 - Fix typos or grammar
 - Add examples
 - Clarify confusing sections
@@ -140,10 +137,11 @@ Documentation improvements are always welcome!
 - Update outdated information
 
 **Process**:
+
 1. Fork repository
-2. Edit documentation
-3. Submit PR
-4. No tests required for docs-only changes
+1. Edit documentation
+1. Submit PR
+1. No tests required for docs-only changes
 
 ## Development Setup
 
@@ -164,6 +162,7 @@ git checkout -b fix/bug-description
 ```
 
 **Branch naming**:
+
 - `feature/feature-name` - New features
 - `fix/bug-name` - Bug fixes
 - `docs/change-description` - Documentation
@@ -271,7 +270,8 @@ git commit -m "feat: add custom article length support"
 ```
 
 **Commit message format**:
-```
+
+```text
 <type>: <description>
 
 [optional body]
@@ -280,6 +280,7 @@ git commit -m "feat: add custom article length support"
 ```
 
 **Types**:
+
 - `feat` - New feature
 - `fix` - Bug fix
 - `docs` - Documentation
@@ -289,6 +290,7 @@ git commit -m "feat: add custom article length support"
 - `chore` - Maintenance
 
 **Examples**:
+
 ```bash
 git commit -m "feat: add WordPress publishing support"
 git commit -m "fix: handle special characters in topics"
@@ -305,10 +307,10 @@ git push origin feature/amazing-feature
 ### 8. Create Pull Request
 
 1. Go to your fork on GitHub
-2. Click "New Pull Request"
-3. Select your branch
-4. Fill out PR template
-5. Submit PR
+1. Click "New Pull Request"
+1. Select your branch
+1. Fill out PR template
+1. Submit PR
 
 ## Code Standards
 
@@ -321,6 +323,7 @@ Follow PEP 8 with these specifics:
 *Note: This differs from PEP 8's traditional 79-character limit. We use Black's default of 88 characters for better code readability.*
 
 **Quotes**: Double quotes for strings
+
 ```python
 # Good
 message = "Hello, world!"
@@ -330,6 +333,7 @@ message = 'Hello, world!'
 ```
 
 **Type Hints**: Use where helpful
+
 ```python
 def process_data(topic: str, style: str = "professional") -> Dict[str, Any]:
     """Process data and return results."""
@@ -337,6 +341,7 @@ def process_data(topic: str, style: str = "professional") -> Dict[str, Any]:
 ```
 
 **Docstrings**: Google-style for all public functions
+
 ```python
 def create_article(topic: str, style: str) -> Dict[str, Any]:
     """Create article on given topic.
@@ -359,6 +364,7 @@ def create_article(topic: str, style: str) -> Dict[str, Any]:
 ```
 
 **Imports**: Organized and sorted
+
 ```python
 # Standard library
 import logging
@@ -400,12 +406,12 @@ class Agent:
 ### Best Practices
 
 1. **Single Responsibility** - Each function/class does one thing
-2. **DRY** - Don't repeat yourself
-3. **KISS** - Keep it simple
-4. **Error Handling** - Handle errors gracefully
-5. **Logging** - Use logging, not print()
-6. **Comments** - Explain why, not what
-7. **Type Safety** - Use type hints
+1. **DRY** - Don't repeat yourself
+1. **KISS** - Keep it simple
+1. **Error Handling** - Handle errors gracefully
+1. **Logging** - Use logging, not print()
+1. **Comments** - Explain why, not what
+1. **Type Safety** - Use type hints
 
 ## Testing
 
@@ -414,6 +420,7 @@ class Agent:
 **Location**: `tests/` directory
 
 **Structure**:
+
 ```python
 """Tests for WriterAgent."""
 
@@ -450,11 +457,13 @@ class TestWriterAgent:
 ### Test Coverage
 
 Aim for:
+
 - **Core components**: >80% coverage
 - **Utilities**: 100% coverage
 - **Integration**: Key workflows covered
 
 Check coverage:
+
 ```bash
 pytest tests/ --cov=src --cov-report=html
 open htmlcov/index.html
@@ -463,6 +472,7 @@ open htmlcov/index.html
 ### Mocking
 
 Mock external APIs in tests:
+
 ```python
 @patch('src.agents.researcher.DDGS')
 def test_search_web(mock_ddgs):
@@ -482,6 +492,7 @@ def test_search_web(mock_ddgs):
 ### Code Documentation
 
 **Docstrings**: All public functions/classes
+
 ```python
 def function(param: str) -> Dict:
     """Brief description.
@@ -502,6 +513,7 @@ def function(param: str) -> Dict:
 ```
 
 **Comments**: Explain complex logic
+
 ```python
 # Calculate optimal temperature based on style
 # Higher temp for creative styles, lower for factual
@@ -514,6 +526,7 @@ else:
 ### User Documentation
 
 Update when adding features:
+
 - README.md - Overview and quick start
 - Wiki pages - Detailed documentation
 - DEMO.md - Usage examples
@@ -585,6 +598,7 @@ How was this tested?
 ### Recognition
 
 Contributors are recognized through:
+
 - GitHub contributors page
 - Release notes
 - Special mentions for significant contributions
@@ -596,7 +610,7 @@ Contributors are recognized through:
 - 💬 Ask in [Discussions](https://github.com/eggressive/agentic-writer/discussions)
 - 🐛 Report [Issues](https://github.com/eggressive/agentic-writer/issues)
 
-## Thank You!
+## Thank You
 
 Every contribution, no matter how small, makes Agentic-Writer better. Thank you for being part of our community! 🎉
 

@@ -5,9 +5,9 @@ This guide demonstrates how to use the Automated Content Creation & Management A
 ## Prerequisites
 
 1. **Python 3.8+** installed
-2. **OpenAI API Key** (required)
-3. Optional: Unsplash API key for image search
-4. Optional: Medium API token for publishing to Medium
+1. **OpenAI API Key** (required)
+1. Optional: Unsplash API key for image search
+1. Optional: Medium API token for publishing to Medium
 
 ## Quick Start
 
@@ -33,7 +33,8 @@ nano .env  # or use your preferred editor
 ```
 
 Add your OpenAI API key:
-```
+
+```bash
 OPENAI_API_KEY=sk-your-actual-api-key-here
 ```
 
@@ -44,7 +45,8 @@ python main.py config
 ```
 
 You should see:
-```
+
+```text
 ╭───────────────────────╮
 │ Current Configuration │
 ╰───────────────────────╯
@@ -71,11 +73,12 @@ python main.py create "The Future of Renewable Energy"
 ```
 
 This will:
+
 1. Research the topic using DuckDuckGo search
-2. Analyze and synthesize the findings
-3. Write a comprehensive article (1200-1500 words)
-4. Generate relevant tags and metadata
-5. Save the article to `output/the_future_of_renewable_energy.md`
+1. Analyze and synthesize the findings
+1. Write a comprehensive article (1200-1500 words)
+1. Generate relevant tags and metadata
+1. Save the article to `output/the_future_of_renewable_energy.md`
 
 ### Example 2: Content with Custom Style
 
@@ -204,12 +207,14 @@ Example: `the_future_of_renewable_energy_metadata.json`
 The agent executes a 4-stage pipeline:
 
 ### Stage 1: Research 🔍
+
 - Searches the web using DuckDuckGo
 - Gathers information from multiple sources
 - Analyzes the topic
 - Synthesizes findings
 
 ### Stage 2: Writing ✍️
+
 - Creates a detailed outline
 - Writes engaging introduction
 - Develops main content sections
@@ -217,12 +222,14 @@ The agent executes a 4-stage pipeline:
 - Generates title and metadata
 
 ### Stage 3: Images 🖼️
+
 - Generates relevant image queries
 - Searches Unsplash (if configured)
 - Curates diverse images
 - Provides image suggestions
 
 ### Stage 4: Publishing 📤
+
 - Saves markdown file
 - Exports metadata JSON
 - Publishes to configured platforms
@@ -232,6 +239,7 @@ The agent executes a 4-stage pipeline:
 ### "OPENAI_API_KEY is required but not set"
 
 Solution: Add your OpenAI API key to `.env`:
+
 ```bash
 OPENAI_API_KEY=sk-your-key-here
 ```
@@ -239,6 +247,7 @@ OPENAI_API_KEY=sk-your-key-here
 ### "No module named 'langchain'"
 
 Solution: Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -246,21 +255,24 @@ pip install -r requirements.txt
 ### Slow execution
 
 The content creation process typically takes 2-5 minutes depending on:
+
 - OpenAI API response time
 - Web search results
 - Article length and complexity
 
 You can adjust the model for faster (but potentially lower quality) results:
-```
+
+```bash
 OPENAI_MODEL=gpt-3.5-turbo
 ```
 
 ### Rate limiting errors
 
 If you hit OpenAI rate limits:
+
 1. Wait a few minutes
-2. Reduce `MAX_RESEARCH_SOURCES` in `.env`
-3. Use a lower tier model
+1. Reduce `MAX_RESEARCH_SOURCES` in `.env`
+1. Use a lower tier model
 
 ## Advanced Configuration
 
@@ -296,51 +308,58 @@ Choose the right model for your needs:
    - ✅ "The Impact of AI on Healthcare Diagnostics"
    - ❌ "AI stuff"
 
-2. **Define Your Audience**: Helps tailor content
+1. **Define Your Audience**: Helps tailor content
    - "software developers"
    - "business executives"
    - "general public"
 
-3. **Choose Appropriate Style**:
+1. **Choose Appropriate Style**:
    - `professional` - Formal, business-oriented
    - `casual` - Conversational, accessible
    - `technical` - Detailed, for experts
    - `accessible` - Simple, for beginners
 
-4. **Review Before Publishing**: Always review generated content before publishing
+1. **Review Before Publishing**: Always review generated content before publishing
 
-5. **Customize Settings**: Adjust temperature and model based on your needs
+1. **Customize Settings**: Adjust temperature and model based on your needs
 
 ## Real-World Use Cases
 
 ### Content Marketing
+
 Generate blog posts for company websites
 
 ### Educational Content
+
 Create learning materials and tutorials
 
 ### Research Summaries
+
 Synthesize information on complex topics
 
 ### Documentation
+
 Write technical documentation and guides
 
 ### Newsletter Content
+
 Create engaging newsletter articles
 
 ### Social Media
+
 Generate long-form content for LinkedIn or Medium
 
 ## Next Steps
 
 1. ⭐ **Star the repository** on GitHub
-2. 🐛 **Report issues** if you encounter problems
-3. 💡 **Suggest features** for future enhancements
-4. 🤝 **Contribute** improvements or bug fixes
+1. 🐛 **Report issues** if you encounter problems
+1. 💡 **Suggest features** for future enhancements
+1. 🤝 **Contribute** improvements or bug fixes
 
 ## Support
 
 For questions or issues:
+
 - Open an issue on GitHub
 - Check existing issues for solutions
 - Review the main README.md

@@ -55,6 +55,7 @@ sudo apt install python3 python3-pip python3-venv
 #### macOS
 
 Using Homebrew:
+
 ```bash
 brew install python@3.11
 ```
@@ -64,11 +65,12 @@ Or download from [python.org](https://www.python.org/downloads/macos/)
 #### Windows
 
 1. Download installer from [python.org](https://www.python.org/downloads/windows/)
-2. Run installer
-3. ✅ Check "Add Python to PATH"
-4. Click "Install Now"
+1. Run installer
+1. Check "Add Python to PATH"
+1. Click "Install Now"
 
 Verify installation:
+
 ```cmd
 python --version
 pip --version
@@ -96,6 +98,7 @@ cp .env.example .env
 ```
 
 Edit `.env` and add your API key:
+
 ```bash
 OPENAI_API_KEY=sk-your-key-here
 ```
@@ -193,16 +196,19 @@ python -m venv venv
 #### Activate Virtual Environment
 
 **Linux/macOS:**
+
 ```bash
 source venv/bin/activate
 ```
 
 **Windows (Command Prompt):**
+
 ```cmd
 venv\Scripts\activate.bat
 ```
 
 **Windows (PowerShell):**
+
 ```powershell
 venv\Scripts\Activate.ps1
 ```
@@ -265,27 +271,27 @@ MAX_RETRIES=3
 #### OpenAI API Key (Required)
 
 1. Go to [OpenAI Platform](https://platform.openai.com/)
-2. Sign up or log in
-3. Navigate to [API Keys](https://platform.openai.com/api-keys)
-4. Click "Create new secret key"
-5. Copy the key (you won't see it again!)
-6. Add to `.env`: `OPENAI_API_KEY=sk-...`
+1. Sign up or log in
+1. Navigate to [API Keys](https://platform.openai.com/api-keys)
+1. Click "Create new secret key"
+1. Copy the key (you won't see it again!)
+1. Add to `.env`: `OPENAI_API_KEY=sk-...`
 
 #### Unsplash API Key (Optional)
 
 1. Go to [Unsplash Developers](https://unsplash.com/developers)
-2. Register as a developer
-3. Create a new application
-4. Copy the "Access Key"
-5. Add to `.env`: `UNSPLASH_ACCESS_KEY=...`
+1. Register as a developer
+1. Create a new application
+1. Copy the "Access Key"
+1. Add to `.env`: `UNSPLASH_ACCESS_KEY=...`
 
 #### Medium Access Token (Optional)
 
 1. Log in to [Medium](https://medium.com/)
-2. Go to [Settings](https://medium.com/me/settings)
-3. Navigate to "Integration tokens"
-4. Create a new token
-5. Add to `.env`: `MEDIUM_ACCESS_TOKEN=...`
+1. Go to [Settings](https://medium.com/me/settings)
+1. Navigate to "Integration tokens"
+1. Create a new token
+1. Add to `.env`: `MEDIUM_ACCESS_TOKEN=...`
 
 ## Verification
 
@@ -296,7 +302,8 @@ python verify_installation.py
 ```
 
 Expected output:
-```
+
+```text
 ✓ Python version: 3.11.x
 ✓ All required packages installed
 ✓ Configuration loaded successfully
@@ -402,6 +409,7 @@ pip install -r requirements.txt
 #### Common macOS Issues
 
 **SSL Certificate Error:**
+
 ```bash
 # Run Python's certificate installation
 /Applications/Python\ 3.11/Install\ Certificates.command
@@ -442,6 +450,7 @@ pip install -r requirements.txt
 #### Common Windows Issues
 
 **PowerShell Execution Policy:**
+
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
@@ -454,6 +463,7 @@ Enable in Windows 10/11 Settings → System → About → Advanced system settin
 ### "pip: command not found"
 
 **Solution**: Ensure Python and pip are installed:
+
 ```bash
 python -m ensurepip --upgrade
 ```
@@ -461,6 +471,7 @@ python -m ensurepip --upgrade
 ### "Permission denied" errors
 
 **Solution**: Use virtual environment or install with `--user`:
+
 ```bash
 pip install --user -r requirements.txt
 ```
@@ -468,6 +479,7 @@ pip install --user -r requirements.txt
 ### SSL/Certificate errors
 
 **Solution**: Update certificates:
+
 ```bash
 pip install --upgrade certifi
 ```
@@ -475,6 +487,7 @@ pip install --upgrade certifi
 ### Package conflicts
 
 **Solution**: Use a fresh virtual environment:
+
 ```bash
 rm -rf venv
 python -m venv venv
@@ -485,6 +498,7 @@ pip install -r requirements.txt
 ### "ModuleNotFoundError"
 
 **Solution**: Reinstall dependencies:
+
 ```bash
 pip install --force-reinstall -r requirements.txt
 ```

@@ -7,24 +7,24 @@ This directory contains the complete documentation for the Agentic-Writer projec
 ### Core Pages
 
 1. **[Home.md](Home.md)** - Wiki homepage with overview and quick links
-2. **[Getting-Started.md](Getting-Started.md)** - Quick start guide for new users
-3. **[Installation.md](Installation.md)** - Detailed installation instructions for all platforms
+1. **[Getting-Started.md](Getting-Started.md)** - Quick start guide for new users
+1. **[Installation.md](Installation.md)** - Detailed installation instructions for all platforms
 
 ### Usage Documentation
 
-4. **[Usage-Guide.md](Usage-Guide.md)** - Comprehensive usage guide with examples
-5. **[API-Reference.md](API-Reference.md)** - Complete Python API documentation
+1. **[Usage-Guide.md](Usage-Guide.md)** - Comprehensive usage guide with examples
+1. **[API-Reference.md](API-Reference.md)** - Complete Python API documentation
 
 ### Technical Documentation
 
-6. **[Architecture.md](Architecture.md)** - System architecture and design
-7. **[Roadmap.md](Roadmap.md)** - Project roadmap and future plans
+1. **[Architecture.md](Architecture.md)** - System architecture and design
+1. **[Roadmap.md](Roadmap.md)** - Project roadmap and future plans
 
 ### Support Documentation
 
-8. **[FAQ.md](FAQ.md)** - Frequently asked questions
-9. **[Troubleshooting.md](Troubleshooting.md)** - Common issues and solutions
-10. **[Contributing.md](Contributing.md)** - How to contribute to the project
+1. **[FAQ.md](FAQ.md)** - Frequently asked questions
+1. **[Troubleshooting.md](Troubleshooting.md)** - Common issues and solutions
+1. **[Contributing.md](Contributing.md)** - How to contribute to the project
 
 ## Using This Wiki
 
@@ -35,17 +35,19 @@ To populate the GitHub Wiki with these pages:
 **Important:** The wiki repository doesn't exist until you create the first page via the web interface.
 
 1. **Initialize the wiki:**
-   - Go to https://github.com/eggressive/agentic-writer/wiki
+   - Go to <https://github.com/eggressive/agentic-writer/wiki>
    - Click "Create the first page"
    - Create a page titled "Home" with content from `wiki/Home.md`
    - This creates the wiki repository
 
-2. **Clone the wiki repository** (now it exists):
+1. **Clone the wiki repository** (now it exists):
+
    ```bash
    git clone https://github.com/eggressive/agentic-writer.wiki.git
    ```
 
-3. **Copy all markdown files:**
+1. **Copy all markdown files:**
+
    ```bash
    cp wiki/*.md agentic-writer.wiki/
    cd agentic-writer.wiki
@@ -127,7 +129,7 @@ docsify serve docs
 
 ### Navigation Flow
 
-```
+```text
 Home
  ├─→ Getting Started (Quick 5-min setup)
  │    └─→ Installation (Detailed setup)
@@ -150,22 +152,25 @@ Home
 ### Reading Paths
 
 **For New Users**:
+
 1. Home
-2. Getting Started
-3. Installation
-4. Usage Guide
-5. FAQ
+1. Getting Started
+1. Installation
+1. Usage Guide
+1. FAQ
 
 **For Developers**:
+
 1. Home
-2. Architecture
-3. API Reference
-4. Contributing
+1. Architecture
+1. API Reference
+1. Contributing
 
 **For Troubleshooting**:
+
 1. Troubleshooting
-2. FAQ
-3. GitHub Issues
+1. FAQ
+1. GitHub Issues
 
 ## Maintaining the Wiki
 
@@ -174,10 +179,10 @@ Home
 When updating the wiki:
 
 1. **Edit markdown files** in this directory
-2. **Test links** - ensure all internal links work
-3. **Update README.md** if structure changes
-4. **Sync to GitHub Wiki** if applicable
-5. **Announce changes** in release notes
+1. **Test links** - ensure all internal links work
+1. **Update README.md** if structure changes
+1. **Sync to GitHub Wiki** if applicable
+1. **Announce changes** in release notes
 
 ### Link Format
 
@@ -199,20 +204,22 @@ Report issues on [GitHub](https://github.com/eggressive/agentic-writer/issues).
 To add a new wiki page:
 
 1. **Create markdown file** in this directory
-2. **Follow naming convention**: `Page-Name.md` (Title Case with hyphens)
-3. **Add to Home.md** in Quick Links section
-4. **Update this README.md** with page description
-5. **Cross-link** from related pages
+1. **Follow naming convention**: `Page-Name.md` (Title Case with hyphens)
+1. **Add to Home.md** in Quick Links section
+1. **Update this README.md** with page description
+1. **Cross-link** from related pages
 
 ### Style Guide
 
 **Headings**:
+
 - Use `#` for page title (only one per page)
 - Use `##` for major sections
 - Use `###` for subsections
 - Use `####` rarely, for deep nesting
 
 **Code Blocks**:
+
 ```python
 # Use language identifiers
 def example():
@@ -225,15 +232,18 @@ python main.py create "topic"
 ```
 
 **Lists**:
+
 - Use `-` for unordered lists
 - Use `1.` for ordered lists
 - Indent with 2 spaces for nested lists
 
 **Links**:
+
 - Use descriptive text: `[Installation Guide](Installation.md)`
 - Not: `[click here](Installation.md)`
 
 **Emphasis**:
+
 - **Bold** for important terms: `**important**`
 - *Italic* for emphasis: `*emphasis*`
 - `Code` for technical terms: `` `code` ``
@@ -241,33 +251,43 @@ python main.py create "topic"
 ## Page Summaries
 
 ### Home.md
+
 Welcome page with project overview, quick links, features, architecture diagram, and current status.
 
 ### Getting-Started.md
+
 5-minute quick start guide covering installation, configuration, and creating your first article.
 
 ### Installation.md
+
 Comprehensive installation guide for all platforms (Linux, macOS, Windows) with troubleshooting.
 
 ### Usage-Guide.md
+
 Complete usage documentation covering CLI, Python API, configuration, and best practices.
 
 ### API-Reference.md
+
 Full Python API documentation with classes, methods, parameters, return types, and examples.
 
 ### Architecture.md
+
 System architecture overview including components, data flow, design patterns, and technical details.
 
 ### Roadmap.md
+
 Project roadmap with current version, planned features, release schedule, and community requests.
 
 ### FAQ.md
+
 Frequently asked questions covering general topics, installation, usage, troubleshooting, and licensing.
 
 ### Troubleshooting.md
+
 Common issues and solutions organized by category with step-by-step fixes.
 
 ### Contributing.md
+
 Comprehensive guide for contributors covering setup, workflow, code standards, and PR process.
 
 ## Statistics
