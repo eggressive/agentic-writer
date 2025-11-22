@@ -49,10 +49,10 @@ See [Installation Guide](Installation.md) for details.
 ### How do I get an OpenAI API key?
 
 1. Visit [OpenAI Platform](https://platform.openai.com/)
-2. Sign up or log in
-3. Go to [API Keys](https://platform.openai.com/api-keys)
-4. Create a new secret key
-5. Copy and save it securely
+1. Sign up or log in
+1. Go to [API Keys](https://platform.openai.com/api-keys)
+1. Create a new secret key
+1. Copy and save it securely
 
 ### Why am I getting "No module named 'langchain'" error?
 
@@ -120,7 +120,7 @@ You can specify a custom directory with `--output-dir`.
 Yes, if you have a Medium API token:
 
 1. Add `MEDIUM_ACCESS_TOKEN` to your `.env` file
-2. Use `--platform medium` when creating content
+1. Use `--platform medium` when creating content
 
 Note: Medium API support is prepared but requires testing with a valid token.
 
@@ -373,7 +373,7 @@ Be mindful of API rate limits and costs.
 ### How do I report a bug?
 
 1. Check if it's already reported in [Issues](https://github.com/eggressive/agentic-writer/issues)
-2. If not, create a new issue with:
+1. If not, create a new issue with:
    - Clear description
    - Steps to reproduce
    - Expected vs actual behavior
@@ -384,8 +384,8 @@ Be mindful of API rate limits and costs.
 Yes! Create an issue with the `enhancement` label:
 
 1. Describe the feature
-2. Explain the use case
-3. Suggest implementation (optional)
+1. Explain the use case
+1. Suggest implementation (optional)
 
 See our [Roadmap](Roadmap.md) for planned features.
 

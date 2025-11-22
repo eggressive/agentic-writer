@@ -65,9 +65,9 @@ Or download from [python.org](https://www.python.org/downloads/macos/)
 #### Windows
 
 1. Download installer from [python.org](https://www.python.org/downloads/windows/)
-2. Run installer
-3. ✅ Check "Add Python to PATH"
-4. Click "Install Now"
+1. Run installer
+1. Check "Add Python to PATH"
+1. Click "Install Now"
 
 Verify installation:
 
@@ -271,27 +271,27 @@ MAX_RETRIES=3
 #### OpenAI API Key (Required)
 
 1. Go to [OpenAI Platform](https://platform.openai.com/)
-2. Sign up or log in
-3. Navigate to [API Keys](https://platform.openai.com/api-keys)
-4. Click "Create new secret key"
-5. Copy the key (you won't see it again!)
-6. Add to `.env`: `OPENAI_API_KEY=sk-...`
+1. Sign up or log in
+1. Navigate to [API Keys](https://platform.openai.com/api-keys)
+1. Click "Create new secret key"
+1. Copy the key (you won't see it again!)
+1. Add to `.env`: `OPENAI_API_KEY=sk-...`
 
 #### Unsplash API Key (Optional)
 
 1. Go to [Unsplash Developers](https://unsplash.com/developers)
-2. Register as a developer
-3. Create a new application
-4. Copy the "Access Key"
-5. Add to `.env`: `UNSPLASH_ACCESS_KEY=...`
+1. Register as a developer
+1. Create a new application
+1. Copy the "Access Key"
+1. Add to `.env`: `UNSPLASH_ACCESS_KEY=...`
 
 #### Medium Access Token (Optional)
 
 1. Log in to [Medium](https://medium.com/)
-2. Go to [Settings](https://medium.com/me/settings)
-3. Navigate to "Integration tokens"
-4. Create a new token
-5. Add to `.env`: `MEDIUM_ACCESS_TOKEN=...`
+1. Go to [Settings](https://medium.com/me/settings)
+1. Navigate to "Integration tokens"
+1. Create a new token
+1. Add to `.env`: `MEDIUM_ACCESS_TOKEN=...`
 
 ## Verification
 

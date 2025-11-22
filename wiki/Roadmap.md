@@ -230,17 +230,17 @@ We track community feature requests in our [GitHub Issues](https://github.com/eg
 ### Top Requested Features
 
 1. **WordPress Integration** (12 votes)
-2. **Multi-language Support** (10 votes)
-3. **SEO Optimization** (9 votes)
-4. **Claude Integration** (8 votes)
-5. **Content Templates** (7 votes)
+1. **Multi-language Support** (10 votes)
+1. **SEO Optimization** (9 votes)
+1. **Claude Integration** (8 votes)
+1. **Content Templates** (7 votes)
 
 ### How to Request Features
 
 1. Check [existing issues](https://github.com/eggressive/agentic-writer/issues)
-2. Create new issue with `enhancement` label
-3. Describe use case and benefits
-4. Vote with 👍 on issues you support
+1. Create new issue with `enhancement` label
+1. Describe use case and benefits
+1. Vote with 👍 on issues you support
 
 ## Release Schedule
 

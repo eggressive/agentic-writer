@@ -47,13 +47,13 @@ Thank you for your interest in contributing to Agentic-Writer! This guide will h
 ### First Steps
 
 1. **Star the repository** ⭐
-2. **Fork the repository** on GitHub
-3. **Read the documentation**:
-   - [README](https://github.com/eggressive/agentic-writer/blob/main/README.md)
-   - [Architecture](Architecture.md)
+1. **Fork the repository** on GitHub
+1. **Read the documentation**:
+   - [Installation Guide](Installation.md)
    - [Usage Guide](Usage-Guide.md)
-4. **Join discussions** on GitHub
-5. **Look for good first issues**
+   - [Architecture](Architecture.md)
+1. **Join discussions** on GitHub
+1. **Look for good first issues**
 
 ### Good First Issues
 
@@ -68,15 +68,8 @@ Look for issues labeled:
 
 ### Reporting Bugs
 
-1. **Search existing issues** first
-2. **Use the bug report template**
-3. **Include**:
-   - Clear description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - System info (OS, Python version)
-   - Error messages and logs
-   - Configuration (redact API keys!)
+1. Check existing issues for similar suggestions
+1. Create a new issue with:
 
 **Example Bug Report**:
 
@@ -86,7 +79,7 @@ Research agent fails when topic contains special characters
 
 ### Steps to Reproduce
 1. Run: `python main.py create "AI & ML"`
-2. Error occurs during research phase
+1. Error occurs during research phase
 
 ### Expected
 Should handle special characters in topics
@@ -103,9 +96,9 @@ Error: UnicodeEncodeError...
 ### Suggesting Features
 
 1. **Check the [Roadmap](Roadmap.md)** first
-2. **Search existing issues**
-3. **Use the feature request template**
-4. **Include**:
+1. **Search existing issues**
+1. **Use the feature request template**
+1. **Include**:
    - Clear description
    - Use case and benefits
    - Proposed implementation (optional)
@@ -146,9 +139,9 @@ Documentation improvements are always welcome!
 **Process**:
 
 1. Fork repository
-2. Edit documentation
-3. Submit PR
-4. No tests required for docs-only changes
+1. Edit documentation
+1. Submit PR
+1. No tests required for docs-only changes
 
 ## Development Setup
 
@@ -314,10 +307,10 @@ git push origin feature/amazing-feature
 ### 8. Create Pull Request
 
 1. Go to your fork on GitHub
-2. Click "New Pull Request"
-3. Select your branch
-4. Fill out PR template
-5. Submit PR
+1. Click "New Pull Request"
+1. Select your branch
+1. Fill out PR template
+1. Submit PR
 
 ## Code Standards
 
@@ -413,12 +406,12 @@ class Agent:
 ### Best Practices
 
 1. **Single Responsibility** - Each function/class does one thing
-2. **DRY** - Don't repeat yourself
-3. **KISS** - Keep it simple
-4. **Error Handling** - Handle errors gracefully
-5. **Logging** - Use logging, not print()
-6. **Comments** - Explain why, not what
-7. **Type Safety** - Use type hints
+1. **DRY** - Don't repeat yourself
+1. **KISS** - Keep it simple
+1. **Error Handling** - Handle errors gracefully
+1. **Logging** - Use logging, not print()
+1. **Comments** - Explain why, not what
+1. **Type Safety** - Use type hints
 
 ## Testing
 
@@ -617,7 +610,7 @@ Contributors are recognized through:
 - 💬 Ask in [Discussions](https://github.com/eggressive/agentic-writer/discussions)
 - 🐛 Report [Issues](https://github.com/eggressive/agentic-writer/issues)
 
-## Thank You!
+## Thank You
 
 Every contribution, no matter how small, makes Agentic-Writer better. Thank you for being part of our community! 🎉
 

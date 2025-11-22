@@ -7,24 +7,24 @@ This directory contains the complete documentation for the Agentic-Writer projec
 ### Core Pages
 
 1. **[Home.md](Home.md)** - Wiki homepage with overview and quick links
-2. **[Getting-Started.md](Getting-Started.md)** - Quick start guide for new users
-3. **[Installation.md](Installation.md)** - Detailed installation instructions for all platforms
+1. **[Getting-Started.md](Getting-Started.md)** - Quick start guide for new users
+1. **[Installation.md](Installation.md)** - Detailed installation instructions for all platforms
 
 ### Usage Documentation
 
 1. **[Usage-Guide.md](Usage-Guide.md)** - Comprehensive usage guide with examples
-2. **[API-Reference.md](API-Reference.md)** - Complete Python API documentation
+1. **[API-Reference.md](API-Reference.md)** - Complete Python API documentation
 
 ### Technical Documentation
 
 1. **[Architecture.md](Architecture.md)** - System architecture and design
-2. **[Roadmap.md](Roadmap.md)** - Project roadmap and future plans
+1. **[Roadmap.md](Roadmap.md)** - Project roadmap and future plans
 
 ### Support Documentation
 
 1. **[FAQ.md](FAQ.md)** - Frequently asked questions
-2. **[Troubleshooting.md](Troubleshooting.md)** - Common issues and solutions
-3. **[Contributing.md](Contributing.md)** - How to contribute to the project
+1. **[Troubleshooting.md](Troubleshooting.md)** - Common issues and solutions
+1. **[Contributing.md](Contributing.md)** - How to contribute to the project
 
 ## Using This Wiki
 
@@ -40,13 +40,13 @@ To populate the GitHub Wiki with these pages:
    - Create a page titled "Home" with content from `wiki/Home.md`
    - This creates the wiki repository
 
-2. **Clone the wiki repository** (now it exists):
+1. **Clone the wiki repository** (now it exists):
 
    ```bash
    git clone https://github.com/eggressive/agentic-writer.wiki.git
    ```
 
-3. **Copy all markdown files:**
+1. **Copy all markdown files:**
 
    ```bash
    cp wiki/*.md agentic-writer.wiki/
@@ -154,23 +154,23 @@ Home
 **For New Users**:
 
 1. Home
-2. Getting Started
-3. Installation
-4. Usage Guide
-5. FAQ
+1. Getting Started
+1. Installation
+1. Usage Guide
+1. FAQ
 
 **For Developers**:
 
 1. Home
-2. Architecture
-3. API Reference
-4. Contributing
+1. Architecture
+1. API Reference
+1. Contributing
 
 **For Troubleshooting**:
 
 1. Troubleshooting
-2. FAQ
-3. GitHub Issues
+1. FAQ
+1. GitHub Issues
 
 ## Maintaining the Wiki
 
@@ -179,10 +179,10 @@ Home
 When updating the wiki:
 
 1. **Edit markdown files** in this directory
-2. **Test links** - ensure all internal links work
-3. **Update README.md** if structure changes
-4. **Sync to GitHub Wiki** if applicable
-5. **Announce changes** in release notes
+1. **Test links** - ensure all internal links work
+1. **Update README.md** if structure changes
+1. **Sync to GitHub Wiki** if applicable
+1. **Announce changes** in release notes
 
 ### Link Format
 
@@ -204,10 +204,10 @@ Report issues on [GitHub](https://github.com/eggressive/agentic-writer/issues).
 To add a new wiki page:
 
 1. **Create markdown file** in this directory
-2. **Follow naming convention**: `Page-Name.md` (Title Case with hyphens)
-3. **Add to Home.md** in Quick Links section
-4. **Update this README.md** with page description
-5. **Cross-link** from related pages
+1. **Follow naming convention**: `Page-Name.md` (Title Case with hyphens)
+1. **Add to Home.md** in Quick Links section
+1. **Update this README.md** with page description
+1. **Cross-link** from related pages
 
 ### Style Guide
 

@@ -51,7 +51,7 @@ Or install in development mode:
 pip install -e .
 ```
 
-3. Configure environment variables:
+1. Configure environment variables:
 
 ```bash
 cp .env.example .env

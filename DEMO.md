@@ -352,9 +352,9 @@ Generate long-form content for LinkedIn or Medium
 ## Next Steps
 
 1. ⭐ **Star the repository** on GitHub
-2. 🐛 **Report issues** if you encounter problems
-3. 💡 **Suggest features** for future enhancements
-4. 🤝 **Contribute** improvements or bug fixes
+1. 🐛 **Report issues** if you encounter problems
+1. 💡 **Suggest features** for future enhancements
+1. 🤝 **Contribute** improvements or bug fixes
 
 ## Support
 

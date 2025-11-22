@@ -67,7 +67,7 @@ agentic-writer/
    - Multi-source information synthesis
    - Retry logic with exponential backoff
 
-2. **AI-Powered Content Writing**
+1. **AI-Powered Content Writing**
    - Outline generation
    - Article writing (1200-1500 words)
    - Markdown formatting
@@ -75,13 +75,13 @@ agentic-writer/
    - Meta description creation
    - Tag generation (5-8 tags)
 
-3. **Intelligent Image Curation**
+1. **Intelligent Image Curation**
    - Contextual query generation
    - Unsplash API integration
    - Diverse image selection
    - Image suggestions
 
-4. **Multi-Platform Publishing**
+1. **Multi-Platform Publishing**
    - File system (markdown + JSON)
    - Medium API (ready for integration)
    - Extensible architecture for more platforms
@@ -295,28 +295,28 @@ python main.py create "Machine Learning Basics" \
 The modular architecture makes it easy to add new agents:
 
 1. Create agent class in `src/agents/`
-2. Implement required interface
-3. Register in orchestrator
-4. Add tests
+1. Implement required interface
+1. Register in orchestrator
+1. Add tests
 
 ### Adding Publishing Platforms
 
 To add a new platform:
 
 1. Add method to `PublisherAgent`
-2. Implement authentication
-3. Handle API calls
-4. Update configuration
-5. Add tests
+1. Implement authentication
+1. Handle API calls
+1. Update configuration
+1. Add tests
 
 ### Supporting More LLMs
 
 To add a new LLM provider:
 
 1. Create provider wrapper
-2. Implement common interface
-3. Update configuration
-4. Test with all agents
+1. Implement common interface
+1. Update configuration
+1. Test with all agents
 
 ## Future Enhancements
 

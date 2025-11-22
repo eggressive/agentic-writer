@@ -170,9 +170,9 @@ EOF
 **Solutions**:
 
 1. **Verify key format**: Should start with `sk-`
-2. **Check for typos**: Copy-paste carefully
-3. **Generate new key**: [OpenAI Platform](https://platform.openai.com/api-keys)
-4. **Check account status**: Ensure account is active and has credits
+1. **Check for typos**: Copy-paste carefully
+1. **Generate new key**: [OpenAI Platform](https://platform.openai.com/api-keys)
+1. **Check account status**: Ensure account is active and has credits
 
 ### Environment Variables Not Loading
 
@@ -204,9 +204,9 @@ python main.py config
 **Solutions**:
 
 1. **Wait and retry**: Rate limits reset over time
-2. **Upgrade account**: Get higher limits
-3. **Use slower model**: Switch to `gpt-3.5-turbo`
-4. **Reduce frequency**: Space out requests
+1. **Upgrade account**: Get higher limits
+1. **Use slower model**: Switch to `gpt-3.5-turbo`
+1. **Reduce frequency**: Space out requests
 
 ```bash
 # Edit .env
@@ -220,9 +220,9 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Solutions**:
 
 1. **Verify API key**: Check it's correct
-2. **Check account**: Ensure account is active
-3. **Verify credits**: Check you have available credits
-4. **Test key**:
+1. **Check account**: Ensure account is active
+1. **Verify credits**: Check you have available credits
+1. **Test key**:
 
 ```bash
 curl https://api.openai.com/v1/models \
@@ -236,10 +236,10 @@ curl https://api.openai.com/v1/models \
 **Solutions**:
 
 1. **Check internet**: Ensure you're online
-2. **Check firewall**: Allow outbound HTTPS
-3. **Verify proxy**: Configure if behind proxy
-4. **Try again**: Temporary network issues
-5. **Check status**:
+1. **Check firewall**: Allow outbound HTTPS
+1. **Verify proxy**: Configure if behind proxy
+1. **Try again**: Temporary network issues
+1. **Check status**:
    - [OpenAI Status](https://status.openai.com/)
    - [DuckDuckGo Status](https://duckduckgo.com/)
 
@@ -250,15 +250,15 @@ curl https://api.openai.com/v1/models \
 **Solutions**:
 
 1. **Check internet connection**
-2. **Retry**: Automatic retry should handle temporary issues
-3. **Check MAX_RETRIES**: Increase if needed
+1. **Retry**: Automatic retry should handle temporary issues
+1. **Check MAX_RETRIES**: Increase if needed
 
 ```bash
 # Edit .env
 MAX_RETRIES=5
 ```
 
-4. **Network restrictions**: Ensure DuckDuckGo isn't blocked
+1. **Network restrictions**: Ensure DuckDuckGo isn't blocked
 
 ### "No research results found"
 
@@ -267,9 +267,9 @@ MAX_RETRIES=5
 **Solutions**:
 
 1. **Broader topic**: Make topic less specific
-2. **Check spelling**: Fix typos in topic
-3. **Verify network**: Ensure web search works
-4. **Try different topic**: Some topics have limited information
+1. **Check spelling**: Fix typos in topic
+1. **Verify network**: Ensure web search works
+1. **Try different topic**: Some topics have limited information
 
 ### Import Errors
 
@@ -318,8 +318,8 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Solutions**:
 
 1. Add credits to OpenAI account
-2. Check billing settings
-3. Wait for free tier reset (if applicable)
+1. Check billing settings
+1. Wait for free tier reset (if applicable)
 
 #### "Too many requests"
 
@@ -328,8 +328,8 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Solutions**:
 
 1. Wait 60 seconds and retry
-2. Reduce MAX_RESEARCH_SOURCES
-3. Upgrade API tier
+1. Reduce MAX_RESEARCH_SOURCES
+1. Upgrade API tier
 
 ### Unsplash API Issues
 
@@ -340,8 +340,8 @@ OPENAI_MODEL=gpt-3.5-turbo
 **Solutions**:
 
 1. **Optional**: Unsplash is optional, system works without it
-2. **Get key**: [Unsplash Developers](https://unsplash.com/developers)
-3. **Add to .env**:
+1. **Get key**: [Unsplash Developers](https://unsplash.com/developers)
+1. **Add to .env**:
 
 ```bash
 UNSPLASH_ACCESS_KEY=your-access-key
@@ -354,8 +354,8 @@ UNSPLASH_ACCESS_KEY=your-access-key
 **Solutions**:
 
 1. **Wait**: Limit resets hourly
-2. **Continue**: System works without images
-3. **Upgrade**: Apply for higher limits
+1. **Continue**: System works without images
+1. **Upgrade**: Apply for higher limits
 
 ### Medium API Issues
 
@@ -366,9 +366,9 @@ UNSPLASH_ACCESS_KEY=your-access-key
 **Solutions**:
 
 1. **Verify token**: Check MEDIUM_ACCESS_TOKEN
-2. **Token format**: Should be long alphanumeric string
-3. **Token validity**: Tokens don't expire but check permissions
-4. **Fallback**: Use file publishing only
+1. **Token format**: Should be long alphanumeric string
+1. **Token validity**: Tokens don't expire but check permissions
+1. **Fallback**: Use file publishing only
 
 ## Performance Problems
 
@@ -392,9 +392,9 @@ MAX_RESEARCH_SOURCES=3
 
 1. **Check internet speed**: Slow connection affects performance
 
-2. **Skip images**: Don't configure Unsplash
+1. **Skip images**: Don't configure Unsplash
 
-3. **Check system load**: Close other applications
+1. **Check system load**: Close other applications
 
 ### "High memory usage"
 
@@ -403,9 +403,9 @@ MAX_RESEARCH_SOURCES=3
 **Solutions**:
 
 1. **Normal usage**: 100-200 MB is normal
-2. **Close other apps**: Free up memory
-3. **Upgrade RAM**: If system has <2GB
-4. **Check for leaks**: Restart if memory grows continuously
+1. **Close other apps**: Free up memory
+1. **Upgrade RAM**: If system has <2GB
+1. **Check for leaks**: Restart if memory grows continuously
 
 ### "Process hangs or freezes"
 
@@ -414,15 +414,15 @@ MAX_RESEARCH_SOURCES=3
 **Solutions**:
 
 1. **Wait longer**: Some operations take time
-2. **Check logs**: Enable DEBUG logging
+1. **Check logs**: Enable DEBUG logging
 
 ```bash
 python main.py create "topic" --log-level DEBUG
 ```
 
-3. **Kill and retry**: Ctrl+C to stop, try again
-4. **Check API status**: Verify services are up
-5. **Network issues**: Check connectivity
+1. **Kill and retry**: Ctrl+C to stop, try again
+1. **Check API status**: Verify services are up
+1. **Network issues**: Check connectivity
 
 ## Output Issues
 
@@ -447,7 +447,7 @@ mkdir -p output
 
 1. **Check errors**: Look for error messages in output
 
-2. **Absolute paths**: Use full path
+1. **Absolute paths**: Use full path
 
 ```bash
 python main.py create "topic" --output-dir /full/path/to/output
@@ -460,9 +460,9 @@ python main.py create "topic" --output-dir /full/path/to/output
 **Solutions**:
 
 1. **Topic complexity**: Some topics yield shorter content
-2. **Model selection**: Use GPT-4 for better quality
-3. **Research depth**: Increase MAX_RESEARCH_SOURCES
-4. **Wait for update**: Configurable length coming in future release
+1. **Model selection**: Use GPT-4 for better quality
+1. **Research depth**: Increase MAX_RESEARCH_SOURCES
+1. **Wait for update**: Configurable length coming in future release
 
 ### "Poor content quality"
 
@@ -486,9 +486,9 @@ TEMPERATURE=0.3  # More focused
 
 1. **Better topic**: More specific topics = better content
 
-2. **Define audience**: Be specific about target audience
+1. **Define audience**: Be specific about target audience
 
-3. **Review prompts**: Check agent prompts in source
+1. **Review prompts**: Check agent prompts in source
 
 ### "Images not included"
 
@@ -497,9 +497,9 @@ TEMPERATURE=0.3  # More focused
 **Solutions**:
 
 1. **Normal**: Images optional, system works without them
-2. **Add Unsplash key**: Configure UNSPLASH_ACCESS_KEY
-3. **Check logs**: See if there were errors
-4. **Verify quota**: Check Unsplash rate limits
+1. **Add Unsplash key**: Configure UNSPLASH_ACCESS_KEY
+1. **Check logs**: See if there were errors
+1. **Verify quota**: Check Unsplash rate limits
 
 ### "Metadata file missing"
 
@@ -508,9 +508,9 @@ TEMPERATURE=0.3  # More focused
 **Solutions**:
 
 1. **Check for errors**: Look at log output
-2. **Verify permissions**: Ensure write access
-3. **Check disk space**: Ensure sufficient space
-4. **Report bug**: If persistent, open issue
+1. **Verify permissions**: Ensure write access
+1. **Check disk space**: Ensure sufficient space
+1. **Report bug**: If persistent, open issue
 
 ## Platform-Specific Issues
 
