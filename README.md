@@ -225,24 +225,24 @@ ruff check src/ tests/
 
 ### Markdown Linting
 
-This repository uses markdownlint to enforce markdown standards. Configuration is defined in `.markdownlint-cli2.jsonc` (max line length: 90 characters).
+This repository uses markdownlint to enforce markdown standards. Configuration is defined in `.markdownlint-cli2.jsonc`.
 
 #### Local Setup
 
 ```bash
-npm install -g markdownlint-cli
+npm install -g markdownlint-cli2
 ```
 
 #### Check for issues
 
 ```bash
-markdownlint "**/*.md"
+markdownlint-cli2 "**/*.md"
 ```
 
 #### Auto-fix issues
 
 ```bash
-markdownlint --fix "**/*.md"
+markdownlint-cli2 --fix "**/*.md"
 ```
 
 #### Pre-commit Hook (Optional)
@@ -251,7 +251,7 @@ Add to `.git/hooks/pre-commit`:
 
 ```bash
 #!/bin/sh
-markdownlint "**/*.md" || exit 1
+markdownlint-cli2 "**/*.md" || exit 1
 ```
 
 ## Configuration Options
