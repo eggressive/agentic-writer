@@ -223,6 +223,37 @@ black src/ tests/
 ruff check src/ tests/
 ```
 
+### Markdown Linting
+
+This repository uses markdownlint to enforce markdown standards.
+
+#### Local Setup
+
+```bash
+npm install -g markdownlint-cli
+```
+
+#### Check for issues
+
+```bash
+markdownlint "**/*.md"
+```
+
+#### Auto-fix issues
+
+```bash
+markdownlint --fix "**/*.md"
+```
+
+#### Pre-commit Hook (Optional)
+
+Add to `.git/hooks/pre-commit`:
+
+```bash
+#!/bin/sh
+markdownlint "**/*.md" || exit 1
+```
+
 ## Configuration Options
 
 | Environment Variable | Description | Default | Required |
