@@ -258,7 +258,7 @@ curl https://api.openai.com/v1/models \
 MAX_RETRIES=5
 ```
 
-1. **Network restrictions**: Ensure DuckDuckGo isn't blocked
+4. **Network restrictions**: Ensure DuckDuckGo isn't blocked
 
 ### "No research results found"
 
