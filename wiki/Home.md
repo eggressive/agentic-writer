@@ -9,11 +9,12 @@
 ## 📚 Documentation Hub
 
 | 🚀 **Getting Started** | 📘 **Guides & Usage** | 🛠️ **Development** |
-|:-------------------|:-------------------|:-------------------|
+| :------------------ | :------------------ | :------------------ |
 | [**Installation**](Installation.md) - Setup instructions | [**Usage Guide**](Usage-Guide.md) - How to use the CLI | [**Architecture**](Architecture.md) - System design |
 | [**Quick Start**](Getting-Started.md) - First steps | [**Configuration**](Usage-Guide.md#configuration) - Env vars & settings | [**API Reference**](API-Reference.md) - Code documentation |
 | [**FAQ**](FAQ.md) - Common questions | [**Troubleshooting**](Troubleshooting.md) - Fix common issues | [**Contributing**](Contributing.md) - How to help |
 | | | [**Roadmap**](Roadmap.md) - Future plans |
+| | | [**Project Summary**](Project-Summary.md) - Status & metrics |
 
 ---
 
@@ -65,7 +66,7 @@ graph TD
 ## 📊 Project Status
 
 | Component | Status | Coverage |
-|-----------|--------|----------|
+| --------- | ------ | -------- |
 | Research Agent | ✅ Complete | 100% |
 | Writer Agent | ✅ Complete | 100% |
 | Image Agent | ✅ Complete | 100% |

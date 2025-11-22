@@ -61,7 +61,8 @@ python verify_installation.py
 ```
 
 You should see:
-```
+
+```text
 ✓ All checks passed!
 ✓ Configuration is valid
 ✓ All dependencies are installed
@@ -74,7 +75,8 @@ python main.py config
 ```
 
 Expected output:
-```
+
+```text
 ╭───────────────────────╮
 │ Current Configuration │
 ╰───────────────────────╯
@@ -97,6 +99,7 @@ python main.py create "The Future of Artificial Intelligence"
 ```
 
 The system will:
+
 1. 🔍 Research the topic (10-30 seconds)
 2. ✍️ Write a comprehensive article (30-60 seconds)
 3. 🖼️ Find relevant images (5-15 seconds)
@@ -121,6 +124,7 @@ python main.py create "Introduction to Machine Learning" \
 ```
 
 **What this does:**
+
 - **Topic**: "Introduction to Machine Learning"
 - **Style**: Casual, conversational tone
 - **Audience**: Written for beginners
@@ -252,15 +256,19 @@ Now that you're set up, explore these resources:
 ## Troubleshooting Quick Fixes
 
 ### "OPENAI_API_KEY is required but not set"
+
 **Solution**: Add your API key to the `.env` file
 
 ### "No module named 'langchain'"
+
 **Solution**: Run `pip install -r requirements.txt`
 
 ### Rate limiting errors
+
 **Solution**: Wait a few minutes or use `gpt-3.5-turbo` model
 
 ### Slow execution
+
 **Solution**: Normal! Content creation takes 2-5 minutes
 
 For more issues, see the [Troubleshooting Guide](Troubleshooting.md).

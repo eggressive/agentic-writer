@@ -27,12 +27,14 @@ The future direction and planned features for Agentic-Writer.
 **Target**: March 2026
 
 #### New Publishing Platforms
+
 - [ ] **WordPress Integration** - Direct publishing to WordPress sites
 - [ ] **Dev.to Support** - Publish to Dev.to community
 - [ ] **Hashnode Integration** - Support for Hashnode blogs
 - [ ] **Ghost CMS** - Ghost platform publishing
 
 #### Improvements
+
 - [ ] Better image handling and optimization
 - [ ] Enhanced metadata generation (Open Graph, Twitter Cards)
 - [ ] Citation and source attribution
@@ -45,6 +47,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: May 2026
 
 #### Advanced Content Features
+
 - [ ] **SEO Optimization** - Automatic SEO suggestions and improvements
   - Keyword density analysis
   - Readability scoring
@@ -76,6 +79,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: August 2026
 
 #### Multiple LLM Support
+
 - [ ] **Anthropic Claude** - Claude 3 integration
   - Claude Opus, Sonnet, Haiku support
   - Provider-specific optimizations
@@ -101,6 +105,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: November 2026
 
 #### Intelligent Features
+
 - [ ] **Custom Image Generation** - DALL-E 3 and Midjourney integration
   - Generate custom illustrations
   - Article-specific visuals
@@ -130,6 +135,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: Q1 2027
 
 #### Major Features
+
 - [ ] **Web Dashboard** - Full-featured web UI
   - Visual workflow builder
   - Real-time progress tracking
@@ -161,6 +167,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: Q2 2027
 
 #### Performance Improvements
+
 - [ ] **Async/Await Architecture** - Parallel agent execution
   - Faster content generation
   - Better resource utilization
@@ -188,6 +195,7 @@ The future direction and planned features for Agentic-Writer.
 **Target**: Q3 2027
 
 #### Enterprise Capabilities
+
 - [ ] **White-Label Solution** - Customizable branding
 - [ ] **Single Sign-On (SSO)** - Enterprise authentication
 - [ ] **Audit Logging** - Comprehensive activity logs
@@ -200,6 +208,7 @@ The future direction and planned features for Agentic-Writer.
 ## Research & Exploration
 
 ### Emerging Technologies
+
 - [ ] **Voice Input** - Create content from voice notes
 - [ ] **Video Summarization** - Generate articles from videos
 - [ ] **Podcast Transcription** - Convert podcasts to articles
@@ -208,6 +217,7 @@ The future direction and planned features for Agentic-Writer.
 - [ ] **Personalization** - Reader-specific content adaptation
 
 ### AI Advancements
+
 - [ ] **Fine-tuned Models** - Domain-specific models
 - [ ] **RAG Integration** - Retrieval-augmented generation
 - [ ] **Multi-modal Content** - Images, text, code together
@@ -218,6 +228,7 @@ The future direction and planned features for Agentic-Writer.
 We track community feature requests in our [GitHub Issues](https://github.com/eggressive/agentic-writer/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement).
 
 ### Top Requested Features
+
 1. **WordPress Integration** (12 votes)
 2. **Multi-language Support** (10 votes)
 3. **SEO Optimization** (9 votes)
@@ -225,6 +236,7 @@ We track community feature requests in our [GitHub Issues](https://github.com/eg
 5. **Content Templates** (7 votes)
 
 ### How to Request Features
+
 1. Check [existing issues](https://github.com/eggressive/agentic-writer/issues)
 2. Create new issue with `enhancement` label
 3. Describe use case and benefits
@@ -233,6 +245,7 @@ We track community feature requests in our [GitHub Issues](https://github.com/eg
 ## Release Schedule
 
 ### Regular Updates
+
 - **Patch Releases** (0.1.x) - Monthly
   - Bug fixes
   - Minor improvements
@@ -251,11 +264,13 @@ We track community feature requests in our [GitHub Issues](https://github.com/eg
 ## Deprecation Policy
 
 ### Version Support
+
 - **Current Version**: Full support
 - **Previous Minor**: Security updates only
 - **Older Versions**: Community support
 
 ### Breaking Changes
+
 - Announced 3 months in advance
 - Migration guides provided
 - Deprecation warnings in code
@@ -264,13 +279,16 @@ We track community feature requests in our [GitHub Issues](https://github.com/eg
 ## Contributing to Roadmap
 
 ### How to Influence
+
 1. **Feature Requests** - Open GitHub issues
 2. **Discussions** - Join GitHub Discussions
 3. **Contributions** - Submit PRs for features
 4. **Sponsorship** - Sponsor development of specific features
 
 ### Priority Criteria
+
 We prioritize features based on:
+
 - **User Impact** - How many users benefit
 - **Strategic Value** - Alignment with vision
 - **Technical Feasibility** - Implementation complexity
@@ -290,6 +308,7 @@ Features we're exploring (may or may not be released):
 ## Version History
 
 ### v0.1.0 - Initial Release (Current)
+
 - ✅ Complete multi-agent system
 - ✅ CLI and Python API
 - ✅ 4-stage content pipeline
@@ -301,18 +320,21 @@ Features we're exploring (may or may not be released):
 We measure roadmap success by:
 
 ### User Metrics
+
 - Active users (monthly)
 - Content generated (articles/month)
 - Platform adoption (% using different platforms)
 - User retention rate
 
 ### Quality Metrics
+
 - Article word count (target: 1200-1500)
 - Research source count (target: 5+)
 - User satisfaction (target: 4.5/5)
 - Error rate (target: <1%)
 
 ### Technical Metrics
+
 - Test coverage (target: >80%)
 - Build success rate (target: >95%)
 - API response time (target: <5 min)
@@ -321,12 +343,14 @@ We measure roadmap success by:
 ## Feedback & Updates
 
 ### Stay Informed
+
 - ⭐ Star the repository for updates
 - 📢 Watch releases on GitHub
 - 💬 Join GitHub Discussions
 - 📧 Subscribe to announcements
 
 ### Share Feedback
+
 - 💡 Feature requests via [Issues](https://github.com/eggressive/agentic-writer/issues)
 - 🐛 Bug reports via [Issues](https://github.com/eggressive/agentic-writer/issues)
 - 💬 General discussion via [Discussions](https://github.com/eggressive/agentic-writer/discussions)
@@ -334,6 +358,7 @@ We measure roadmap success by:
 ## Commitment
 
 We are committed to:
+
 - ✅ Regular updates and releases
 - ✅ Active community engagement
 - ✅ Transparent development

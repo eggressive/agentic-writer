@@ -7,6 +7,7 @@
 ## Implementation Statistics
 
 ### Code Metrics
+
 - **Total Lines of Code**: ~1,502 lines (src + tests)
 - **Source Files**: 11 Python modules
 - **Test Files**: 4 test modules
@@ -14,7 +15,8 @@
 - **Documentation**: 5 comprehensive guides
 
 ### Project Structure
-```
+
+```text
 agentic-writer/
 ├── 📄 Documentation (5 files)
 │   ├── README.md          - Main documentation
@@ -58,6 +60,7 @@ agentic-writer/
 ## Features Implemented
 
 ### ✅ Core Functionality
+
 1. **Automated Research**
    - DuckDuckGo web search integration
    - Topic analysis with GPT-4
@@ -84,6 +87,7 @@ agentic-writer/
    - Extensible architecture for more platforms
 
 ### ✅ Infrastructure
+
 - **Orchestration**: Complete 4-stage pipeline coordinator
 - **Error Handling**: Comprehensive with retry logic
 - **Logging**: Structured, configurable logging system
@@ -93,8 +97,9 @@ agentic-writer/
 ## Technical Stack
 
 ### Core Technologies
+
 | Technology | Purpose | Version |
-|------------|---------|---------|
+| ---------- | ------- | ------- |
 | **LangChain** | AI framework | ≥0.1.0 |
 | **LangChain Core** | Core utilities | ≥0.1.0 |
 | **OpenAI** | LLM provider | ≥1.10.0 |
@@ -105,6 +110,7 @@ agentic-writer/
 | **Pytest** | Testing | ≥7.4.0 |
 
 ### External APIs
+
 - **DuckDuckGo** - Web search (no key required)
 - **Unsplash** - Image search (optional key)
 - **OpenAI** - GPT models (key required)
@@ -113,12 +119,14 @@ agentic-writer/
 ## Quality Assurance
 
 ### Testing
+
 - ✅ **Unit Tests**: 11 tests covering core functionality
 - ✅ **Integration Tests**: 5 tests for pipeline orchestration
 - ✅ **Pass Rate**: 100% (16/16 tests passing)
 - ✅ **Test Coverage**: Core components covered
 
 ### Code Quality
+
 - ✅ **Formatting**: Black (88 char line length)
 - ✅ **Linting**: Ruff (0 errors)
 - ✅ **Type Hints**: Present throughout
@@ -126,6 +134,7 @@ agentic-writer/
 - ✅ **Security**: CodeQL scan passed (0 vulnerabilities)
 
 ### Documentation
+
 - ✅ **README**: Complete with examples
 - ✅ **DEMO Guide**: Step-by-step usage
 - ✅ **Architecture**: System design docs
@@ -135,6 +144,7 @@ agentic-writer/
 ## Usage Workflow
 
 ### Basic Usage
+
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
@@ -151,6 +161,7 @@ python main.py create "Your Topic Here"
 ```
 
 ### Advanced Usage
+
 ```bash
 # Custom style and audience
 python main.py create "Machine Learning Basics" \
@@ -163,23 +174,27 @@ python main.py create "Machine Learning Basics" \
 ## Pipeline Stages
 
 ### Stage 1: Research (10-30 seconds)
+
 - Analyzes the topic
 - Searches the web (up to 5 sources)
 - Synthesizes findings into coherent summary
 
 ### Stage 2: Writing (30-60 seconds)
+
 - Creates detailed outline
 - Writes full article (1200-1500 words)
 - Generates title and metadata
 - Creates tags
 
 ### Stage 3: Images (5-15 seconds)
+
 - Generates contextual search queries
 - Searches Unsplash for relevant images
 - Selects diverse, high-quality images
 - Provides attribution
 
 ### Stage 4: Publishing (<5 seconds)
+
 - Saves markdown file
 - Exports JSON metadata
 - Publishes to configured platforms
@@ -189,6 +204,7 @@ python main.py create "Machine Learning Basics" \
 ## Output Format
 
 ### Markdown File
+
 ```markdown
 # Article Title
 
@@ -203,6 +219,7 @@ python main.py create "Machine Learning Basics" \
 ```
 
 ### Metadata JSON
+
 ```json
 {
   "title": "Article Title",
@@ -224,6 +241,7 @@ python main.py create "Machine Learning Basics" \
 ## Performance Characteristics
 
 ### Execution Time
+
 - **Research**: 10-30 seconds (depends on search)
 - **Writing**: 30-60 seconds (depends on article length)
 - **Images**: 5-15 seconds (depends on API)
@@ -231,6 +249,7 @@ python main.py create "Machine Learning Basics" \
 - **Total**: 2-5 minutes typical
 
 ### Resource Usage
+
 - **Memory**: ~100-200 MB
 - **CPU**: Low (I/O bound)
 - **Network**: Moderate (API calls)
@@ -239,11 +258,13 @@ python main.py create "Machine Learning Basics" \
 ## Error Handling
 
 ### Retry Logic
+
 - Automatic retry with exponential backoff
 - Up to 3 attempts per operation
 - Graceful degradation on failure
 
 ### Error Recovery
+
 - Web search failures: Continue with available sources
 - Image API failures: Return empty list or suggestions
 - API rate limits: Automatic retry with backoff
@@ -252,6 +273,7 @@ python main.py create "Machine Learning Basics" \
 ## Security
 
 ### Best Practices
+
 - ✅ No hardcoded credentials
 - ✅ Environment variable management
 - ✅ Input validation and sanitization
@@ -260,6 +282,7 @@ python main.py create "Machine Learning Basics" \
 - ✅ CodeQL security scanning
 
 ### API Key Management
+
 - Stored in `.env` file (not committed)
 - Validated before use
 - Clear error messages when missing
@@ -268,14 +291,18 @@ python main.py create "Machine Learning Basics" \
 ## Extensibility
 
 ### Adding New Agents
+
 The modular architecture makes it easy to add new agents:
+
 1. Create agent class in `src/agents/`
 2. Implement required interface
 3. Register in orchestrator
 4. Add tests
 
 ### Adding Publishing Platforms
+
 To add a new platform:
+
 1. Add method to `PublisherAgent`
 2. Implement authentication
 3. Handle API calls
@@ -283,7 +310,9 @@ To add a new platform:
 5. Add tests
 
 ### Supporting More LLMs
+
 To add a new LLM provider:
+
 1. Create provider wrapper
 2. Implement common interface
 3. Update configuration
@@ -292,6 +321,7 @@ To add a new LLM provider:
 ## Future Enhancements
 
 ### Planned Features
+
 - [ ] More LLM providers (Claude, Gemini)
 - [ ] WordPress integration
 - [ ] Content scheduling system
@@ -302,6 +332,7 @@ To add a new LLM provider:
 - [ ] Analytics integration
 
 ### Architecture Improvements
+
 - [ ] Async/await for parallel execution
 - [ ] Caching layer for research
 - [ ] Web UI dashboard
@@ -311,6 +342,7 @@ To add a new LLM provider:
 ## Success Metrics
 
 ### Completeness
+
 - ✅ All required features implemented
 - ✅ All phases of development completed
 - ✅ Comprehensive testing in place
@@ -318,6 +350,7 @@ To add a new LLM provider:
 - ✅ Production-ready code
 
 ### Quality
+
 - ✅ 100% test pass rate (16/16)
 - ✅ Zero linting errors
 - ✅ Zero security vulnerabilities
@@ -325,6 +358,7 @@ To add a new LLM provider:
 - ✅ Comprehensive documentation
 
 ### Usability
+
 - ✅ Simple installation process
 - ✅ Clear error messages
 - ✅ Beautiful CLI interface
@@ -334,21 +368,25 @@ To add a new LLM provider:
 ## Maintenance
 
 ### Running Tests
+
 ```bash
 pytest tests/ -v --cov=src
 ```
 
 ### Code Formatting
+
 ```bash
 black src/ tests/
 ```
 
 ### Linting
+
 ```bash
 ruff check src/ tests/ --fix
 ```
 
 ### Verification
+
 ```bash
 python verify_installation.py
 ```
