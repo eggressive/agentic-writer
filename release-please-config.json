@@ -4,7 +4,6 @@
     ".": {
       "package-name": "agentic-writer",
       "extra-files": [
-        "setup.py",
         "src/__init__.py"
       ],
       "changelog-sections": [
