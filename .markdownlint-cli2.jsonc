@@ -12,6 +12,7 @@
   },
   // Ignore agent configuration files
   "ignores": [
-    ".github/copilot-instructions.md"
+    ".github/copilot-instructions.md",
+    "CHANGELOG.md"
   ]
 }
