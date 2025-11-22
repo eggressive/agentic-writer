@@ -310,6 +310,24 @@ def research(self, topic: str) -> Dict[str, Any]:
 
 We use [release-please](https://github.com/googleapis/release-please) for automated release management based on [Semantic Versioning](https://semver.org/).
 
+### Repository Setup for Release-Please
+
+The release-please workflow requires a Personal Access Token (PAT) to create pull requests. Repository maintainers must:
+
+1. Create a GitHub Personal Access Token (classic) with `repo` scope
+   - Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Click "Generate new token (classic)"
+   - Select the `repo` scope (full control of private repositories)
+   - Generate and copy the token
+2. Add the token as a repository secret named `RELEASE_PLEASE_TOKEN`
+   - Go to repository Settings → Secrets and variables → Actions
+   - Click "New repository secret"
+   - Name: `RELEASE_PLEASE_TOKEN`
+   - Value: Paste the PAT from step 1
+3. The workflow will use this token to create release PRs
+
+This is required because organization or repository security settings may prevent the default `GITHUB_TOKEN` from creating pull requests.
+
 ### Version Numbering (MAJOR.MINOR.PATCH)
 
 - **MAJOR**: Breaking changes (e.g., 1.0.0 → 2.0.0)
