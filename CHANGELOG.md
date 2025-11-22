@@ -7,18 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.1.0...agentic-writer-v0.2.0) (2025-11-22)
 
-
 ### Features
 
 * add wiki documentation ([#6](https://github.com/eggressive/agentic-writer/issues/6)) ([626f839](https://github.com/eggressive/agentic-writer/commit/626f8390c1b14a50945b3e0e6235fcc3a48db1ed))
-
 
 ### Bug Fixes
 
 * **ci:** add token parameter to release-please workflow ([#15](https://github.com/eggressive/agentic-writer/issues/15)) ([fc9f053](https://github.com/eggressive/agentic-writer/commit/fc9f05304b1bee7f18c152a461b99f6d77b80f6e))
 * markdown docs ([#12](https://github.com/eggressive/agentic-writer/issues/12)) ([55c4d28](https://github.com/eggressive/agentic-writer/commit/55c4d28662f53420b62530cd50002a95ecf788d0))
 * **release-please:** update release-please configuration ([#13](https://github.com/eggressive/agentic-writer/issues/13)) ([dcb3274](https://github.com/eggressive/agentic-writer/commit/dcb3274b09e63acc01c5e8e364f12dd41a8e1158))
-
 
 ### Code Refactoring
 
@@ -27,27 +24,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Automated release management with release-please
-- Conventional Commits guidelines in CONTRIBUTING.md
-- Release process documentation
+
+* Automated release management with release-please
+* Conventional Commits guidelines in CONTRIBUTING.md
+* Release process documentation
 
 ## [0.1.0] - historical baseline
 
 ### Added
-- Initial release of Agentic-Writer
-- ResearchAgent for automated web research and topic analysis
-- WriterAgent for content generation with multiple styles and audiences
-- ImageAgent for image curation from Unsplash
-- PublisherAgent for multi-platform publishing (file, Medium)
-- ContentCreationOrchestrator for end-to-end workflow management
-- Command-line interface with Click and Rich
-- Python API for programmatic access
-- Configuration management with Pydantic
-- Comprehensive test suite with pytest
-- Documentation including README, CONTRIBUTING, and wiki
-- Support for OpenAI GPT models via LangChain
-- Automatic retry logic with exponential backoff
-- Logging utilities with configurable levels
+
+* Initial release of Agentic-Writer
+* ResearchAgent for automated web research and topic analysis
+* WriterAgent for content generation with multiple styles and audiences
+* ImageAgent for image curation from Unsplash
+* PublisherAgent for multi-platform publishing (file, Medium)
+* ContentCreationOrchestrator for end-to-end workflow management
+* Command-line interface with Click and Rich
+* Python API for programmatic access
+* Configuration management with Pydantic
+* Comprehensive test suite with pytest
+* Documentation including README, CONTRIBUTING, and wiki
+* Support for OpenAI GPT models via LangChain
+* Automatic retry logic with exponential backoff
+* Logging utilities with configurable levels
 
 [Unreleased]: https://github.com/eggressive/agentic-writer/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/eggressive/agentic-writer/releases/tag/v0.1.0
