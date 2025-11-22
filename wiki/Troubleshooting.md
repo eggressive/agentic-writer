@@ -420,9 +420,9 @@ MAX_RESEARCH_SOURCES=3
 python main.py create "topic" --log-level DEBUG
 ```
 
-1. **Kill and retry**: Ctrl+C to stop, try again
-2. **Check API status**: Verify services are up
-3. **Network issues**: Check connectivity
+3. **Kill and retry**: Ctrl+C to stop, try again
+4. **Check API status**: Verify services are up
+5. **Network issues**: Check connectivity
 
 ## Output Issues
 
