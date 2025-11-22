@@ -1,0 +1,9 @@
+{
+  // Configuration for markdownlint-cli2
+  "config": {
+    // Configure MD013/line-length to allow 90 characters
+    "MD013": {
+      "line_length": 90
+    }
+  }
+}

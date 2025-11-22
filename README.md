@@ -225,7 +225,7 @@ ruff check src/ tests/
 
 ### Markdown Linting
 
-This repository uses markdownlint to enforce markdown standards.
+This repository uses markdownlint to enforce markdown standards. Configuration is defined in `.markdownlint-cli2.jsonc` (max line length: 90 characters).
 
 #### Local Setup
 
