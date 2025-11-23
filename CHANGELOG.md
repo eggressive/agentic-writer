@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.4.0...agentic-writer-v0.4.1) (2025-11-23)
+
+
+### Miscellaneous
+
+* replace deprecated duckduckgo-search with ddgs package ([#27](https://github.com/eggressive/agentic-writer/issues/27)) ([10693de](https://github.com/eggressive/agentic-writer/commit/10693de59039b102ace30835e634dd4dc63a9b4d))
+
 ## [0.4.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.3.1...agentic-writer-v0.4.0) (2025-11-23)
 
 
