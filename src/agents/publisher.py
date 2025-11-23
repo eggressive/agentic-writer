@@ -98,6 +98,22 @@ class PublisherAgent:
                 f.write("---\n\n")
                 f.write(article_data.get("content", ""))
 
+                # Add images if available
+                images = article_data.get("images", [])
+                if images:
+                    f.write("\n\n## Visuals\n\n")
+                    for img in images:
+                        alt = img.get("description", "Image")
+                        url = img.get("url", "")
+                        author = img.get("author", "Unknown")
+                        author_url = img.get("author_url", "")
+                        
+                        f.write(f"![{alt}]({url})\n")
+                        if author_url:
+                            f.write(f"*Photo by [{author}]({author_url}) on Unsplash*\n\n")
+                        else:
+                            f.write(f"*Photo by {author} on Unsplash*\n\n")
+
             # Save metadata JSON
             json_file = output_path / f"{filename}_metadata.json"
             with open(json_file, "w", encoding="utf-8") as f:
