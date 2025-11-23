@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.5.0...agentic-writer-v0.6.0) (2025-11-23)
+
+
+### Features
+
+* add CLI tests to achieve 99% coverage for src/cli.py ([#38](https://github.com/eggressive/agentic-writer/issues/38)) ([e3f9da9](https://github.com/eggressive/agentic-writer/commit/e3f9da9e477cd9fc95de1c04c85edb364ca7796f))
+
 ## [0.5.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.4.2...agentic-writer-v0.5.0) (2025-11-23)
 
 
