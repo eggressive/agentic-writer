@@ -26,7 +26,7 @@ def check_dependencies():
         "openai",
         "requests",
         "beautifulsoup4",
-        "duckduckgo_search",
+        "ddgs",
         "PIL",
         "dotenv",
         "pydantic",
@@ -45,8 +45,8 @@ def check_dependencies():
                 __import__("dotenv")
             elif dep == "beautifulsoup4":
                 __import__("bs4")
-            elif dep == "duckduckgo_search":
-                __import__("duckduckgo_search")
+            elif dep == "ddgs":
+                __import__("ddgs")
             else:
                 __import__(dep)
             results[dep] = (True, "✓")
@@ -137,9 +137,7 @@ def main():
 
     all_deps_ok = True
     for dep, (ok, status) in deps.items():
-        table.add_row(
-            dep, f"[green]{status}[/green]" if ok else f"[red]{status}[/red]"
-        )
+        table.add_row(dep, f"[green]{status}[/green]" if ok else f"[red]{status}[/red]")
         if not ok:
             all_deps_ok = False
 

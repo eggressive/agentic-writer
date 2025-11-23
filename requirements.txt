@@ -10,7 +10,7 @@ requests>=2.31.0
 
 # Web scraping for research
 beautifulsoup4>=4.12.0
-duckduckgo-search>=4.0.0
+ddgs>=9.0.0
 
 # Image generation/search
 pillow>=10.0.0
