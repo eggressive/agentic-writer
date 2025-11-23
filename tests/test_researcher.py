@@ -31,7 +31,7 @@ def test_research_with_empty_search_results(mock_ddgs, research_agent, mock_llm)
     mock_search.text.return_value = []
     mock_ddgs.return_value.__enter__.return_value = mock_search
     
-    # The analyze_topic method returns a plain string, not JSON
+    # Fixed: analyze_topic method returns a plain string, not JSON as previously mocked
     mock_llm.invoke.return_value.content = "Test analysis"
     
     # Conduct research

@@ -402,10 +402,9 @@ def test_select_best_images_fills_remaining_slots(image_agent_with_key):
     """Test select_best_images fills remaining slots with same-author images.
 
     When the first 3 images in the available list all have the same author,
-    the diversity check in select_best_images (lines 274-276) will only select
-    the first image. This test verifies that the fallback logic (lines 278-283)
-    correctly fills the remaining 2 slots with images from the same author to
-    reach the 3-image target.
+    the diversity check will only select the first image. This test verifies
+    that the fallback logic correctly fills the remaining 2 slots with images
+    from the same author to reach the 3-image target.
 
     Args:
         image_agent_with_key: An ImageAgent instance with a mock Unsplash key.
