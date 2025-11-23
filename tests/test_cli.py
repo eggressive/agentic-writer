@@ -217,9 +217,8 @@ def test_create_command_config_validation_error(
     result = runner.invoke(cli, ["create", "Test Topic"])
 
     # Assertions
-    assert (
-        result.exit_code == 0
-    )  # Click doesn't exit with error code for handled exceptions
+    # CLI handles the exception and prints an error message without exiting with an error code
+    assert result.exit_code == 0
     assert "Configuration Error" in result.output
     assert "OPENAI_API_KEY is required" in result.output
 
@@ -298,9 +297,9 @@ def test_config_command_success(mock_config_class, runner, mock_config):
     assert result.exit_code == 0
     assert "Current Configuration" in result.output
     assert "OpenAI Model:" in result.output
-    assert "gpt-3.5-turbo" in result.output
+    assert mock_config.openai_model in result.output
     assert "Temperature:" in result.output
-    assert "0.7" in result.output
+    assert str(mock_config.temperature) in result.output
     assert "Max Research Sources:" in result.output
     assert "Log Level:" in result.output
     assert "API Keys Status:" in result.output
