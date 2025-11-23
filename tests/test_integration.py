@@ -1,8 +1,6 @@
 """Integration tests for the content creation pipeline."""
 
-import os
 import tempfile
-from pathlib import Path
 import pytest
 from unittest.mock import Mock, patch
 from src.orchestrator import ContentCreationOrchestrator
@@ -57,7 +55,7 @@ def test_pipeline_with_mocked_apis(mock_ddgs, mock_llm, mock_config):
     )
     mock_llm.return_value = mock_llm_instance
 
-    with tempfile.TemporaryDirectory() as temp_dir:
+    with tempfile.TemporaryDirectory():
         orchestrator = ContentCreationOrchestrator(mock_config)
 
         # This would normally call the real API, so we skip for now

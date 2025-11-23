@@ -4,7 +4,6 @@ import os
 import shutil
 import pytest
 from unittest.mock import Mock, patch
-import src.orchestrator
 from src.orchestrator import ContentCreationOrchestrator
 from src.utils.config import Config
 
@@ -12,6 +11,7 @@ from src.utils.config import Config
 TOPICS = ["Remote Work", "AI Ethics"]
 STYLES = ["Professional", "Casual"]
 AUDIENCES = ["Experts", "Beginners"]
+
 
 @pytest.fixture
 def output_dir():
@@ -23,6 +23,7 @@ def output_dir():
     if os.path.exists(dir_path):
         shutil.rmtree(dir_path)
 
+
 @pytest.fixture
 def mock_config():
     """Create a mock configuration."""
@@ -31,6 +32,7 @@ def mock_config():
         openai_model="gpt-3.5-turbo",
         temperature=0.7,
     )
+
 
 @pytest.mark.functional
 @pytest.mark.parametrize("topic", TOPICS)
@@ -42,7 +44,7 @@ def test_article_generation_matrix(
     mock_ddgs, mock_llm, topic, style, audience, mock_config, output_dir
 ):
     """Test article generation with various combinations of parameters."""
-    
+
     # --- Mock Setup ---
     # Mock Search
     mock_search = Mock()
@@ -62,24 +64,24 @@ def test_article_generation_matrix(
 
     # --- Execution ---
     orchestrator = ContentCreationOrchestrator(mock_config)
-    
+
     results = orchestrator.create_content(
         topic=topic,
         style=style,
         target_audience=audience,
         platforms=["file"],
-        output_dir=output_dir
+        output_dir=output_dir,
     )
 
     # --- Verification ---
     assert results["status"] == "completed"
     assert results["stages"]["writing"]["status"] == "completed"
-    
+
     # Verify file creation
     expected_filename = topic.lower().replace(" ", "_") + ".md"
     expected_path = os.path.join(output_dir, expected_filename)
     assert os.path.exists(expected_path)
-    
+
     # Verify content (mocked content should be in the file)
     with open(expected_path, "r") as f:
         content = f.read()

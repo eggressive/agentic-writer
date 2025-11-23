@@ -33,7 +33,12 @@ class ContentCreationOrchestrator:
         )
         self.writer_agent = WriterAgent(llm=self.llm)
         self.image_agent = ImageAgent(
-            llm=self.llm, unsplash_key=config.unsplash_access_key
+            llm=self.llm,
+            unsplash_key=config.unsplash_access_key,
+            per_page=config.unsplash_per_page,
+            order_by=config.unsplash_order_by,
+            content_filter=config.unsplash_content_filter,
+            orientation=config.unsplash_orientation,
         )
         self.publisher_agent = PublisherAgent(medium_token=config.medium_access_token)
 
