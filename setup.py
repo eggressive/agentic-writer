@@ -34,7 +34,7 @@ setup(
         "openai>=1.10.0",
         "requests>=2.31.0",
         "beautifulsoup4>=4.12.0",
-        "duckduckgo-search>=4.0.0",
+        "ddgs>=9.0.0",
         "pillow>=10.0.0",
         "medium-api>=0.6.0",
         "python-dotenv>=1.0.0",
