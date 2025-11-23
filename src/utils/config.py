@@ -17,6 +17,10 @@ class Config(BaseModel):
     log_level: str = Field(default="INFO")
     max_research_sources: int = Field(default=5)
     max_retries: int = Field(default=3)
+    unsplash_per_page: int = Field(default=10)
+    unsplash_order_by: str = Field(default="relevant")
+    unsplash_content_filter: str = Field(default="high")
+    unsplash_orientation: str = Field(default="landscape")
 
     @classmethod
     def from_env(cls) -> "Config":
@@ -32,6 +36,10 @@ class Config(BaseModel):
             log_level=os.getenv("LOG_LEVEL", "INFO"),
             max_research_sources=int(os.getenv("MAX_RESEARCH_SOURCES", "5")),
             max_retries=int(os.getenv("MAX_RETRIES", "3")),
+            unsplash_per_page=int(os.getenv("UNSPLASH_PER_PAGE", "10")),
+            unsplash_order_by=os.getenv("UNSPLASH_ORDER_BY", "relevant"),
+            unsplash_content_filter=os.getenv("UNSPLASH_CONTENT_FILTER", "high"),
+            unsplash_orientation=os.getenv("UNSPLASH_ORIENTATION", "landscape"),
         )
 
     def validate_required(self) -> None:

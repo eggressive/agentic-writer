@@ -107,10 +107,12 @@ class PublisherAgent:
                         url = img.get("url", "")
                         author = img.get("author", "Unknown")
                         author_url = img.get("author_url", "")
-                        
+
                         f.write(f"![{alt}]({url})\n")
                         if author_url:
-                            f.write(f"*Photo by [{author}]({author_url}) on Unsplash*\n\n")
+                            f.write(
+                                f"*Photo by [{author}]({author_url}) on Unsplash*\n\n"
+                            )
                         else:
                             f.write(f"*Photo by {author} on Unsplash*\n\n")
 

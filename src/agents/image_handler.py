@@ -11,15 +11,31 @@ from langchain_core.messages import HumanMessage, SystemMessage
 class ImageAgent:
     """Agent responsible for finding and selecting relevant images."""
 
-    def __init__(self, llm: ChatOpenAI, unsplash_key: Optional[str] = None):
+    def __init__(
+        self,
+        llm: ChatOpenAI,
+        unsplash_key: Optional[str] = None,
+        per_page: int = 10,
+        order_by: str = "relevant",
+        content_filter: str = "high",
+        orientation: str = "landscape",
+    ):
         """Initialize the image agent.
 
         Args:
             llm: Language model for image selection
             unsplash_key: Optional Unsplash API key
+            per_page: Number of images per search query (default: 10, max: 30)
+            order_by: Sort order - "relevant" or "latest" (default: "relevant")
+            content_filter: Content filtering level - "low" or "high" (default: "high")
+            orientation: Image orientation - "landscape", "portrait", or "squarish" (default: "landscape")
         """
         self.llm = llm
         self.unsplash_key = unsplash_key
+        self.per_page = per_page
+        self.order_by = order_by
+        self.content_filter = content_filter
+        self.orientation = orientation
         self.logger = logging.getLogger(__name__)
 
     def generate_image_queries(self, topic: str, article_content: str) -> List[str]:
@@ -57,12 +73,24 @@ Return only the queries, one per line."""
 
         return queries[:5]
 
-    def search_unsplash(self, query: str, per_page: int = 5) -> List[Dict[str, Any]]:
+    def search_unsplash(
+        self,
+        query: str,
+        per_page: int = 5,
+        order_by: str = "relevant",
+        content_filter: str = "high",
+        color: Optional[str] = None,
+        orientation: str = "landscape",
+    ) -> List[Dict[str, Any]]:
         """Search Unsplash for images.
 
         Args:
             query: Search query
-            per_page: Number of results per page
+            per_page: Number of results per page (max 30)
+            order_by: Sort order - "relevant" (default) or "latest"
+            content_filter: Content filtering level - "low" or "high" (default)
+            color: Optional color filter (e.g., "black_and_white", "blue", "red")
+            orientation: Image orientation - "landscape" (default), "portrait", or "squarish"
 
         Returns:
             List of image metadata
@@ -74,7 +102,17 @@ Return only the queries, one per line."""
         try:
             url = "https://api.unsplash.com/search/photos"
             headers = {"Authorization": f"Client-ID {self.unsplash_key}"}
-            params = {"query": query, "per_page": per_page, "orientation": "landscape"}
+            params = {
+                "query": query,
+                "per_page": min(per_page, 30),  # API max is 30
+                "order_by": order_by,
+                "content_filter": content_filter,
+                "orientation": orientation,
+            }
+
+            # Add optional color filter
+            if color:
+                params["color"] = color
 
             response = requests.get(url, headers=headers, params=params, timeout=10)
             response.raise_for_status()
@@ -88,22 +126,58 @@ Return only the queries, one per line."""
                         "id": result["id"],
                         "url": result["urls"]["regular"],
                         "thumb_url": result["urls"]["thumb"],
+                        "full_url": result["urls"]["full"],
                         "description": result.get("description")
                         or result.get("alt_description", ""),
                         "author": result["user"]["name"],
                         "author_url": result["user"]["links"]["html"],
                         "download_url": result["links"]["download"],
+                        "download_location": result["links"]["download_location"],
+                        "photo_link": result["links"]["html"],
                         "width": result["width"],
                         "height": result["height"],
+                        "color": result.get("color", ""),
+                        "likes": result.get("likes", 0),
+                        "tags": [
+                            tag.get("title", "") for tag in result.get("tags", [])
+                        ],
                     }
                 )
 
             self.logger.info(f"Found {len(images)} images for query: {query}")
             return images
 
+        except requests.exceptions.HTTPError as e:
+            self.logger.error(f"Unsplash API HTTP error: {str(e)}")
+            return []
         except Exception as e:
             self.logger.error(f"Unsplash search failed: {str(e)}")
             return []
+
+    def track_download(self, download_location: str) -> bool:
+        """Track image download with Unsplash API as required by guidelines.
+
+        Args:
+            download_location: The download_location URL from the photo object
+
+        Returns:
+            True if tracking was successful, False otherwise
+        """
+        if not self.unsplash_key:
+            self.logger.warning(
+                "Unsplash API key not provided, skipping download tracking"
+            )
+            return False
+
+        try:
+            headers = {"Authorization": f"Client-ID {self.unsplash_key}"}
+            response = requests.get(download_location, headers=headers, timeout=10)
+            response.raise_for_status()
+            self.logger.debug(f"Download tracked successfully for: {download_location}")
+            return True
+        except Exception as e:
+            self.logger.error(f"Failed to track download: {str(e)}")
+            return False
 
     def find_images(
         self, topic: str, article_data: Dict[str, Any]
@@ -125,11 +199,22 @@ Return only the queries, one per line."""
         # Search for images
         all_images = []
         for query in queries:
-            images = self.search_unsplash(query)
+            images = self.search_unsplash(
+                query,
+                per_page=self.per_page,
+                order_by=self.order_by,
+                content_filter=self.content_filter,
+                orientation=self.orientation,
+            )
             all_images.extend(images)
 
         # Select best images
         selected_images = self.select_best_images(topic, article_data, all_images)
+
+        # Track downloads for selected images (required by Unsplash API guidelines)
+        for image in selected_images:
+            if "download_location" in image:
+                self.track_download(image["download_location"])
 
         return selected_images
 
