@@ -7,6 +7,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage
 
+# Unsplash API constants
+UNSPLASH_MAX_PER_PAGE = 30
+
 
 class ImageAgent:
     """Agent responsible for finding and selecting relevant images."""
@@ -104,7 +107,7 @@ Return only the queries, one per line."""
             headers = {"Authorization": f"Client-ID {self.unsplash_key}"}
             params = {
                 "query": query,
-                "per_page": min(per_page, 30),  # API max is 30
+                "per_page": min(per_page, UNSPLASH_MAX_PER_PAGE),
                 "order_by": order_by,
                 "content_filter": content_filter,
                 "orientation": orientation,
