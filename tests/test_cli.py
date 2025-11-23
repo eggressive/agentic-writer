@@ -3,6 +3,7 @@
 import pytest
 from unittest.mock import Mock, patch
 from click.testing import CliRunner
+from src import __version__
 from src.cli import cli
 from src.utils.config import Config
 
@@ -356,8 +357,7 @@ def test_version_command_success(runner):
     assert result.exit_code == 0
     assert "Content Creation Agent" in result.output
     assert "version" in result.output
-    # The version should be displayed (currently 0.1.0)
-    assert "0.1.0" in result.output
+    assert __version__ in result.output
 
 
 @patch("src.cli.setup_logger")
