@@ -362,3 +362,47 @@ def test_select_best_images_without_api_key(image_agent_without_key):
     )
 
     assert selected == []
+
+
+def test_image_agent_validation_invalid_per_page(mock_llm):
+    """Test ImageAgent validates per_page parameter."""
+    # Test below minimum
+    with pytest.raises(ValueError, match="per_page must be between 1 and 30"):
+        ImageAgent(llm=mock_llm, unsplash_key="test_key", per_page=0)
+
+    # Test above maximum
+    with pytest.raises(ValueError, match="per_page must be between 1 and 30"):
+        ImageAgent(llm=mock_llm, unsplash_key="test_key", per_page=31)
+
+
+def test_image_agent_validation_invalid_order_by(mock_llm):
+    """Test ImageAgent validates order_by parameter."""
+    with pytest.raises(ValueError, match="order_by must be 'relevant' or 'latest'"):
+        ImageAgent(llm=mock_llm, unsplash_key="test_key", order_by="invalid")
+
+
+def test_image_agent_validation_invalid_content_filter(mock_llm):
+    """Test ImageAgent validates content_filter parameter."""
+    with pytest.raises(ValueError, match="content_filter must be 'low' or 'high'"):
+        ImageAgent(llm=mock_llm, unsplash_key="test_key", content_filter="medium")
+
+
+def test_image_agent_validation_invalid_orientation(mock_llm):
+    """Test ImageAgent validates orientation parameter."""
+    with pytest.raises(
+        ValueError, match="orientation must be 'landscape', 'portrait', or 'squarish'"
+    ):
+        ImageAgent(llm=mock_llm, unsplash_key="test_key", orientation="diagonal")
+
+
+def test_track_download_http_error_handling(mock_llm):
+    """Test track_download handles HTTP errors separately."""
+    import requests
+
+    agent = ImageAgent(llm=mock_llm, unsplash_key="test_key")
+
+    with patch("src.agents.image_handler.requests.get") as mock_get:
+        mock_get.side_effect = requests.exceptions.HTTPError("404 Not Found")
+        result = agent.track_download("https://test.com/download")
+
+        assert result is False

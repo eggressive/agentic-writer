@@ -107,14 +107,15 @@ class PublisherAgent:
                         url = img.get("url", "")
                         author = img.get("author", "Unknown")
                         author_url = img.get("author_url", "")
+                        source = img.get("source", "Unsplash")
 
                         f.write(f"![{alt}]({url})\n")
                         if author_url:
                             f.write(
-                                f"*Photo by [{author}]({author_url}) on Unsplash*\n\n"
+                                f"*Photo by [{author}]({author_url}) on {source}*\n\n"
                             )
                         else:
-                            f.write(f"*Photo by {author} on Unsplash*\n\n")
+                            f.write(f"*Photo by {author} on {source}*\n\n")
 
             # Save metadata JSON
             json_file = output_path / f"{filename}_metadata.json"

@@ -33,6 +33,24 @@ class ImageAgent:
             content_filter: Content filtering level - "low" or "high" (default: "high")
             orientation: Image orientation - "landscape", "portrait", or "squarish" (default: "landscape")
         """
+        # Validate parameters
+        if not 1 <= per_page <= UNSPLASH_MAX_PER_PAGE:
+            raise ValueError(
+                f"per_page must be between 1 and {UNSPLASH_MAX_PER_PAGE}, got {per_page}"
+            )
+        if order_by not in ["relevant", "latest"]:
+            raise ValueError(
+                f"order_by must be 'relevant' or 'latest', got '{order_by}'"
+            )
+        if content_filter not in ["low", "high"]:
+            raise ValueError(
+                f"content_filter must be 'low' or 'high', got '{content_filter}'"
+            )
+        if orientation not in ["landscape", "portrait", "squarish"]:
+            raise ValueError(
+                f"orientation must be 'landscape', 'portrait', or 'squarish', got '{orientation}'"
+            )
+
         self.llm = llm
         self.unsplash_key = unsplash_key
         self.per_page = per_page
@@ -92,7 +110,7 @@ Return only the queries, one per line."""
             per_page: Number of results per page (max 30)
             order_by: Sort order - "relevant" (default) or "latest"
             content_filter: Content filtering level - "low" or "high" (default)
-            color: Optional color filter (e.g., "black_and_white", "blue", "red")
+            color: Optional color filter. Valid values: "black_and_white", "black", "white", "yellow", "orange", "red", "purple", "magenta", "green", "teal", "blue"
             orientation: Image orientation - "landscape" (default), "portrait", or "squarish"
 
         Returns:
@@ -167,8 +185,8 @@ Return only the queries, one per line."""
             True if tracking was successful, False otherwise
         """
         if not self.unsplash_key:
-            self.logger.warning(
-                "Unsplash API key not provided, skipping download tracking"
+            self.logger.info(
+                "Unsplash API key not configured, download tracking skipped (optional feature)"
             )
             return False
 
@@ -178,6 +196,9 @@ Return only the queries, one per line."""
             response.raise_for_status()
             self.logger.debug(f"Download tracked successfully for: {download_location}")
             return True
+        except requests.exceptions.HTTPError as e:
+            self.logger.error(f"HTTP error tracking download: {str(e)}")
+            return False
         except Exception as e:
             self.logger.error(f"Failed to track download: {str(e)}")
             return False
