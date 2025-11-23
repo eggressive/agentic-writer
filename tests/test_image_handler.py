@@ -406,3 +406,74 @@ def test_track_download_http_error_handling(mock_llm):
         result = agent.track_download("https://test.com/download")
 
         assert result is False
+
+
+def test_select_best_images_fills_remaining_slots(image_agent_with_key):
+    """Test select_best_images fills remaining slots when first 3 have same author."""
+    available_images = [
+        {"id": "1", "author": "Photographer A", "url": "url1"},
+        {"id": "2", "author": "Photographer A", "url": "url2"},
+        {"id": "3", "author": "Photographer A", "url": "url3"},
+        {"id": "4", "author": "Photographer A", "url": "url4"},
+    ]
+
+    selected = image_agent_with_key.select_best_images(
+        "Test", {"content": "test"}, available_images
+    )
+
+    # Should select 3 images even if same author
+    assert len(selected) == 3
+    # First image should be selected for diversity
+    assert selected[0] == available_images[0]
+    # Remaining slots should be filled
+    assert selected[1] in available_images
+    assert selected[2] in available_images
+
+
+def test_select_best_images_stops_at_three_with_diverse_authors(image_agent_with_key):
+    """Test select_best_images stops at 3 images when we have 3 diverse authors."""
+    available_images = [
+        {"id": "1", "author": "Photographer A", "url": "url1"},
+        {"id": "2", "author": "Photographer B", "url": "url2"},
+        {"id": "3", "author": "Photographer C", "url": "url3"},
+        {"id": "4", "author": "Photographer D", "url": "url4"},
+        {"id": "5", "author": "Photographer E", "url": "url5"},
+    ]
+
+    selected = image_agent_with_key.select_best_images(
+        "Test", {"content": "test"}, available_images
+    )
+
+    # Should select exactly 3 images with diverse authors
+    assert len(selected) == 3
+    # Should be the first 3 images (all different authors)
+    assert selected[0] == available_images[0]
+    assert selected[1] == available_images[1]
+    assert selected[2] == available_images[2]
+    # Should not include 4th and 5th images
+    assert available_images[3] not in selected
+    assert available_images[4] not in selected
+
+
+def test_generate_image_suggestions_without_api_key(image_agent_without_key):
+    """Test generate_image_suggestions fallback method."""
+    topic = "Artificial Intelligence"
+    content = "Article about AI and machine learning"
+
+    suggestions = image_agent_without_key.generate_image_suggestions(topic, content)
+
+    # Should return list of suggestions
+    assert isinstance(suggestions, list)
+    assert len(suggestions) > 0
+
+
+def test_generate_image_suggestions_with_api_key(image_agent_with_key):
+    """Test generate_image_suggestions works with API key too."""
+    topic = "Machine Learning"
+    content = "Deep dive into neural networks and applications"
+
+    suggestions = image_agent_with_key.generate_image_suggestions(topic, content)
+
+    # Should return list of suggestions
+    assert isinstance(suggestions, list)
+    assert len(suggestions) > 0
