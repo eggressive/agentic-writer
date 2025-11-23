@@ -10,11 +10,11 @@
 
 | 🚀 **Getting Started** | 📘 **Guides & Usage** | 🛠️ **Development** |
 | :------------------ | :------------------ | :------------------ |
-| [**Installation**](Installation.md) - Setup instructions | [**Usage Guide**](Usage-Guide.md) - How to use the CLI | [**Architecture**](Architecture.md) - System design |
-| [**Quick Start**](Getting-Started.md) - First steps | [**Configuration**](Usage-Guide.md#configuration) - Env vars & settings | [**API Reference**](API-Reference.md) - Code documentation |
-| [**FAQ**](FAQ.md) - Common questions | [**Troubleshooting**](Troubleshooting.md) - Fix common issues | [**Contributing**](Contributing.md) - How to help |
-| | | [**Roadmap**](Roadmap.md) - Future plans |
-| | | [**Project Summary**](Project-Summary.md) - Status & metrics |
+| [**Installation**](Installation) - Setup instructions | [**Usage Guide**](Usage-Guide) - How to use the CLI | [**Architecture**](Architecture) - System design |
+| [**Quick Start**](Getting-Started) - First steps | [**Configuration**](Usage-Guide#configuration) - Env vars & settings | [**API Reference**](API-Reference) - Code documentation |
+| [**FAQ**](FAQ) - Common questions | [**Troubleshooting**](Troubleshooting) - Fix common issues | [**Contributing**](Contributing) - How to help |
+| | | [**Roadmap**](Roadmap) - Future plans |
+| | | [**Project Summary**](Project-Summary) - Status & metrics |
 
 ---
 
@@ -61,7 +61,7 @@ graph TD
     Publish --> End([End])
 ```
 
-*(See [Architecture](Architecture.md) for detailed diagrams)*
+*(See [Architecture](Architecture) for detailed diagrams)*
 
 ## 📊 Project Status
 
@@ -105,7 +105,7 @@ graph TD
 
 - **Found a bug?** [Open an issue](https://github.com/eggressive/agentic-writer/issues)
 - **Have a question?** [Start a discussion](https://github.com/eggressive/agentic-writer/discussions)
-- **Want to contribute?** Read our [Contributing Guide](Contributing.md)
+- **Want to contribute?** Read our [Contributing Guide](Contributing)
 
 ## 📄 License
 
@@ -120,4 +120,4 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ---
 
-**Need Help?** Check out our [FAQ](FAQ.md) or [Troubleshooting](Troubleshooting.md) guides.
+**Need Help?** Check out our [FAQ](FAQ) or [Troubleshooting](Troubleshooting) guides.
