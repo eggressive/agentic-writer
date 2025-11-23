@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.4.1...agentic-writer-v0.4.2) (2025-11-23)
+
+
+### Miscellaneous
+
+* enhance unsplash api integration with download tracking and advanced search parameters ([#30](https://github.com/eggressive/agentic-writer/issues/30)) ([28afa50](https://github.com/eggressive/agentic-writer/commit/28afa50d9bcae52a15e1f12fac4f1607c0d698b9))
+
 ## [0.4.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.4.0...agentic-writer-v0.4.1) (2025-11-23)
 
 
