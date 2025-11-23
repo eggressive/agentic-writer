@@ -42,7 +42,7 @@ def test_create_content_defaults_platforms_to_file(
     mock_researcher.return_value = mock_researcher_instance
     
     mock_writer_instance = Mock()
-    # Return a dict-like mock that supports item assignment
+    # Return a real dictionary so the orchestrator can add items to it
     article_dict = {
         "content": "# Test\n\nContent",
         "title": "Test",

@@ -1,18 +1,9 @@
 """Tests for the ResearchAgent."""
 
+import json
 import pytest
 from unittest.mock import Mock, patch
 from src.agents.researcher import ResearchAgent
-
-
-@pytest.fixture
-def mock_llm():
-    """Create a mock LLM."""
-    mock = Mock()
-    mock_response = Mock()
-    mock_response.content = """{"analysis": "Test analysis"}"""
-    mock.invoke.return_value = mock_response
-    return mock
 
 
 @pytest.fixture
@@ -41,8 +32,9 @@ def test_research_with_empty_search_results(mock_ddgs, research_agent, mock_llm)
     mock_search.text.return_value = []
     mock_ddgs.return_value.__enter__.return_value = mock_search
     
-    # Mock analysis response
-    mock_llm.invoke.return_value.content = '{"analysis": "Test analysis"}'
+    # Mock analysis response with proper JSON
+    analysis_dict = {"analysis": "Test analysis"}
+    mock_llm.invoke.return_value.content = json.dumps(analysis_dict)
     
     # Conduct research
     result = research_agent.research("test topic")
@@ -64,9 +56,10 @@ def test_research_with_successful_search(mock_ddgs, research_agent, mock_llm):
     ]
     mock_ddgs.return_value.__enter__.return_value = mock_search
     
-    # Mock analysis and synthesis responses
+    # Mock analysis and synthesis responses with proper JSON
     analysis_response = Mock()
-    analysis_response.content = '{"analysis": "Test analysis"}'
+    analysis_dict = {"analysis": "Test analysis"}
+    analysis_response.content = json.dumps(analysis_dict)
     
     synthesis_response = Mock()
     synthesis_response.content = "Synthesized research content"
