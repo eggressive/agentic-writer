@@ -71,7 +71,7 @@ def test_create_content_defaults_platforms_to_file(
         orchestrator = ContentCreationOrchestrator(mock_config)
         
         # Call without specifying platforms - should default to ["file"]
-        result = orchestrator.create_content(
+        orchestrator.create_content(
             topic="Test Topic",
             style="professional",
             target_audience="experts",

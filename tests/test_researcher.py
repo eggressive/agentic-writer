@@ -1,6 +1,5 @@
 """Tests for the ResearchAgent."""
 
-import json
 import pytest
 from unittest.mock import Mock, patch
 from src.agents.researcher import ResearchAgent
@@ -32,9 +31,8 @@ def test_research_with_empty_search_results(mock_ddgs, research_agent, mock_llm)
     mock_search.text.return_value = []
     mock_ddgs.return_value.__enter__.return_value = mock_search
     
-    # Mock analysis response with proper JSON
-    analysis_dict = {"analysis": "Test analysis"}
-    mock_llm.invoke.return_value.content = json.dumps(analysis_dict)
+    # The analyze_topic method returns a plain string, not JSON
+    mock_llm.invoke.return_value.content = "Test analysis"
     
     # Conduct research
     result = research_agent.research("test topic")
@@ -56,10 +54,9 @@ def test_research_with_successful_search(mock_ddgs, research_agent, mock_llm):
     ]
     mock_ddgs.return_value.__enter__.return_value = mock_search
     
-    # Mock analysis and synthesis responses with proper JSON
+    # Mock analysis and synthesis responses
     analysis_response = Mock()
-    analysis_dict = {"analysis": "Test analysis"}
-    analysis_response.content = json.dumps(analysis_dict)
+    analysis_response.content = "Test analysis"
     
     synthesis_response = Mock()
     synthesis_response.content = "Synthesized research content"

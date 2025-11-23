@@ -6,16 +6,6 @@ from src.agents.image_handler import ImageAgent
 
 
 @pytest.fixture
-def mock_llm():
-    """Create a mock LLM."""
-    mock = Mock()
-    mock_response = Mock()
-    mock_response.content = "technology\nartificial intelligence\nfuture"
-    mock.invoke.return_value = mock_response
-    return mock
-
-
-@pytest.fixture
 def image_agent_with_key(mock_llm):
     """Create an ImageAgent with Unsplash key."""
     return ImageAgent(
@@ -409,7 +399,22 @@ def test_track_download_http_error_handling(mock_llm):
 
 
 def test_select_best_images_fills_remaining_slots(image_agent_with_key):
-    """Test select_best_images fills remaining slots when first 3 have same author."""
+    """Test select_best_images fills remaining slots with same-author images.
+
+    When the first 3 images in the available list all have the same author,
+    the diversity check in select_best_images (lines 274-276) will only select
+    the first image. This test verifies that the fallback logic (lines 278-283)
+    correctly fills the remaining 2 slots with images from the same author to
+    reach the 3-image target.
+
+    Args:
+        image_agent_with_key: An ImageAgent instance with a mock Unsplash key.
+
+    Asserts:
+        - The selected list contains 3 images.
+        - The first image is the first available image (for diversity).
+        - The remaining slots are filled with images from the same author.
+    """
     available_images = [
         {"id": "1", "author": "Photographer A", "url": "url1"},
         {"id": "2", "author": "Photographer A", "url": "url2"},
@@ -431,7 +436,13 @@ def test_select_best_images_fills_remaining_slots(image_agent_with_key):
 
 
 def test_select_best_images_stops_at_three_with_diverse_authors(image_agent_with_key):
-    """Test select_best_images stops at 3 images when we have 3 diverse authors."""
+    """Test select_best_images stops at 3 images with diverse authors.
+
+    When we have more than 3 images with different authors available, the
+    diversity-first loop should stop at exactly 3 images, not continuing to
+    process additional images. This test verifies the early break condition
+    in the selection logic works correctly.
+    """
     available_images = [
         {"id": "1", "author": "Photographer A", "url": "url1"},
         {"id": "2", "author": "Photographer B", "url": "url2"},
