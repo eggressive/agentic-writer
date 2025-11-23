@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="agentic-writer",
-    version="0.4.0",
+    version="0.4.1",
     author="Dimitar",
     description="Automated content creation and management using LangChain agents",
     long_description=long_description,
