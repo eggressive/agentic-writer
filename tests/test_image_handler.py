@@ -367,30 +367,30 @@ def test_select_best_images_without_api_key(image_agent_without_key):
 def test_image_agent_validation_invalid_per_page(mock_llm):
     """Test ImageAgent validates per_page parameter."""
     # Test below minimum
-    with pytest.raises(ValueError, match="per_page must be between 1 and 30"):
+    with pytest.raises(ValueError, match="per_page must be between 1 and 30.*"):
         ImageAgent(llm=mock_llm, unsplash_key="test_key", per_page=0)
 
     # Test above maximum
-    with pytest.raises(ValueError, match="per_page must be between 1 and 30"):
+    with pytest.raises(ValueError, match="per_page must be between 1 and 30.*"):
         ImageAgent(llm=mock_llm, unsplash_key="test_key", per_page=31)
 
 
 def test_image_agent_validation_invalid_order_by(mock_llm):
     """Test ImageAgent validates order_by parameter."""
-    with pytest.raises(ValueError, match="order_by must be 'relevant' or 'latest'"):
+    with pytest.raises(ValueError, match="order_by must be 'relevant' or 'latest'.*"):
         ImageAgent(llm=mock_llm, unsplash_key="test_key", order_by="invalid")
 
 
 def test_image_agent_validation_invalid_content_filter(mock_llm):
     """Test ImageAgent validates content_filter parameter."""
-    with pytest.raises(ValueError, match="content_filter must be 'low' or 'high'"):
+    with pytest.raises(ValueError, match="content_filter must be 'low' or 'high'.*"):
         ImageAgent(llm=mock_llm, unsplash_key="test_key", content_filter="medium")
 
 
 def test_image_agent_validation_invalid_orientation(mock_llm):
     """Test ImageAgent validates orientation parameter."""
     with pytest.raises(
-        ValueError, match="orientation must be 'landscape', 'portrait', or 'squarish'"
+        ValueError, match="orientation must be 'landscape', 'portrait', or 'squarish'.*"
     ):
         ImageAgent(llm=mock_llm, unsplash_key="test_key", orientation="diagonal")
 
