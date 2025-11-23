@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.3.0...agentic-writer-v0.3.1) (2025-11-23)
+
+
+### Bug Fixes
+
+* remove .md extensions from wiki links in Home.md ([#21](https://github.com/eggressive/agentic-writer/issues/21)) ([4ee8d93](https://github.com/eggressive/agentic-writer/commit/4ee8d93689094445488654c73b82d86fcdee9b20))
+
 ## [0.3.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.2.0...agentic-writer-v0.3.0) (2025-11-22)
 
 
