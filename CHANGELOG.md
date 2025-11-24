@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.7.0...agentic-writer-v0.7.1) (2025-11-24)
+
+
+### Bug Fixes
+
+* improve publisher.py test coverage from 66% to 100% ([#50](https://github.com/eggressive/agentic-writer/issues/50)) ([0821459](https://github.com/eggressive/agentic-writer/commit/082145958979996e1e4ee1ccfea5ee92076f47ca))
+
 ## [0.7.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.6.2...agentic-writer-v0.7.0) (2025-11-24)
 
 
