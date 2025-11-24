@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened]
+    types: [opened, labeled]
 
 permissions:
   contents: write
@@ -17,7 +17,9 @@ concurrency:
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'release-please[bot]'
+    if: |
+      (github.event.action == 'opened' && contains(github.event.pull_request.labels.*.name, 'autorelease: pending')) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'autorelease: pending')
     steps:
       - name: Approve PR
         env:
