@@ -120,6 +120,8 @@ def test_validate_persona_with_valid_persona(audience_strategist):
         "knowledge_state": {"what_they_know": "Basics"},
         "goals": {"primary_goal": "Learn"},
         "pain_points": ["Frustration 1"],
+        "reading_context": {"attention_span": "10 minutes"},
+        "content_preferences": {"tone": "technical"},
     }
 
     assert audience_strategist.validate_persona(valid_persona) is True

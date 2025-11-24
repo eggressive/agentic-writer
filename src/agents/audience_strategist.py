@@ -155,5 +155,7 @@ class AudienceStrategist:
             "knowledge_state",
             "goals",
             "pain_points",
+            "reading_context",
+            "content_preferences",
         ]
         return all(key in persona for key in required_keys)

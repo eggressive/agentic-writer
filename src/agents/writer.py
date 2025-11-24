@@ -186,6 +186,8 @@ Requirements:
             content_prefs = persona.get("content_preferences", {})
             goals = persona.get("goals", {})
             knowledge_state = persona.get("knowledge_state", {})
+            pain_points = persona.get("pain_points", [])
+            reading_context = persona.get("reading_context", {})
 
             if persona_name:
                 persona_instruction += f"\nTarget Reader: {persona_name}"
@@ -198,6 +200,13 @@ Requirements:
             if knowledge_state.get("what_they_need"):
                 persona_instruction += (
                     f"\nWhat Reader Needs: {knowledge_state.get('what_they_need')}"
+                )
+            if pain_points:
+                pain_points_str = ", ".join(pain_points[:3])
+                persona_instruction += f"\nAddress Pain Points: {pain_points_str}"
+            if reading_context.get("attention_span"):
+                persona_instruction += (
+                    f"\nReader Time Available: {reading_context.get('attention_span')}"
                 )
 
         # Create outline
