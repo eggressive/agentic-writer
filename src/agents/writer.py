@@ -36,7 +36,7 @@ class WriterAgent:
             sections.append("Key Statistics:")
             for stat in key_statistics:
                 if isinstance(stat, dict):
-                    sections.append(f"- {stat.get('statistic', stat)}")
+                    sections.append(f"- {stat.get('statistic', str(stat))}")
                 else:
                     sections.append(f"- {stat}")
 
@@ -46,7 +46,7 @@ class WriterAgent:
             sections.append("\nExpert Quotes:")
             for quote in expert_quotes:
                 if isinstance(quote, dict):
-                    sections.append(f"- {quote.get('quote', quote)}")
+                    sections.append(f"- {quote.get('quote', str(quote))}")
                 else:
                     sections.append(f"- {quote}")
 
@@ -56,7 +56,7 @@ class WriterAgent:
             sections.append("\nCase Studies:")
             for study in case_studies:
                 if isinstance(study, dict):
-                    sections.append(f"- {study.get('summary', study)}")
+                    sections.append(f"- {study.get('summary', str(study))}")
                 else:
                     sections.append(f"- {study}")
 

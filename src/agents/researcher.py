@@ -104,14 +104,14 @@ Return your analysis in a structured format."""
                 SystemMessage(
                     content="""You are a research analyst. From the provided text, extract the following information relevant to the research angle. Structure your output as a JSON object with the specified keys.
 
-            - key_statistics: A list of 5-7 verifiable statistics with their sources.
-            - expert_quotes: A list of 3-5 insightful quotes from named experts or publications.
-            - case_studies: A list of 2-3 brief case studies of named companies or projects.
-            - key_definitions: A dictionary of important terms and their definitions.
-            - counter_arguments: A list of common counter-arguments or alternative viewpoints.
+- key_statistics: A list of 5-7 verifiable statistics with their sources.
+- expert_quotes: A list of 3-5 insightful quotes from named experts or publications.
+- case_studies: A list of 2-3 brief case studies of named companies or projects.
+- key_definitions: A dictionary of important terms and their definitions.
+- counter_arguments: A list of common counter-arguments or alternative viewpoints.
 
-            Ensure all extracted data is directly relevant to the research angle.
-            Return ONLY the JSON object, no additional text."""
+Ensure all extracted data is directly relevant to the research angle.
+Return ONLY the JSON object, no additional text."""
                 ),
                 HumanMessage(
                     content=f"Research Angle: {angle}\n\nSearch Results:\n{results_text}"
