@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.6.2...agentic-writer-v0.7.0) (2025-11-24)
+
+
+### Features
+
+* replace synthesize_research with create_research_brief for structured JSON output ([#46](https://github.com/eggressive/agentic-writer/issues/46)) ([6f0c222](https://github.com/eggressive/agentic-writer/commit/6f0c2224179d2c70223ad87ecc4cbda08834e103))
+
 ## [0.6.2](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.6.1...agentic-writer-v0.6.2) (2025-11-24)
 
 
