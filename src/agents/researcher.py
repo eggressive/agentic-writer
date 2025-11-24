@@ -24,6 +24,26 @@ class ResearchAgent:
         self.max_sources = max_sources
         self.logger = logging.getLogger(__name__)
 
+    def _get_empty_research_brief(
+        self, search_results: List[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
+        """Return an empty research brief structure.
+
+        Args:
+            search_results: Optional list of search results to include
+
+        Returns:
+            Dictionary with empty research brief structure
+        """
+        return {
+            "key_statistics": [],
+            "expert_quotes": [],
+            "case_studies": [],
+            "key_definitions": {},
+            "counter_arguments": [],
+            "raw_sources": search_results or [],
+        }
+
     @retry(
         stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10)
     )
@@ -102,15 +122,40 @@ Return your analysis in a structured format."""
         prompt_template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content="""You are a research analyst. From the provided text, extract the following information relevant to the research angle. Structure your output as a JSON object with the specified keys.
+                    content="""You are a research analyst. From the provided text, extract the following information relevant to the research angle. Structure your output as a JSON object with the specified keys and formats.
 
-- key_statistics: A list of 5-7 verifiable statistics with their sources.
-- expert_quotes: A list of 3-5 insightful quotes from named experts or publications.
-- case_studies: A list of 2-3 brief case studies of named companies or projects.
-- key_definitions: A dictionary of important terms and their definitions.
-- counter_arguments: A list of common counter-arguments or alternative viewpoints.
+- key_statistics: A list of 5-7 strings. Each string should state a verifiable statistic and include its source inline, e.g., "80% of companies use AI for automation (McKinsey, 2023)".
+- expert_quotes: A list of 3-5 strings. Each string should be a quote with attribution, e.g., "\"AI will transform every industry.\" — Sundar Pichai, Google CEO".
+- case_studies: A list of 2-3 strings. Each string should briefly describe a named company or project and its relevance.
+- key_definitions: A dictionary where each key is an important term and each value is its definition.
+- counter_arguments: A list of strings, each describing a common counter-argument or alternative viewpoint.
 
 Ensure all extracted data is directly relevant to the research angle.
+
+Output format example:
+{
+  "key_statistics": [
+    "80% of companies use AI for automation (McKinsey, 2023)",
+    "Global AI market expected to reach $190B by 2025 (Statista, 2022)"
+  ],
+  "expert_quotes": [
+    "\"AI will transform every industry.\" — Sundar Pichai, Google CEO",
+    "\"Ethical AI is essential for trust.\" — Fei-Fei Li, Stanford"
+  ],
+  "case_studies": [
+    "Netflix uses machine learning to personalize recommendations, increasing user engagement.",
+    "Siemens implemented AI-driven predictive maintenance, reducing downtime by 30%."
+  ],
+  "key_definitions": {
+    "Machine Learning": "A subset of AI focused on algorithms that improve through experience.",
+    "Neural Network": "A computational model inspired by the human brain's network of neurons."
+  },
+  "counter_arguments": [
+    "AI adoption may lead to significant job displacement.",
+    "Bias in AI systems can perpetuate social inequalities."
+  ]
+}
+
 Return ONLY the JSON object, no additional text."""
                 ),
                 HumanMessage(
@@ -128,14 +173,7 @@ Return ONLY the JSON object, no additional text."""
             return brief
         except json.JSONDecodeError:
             self.logger.error("Failed to parse research brief JSON")
-            return {
-                "key_statistics": [],
-                "expert_quotes": [],
-                "case_studies": [],
-                "key_definitions": {},
-                "counter_arguments": [],
-                "raw_sources": search_results,
-            }
+            return self._get_empty_research_brief(search_results)
 
     def research(self, topic: str) -> Dict[str, Any]:
         """Conduct full research on a topic.
@@ -158,14 +196,7 @@ Return ONLY the JSON object, no additional text."""
         if search_results:
             research_brief = self.create_research_brief(topic, search_results)
         else:
-            research_brief = {
-                "key_statistics": [],
-                "expert_quotes": [],
-                "case_studies": [],
-                "key_definitions": {},
-                "counter_arguments": [],
-                "raw_sources": [],
-            }
+            research_brief = self._get_empty_research_brief()
 
         return {
             "topic": topic,
