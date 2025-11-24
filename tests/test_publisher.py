@@ -142,8 +142,10 @@ def test_save_to_file_with_images():
 def test_save_to_file_exception_handling(sample_article):
     """Test exception handling when saving to file fails."""
     publisher = PublisherAgent()
-    # Try to save to a path that cannot be created (read-only or invalid)
-    result = publisher.save_to_file(sample_article, output_dir="/root/invalid_dir")
+
+    # Mock Path.mkdir to raise an exception to test the except block
+    with patch.object(Path, "mkdir", side_effect=PermissionError("Permission denied")):
+        result = publisher.save_to_file(sample_article, output_dir="/test/dir")
 
     assert result["success"] is False
     assert result["platform"] == "file"
