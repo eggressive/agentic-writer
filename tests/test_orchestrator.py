@@ -30,17 +30,17 @@ def test_create_content_defaults_platforms_to_file(
     # Setup mocks
     mock_llm_instance = Mock()
     mock_llm.return_value = mock_llm_instance
-    
+
     mock_researcher_instance = Mock()
     mock_researcher_instance.research.return_value = {
         "topic": "Test",
         "analysis": "Analysis",
         "synthesis": "Synthesis",
         "search_results": [],
-        "sources_count": 0
+        "sources_count": 0,
     }
     mock_researcher.return_value = mock_researcher_instance
-    
+
     mock_writer_instance = Mock()
     # Return a real dictionary so the orchestrator can add items to it
     article_dict = {
@@ -48,37 +48,33 @@ def test_create_content_defaults_platforms_to_file(
         "title": "Test",
         "word_count": 100,
         "meta_description": "Meta",
-        "tags": ["tag1"]
+        "tags": ["tag1"],
     }
     mock_writer_instance.write_article.return_value = article_dict
     mock_writer.return_value = mock_writer_instance
-    
+
     mock_image_instance = Mock()
     mock_image_instance.find_images.return_value = []
     mock_image.return_value = mock_image_instance
-    
+
     mock_publisher_instance = Mock()
     mock_publisher_instance.publish.return_value = [
-        {
-            "success": True,
-            "platform": "file",
-            "markdown_file": "/tmp/test.md"
-        }
+        {"success": True, "platform": "file", "markdown_file": "/tmp/test.md"}
     ]
     mock_publisher.return_value = mock_publisher_instance
-    
+
     with tempfile.TemporaryDirectory() as tmpdir:
         orchestrator = ContentCreationOrchestrator(mock_config)
-        
+
         # Call without specifying platforms - should default to ["file"]
         orchestrator.create_content(
             topic="Test Topic",
             style="professional",
             target_audience="experts",
             platforms=None,  # Explicitly pass None
-            output_dir=tmpdir
+            output_dir=tmpdir,
         )
-        
+
         # Verify publisher was called with ["file"]
         mock_publisher_instance.publish.assert_called_once()
         call_args = mock_publisher_instance.publish.call_args
@@ -97,18 +93,18 @@ def test_create_content_handles_exception(
     # Setup mocks
     mock_llm_instance = Mock()
     mock_llm.return_value = mock_llm_instance
-    
+
     mock_researcher_instance = Mock()
     mock_researcher_instance.research.side_effect = Exception("Research failed")
     mock_researcher.return_value = mock_researcher_instance
-    
+
     mock_writer.return_value = Mock()
     mock_image.return_value = Mock()
     mock_publisher.return_value = Mock()
-    
+
     with tempfile.TemporaryDirectory() as tmpdir:
         orchestrator = ContentCreationOrchestrator(mock_config)
-        
+
         # Call should raise exception
         with pytest.raises(Exception, match="Research failed"):
             orchestrator.create_content(
@@ -116,14 +112,14 @@ def test_create_content_handles_exception(
                 style="professional",
                 target_audience="experts",
                 platforms=["file"],
-                output_dir=tmpdir
+                output_dir=tmpdir,
             )
 
 
 def test_get_summary_with_failed_publication(mock_config):
     """Test get_summary handles failed publication results."""
     orchestrator = ContentCreationOrchestrator(mock_config)
-    
+
     results = {
         "status": "completed",
         "topic": "Test Topic",
@@ -146,13 +142,13 @@ def test_get_summary_with_failed_publication(mock_config):
             "file": {
                 "success": False,
                 "platform": "file",
-                "error": "Failed to write file"
+                "error": "Failed to write file",
             }
         },
     }
-    
+
     summary = orchestrator.get_summary(results)
-    
+
     # Should mention the failure
     assert "Failed" in summary or "failed" in summary
     assert "Failed to write file" in summary

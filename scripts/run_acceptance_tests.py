@@ -15,12 +15,13 @@ from src.orchestrator import ContentCreationOrchestrator
 from src.utils.config import Config
 from src.utils.logger import setup_logger
 
+
 def run_acceptance_tests():
     """Run a set of acceptance tests with real API calls."""
-    
+
     # Setup
     logger = setup_logger(name="acceptance_tests", level="INFO")
-    
+
     try:
         config = Config.from_env()
         config.validate_required()
@@ -37,18 +38,18 @@ def run_acceptance_tests():
         {
             "topic": "The Future of Remote Work",
             "style": "Professional",
-            "audience": "Business Executives"
+            "audience": "Business Executives",
         },
         {
             "topic": "How Neural Networks Work",
             "style": "Casual",
-            "audience": "High School Students"
+            "audience": "High School Students",
         },
         {
             "topic": "Rust vs C++ for Systems Programming",
             "style": "Technical",
-            "audience": "Software Engineers"
-        }
+            "audience": "Software Engineers",
+        },
     ]
 
     logger.info(f"Starting acceptance tests. Output directory: {output_base}")
@@ -60,17 +61,17 @@ def run_acceptance_tests():
         logger.info(f"Audience: {test['audience']}")
 
         orchestrator = ContentCreationOrchestrator(config)
-        
+
         # Create a specific subfolder for this test run to keep things organized
         # or just use the base folder. Let's use the base folder but prefix filenames?
         # The orchestrator handles filenames based on topic.
-        
+
         results = orchestrator.create_content(
             topic=test["topic"],
             style=test["style"],
             target_audience=test["audience"],
             platforms=["file"],
-            output_dir=output_base
+            output_dir=output_base,
         )
 
         if results["status"] == "completed":
@@ -83,6 +84,7 @@ def run_acceptance_tests():
             logger.error(results.get("error"))
 
     logger.info(f"\nAll tests completed. Check {output_base} for results.")
+
 
 if __name__ == "__main__":
     run_acceptance_tests()

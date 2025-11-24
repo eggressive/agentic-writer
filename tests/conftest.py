@@ -19,7 +19,7 @@ from unittest.mock import Mock
 @pytest.fixture
 def mock_llm():
     """Create a mock LLM for testing.
-    
+
     Returns a mock ChatOpenAI instance with a default response.
     Tests can override the return value by setting mock_llm.invoke.return_value.
     """
