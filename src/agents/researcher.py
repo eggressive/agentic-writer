@@ -1,5 +1,6 @@
 """Research agent for gathering information on a given topic."""
 
+import json
 import logging
 from typing import List, Dict, Any
 from langchain_openai import ChatOpenAI
@@ -76,19 +77,19 @@ Return your analysis in a structured format."""
 
         return {"topic": topic, "analysis": response.content}
 
-    def synthesize_research(
-        self, topic: str, search_results: List[Dict[str, Any]]
-    ) -> str:
-        """Synthesize research findings into a coherent summary.
+    def create_research_brief(
+        self, angle: str, search_results: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
+        """Create a structured research brief from search results.
 
         Args:
-            topic: Original topic
+            angle: Research angle/topic
             search_results: List of search results
 
         Returns:
-            Synthesized research summary
+            Dictionary containing structured research data
         """
-        self.logger.info(f"Synthesizing research for: {topic}")
+        self.logger.info("Creating structured research brief...")
 
         # Prepare search results text
         results_text = "\n\n".join(
@@ -98,27 +99,43 @@ Return your analysis in a structured format."""
             ]
         )
 
-        prompt = ChatPromptTemplate.from_messages(
+        prompt_template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content="""You are a research analyst. Synthesize the following search results into a comprehensive research summary.
-Focus on:
-1. Key facts and statistics
-2. Different perspectives and viewpoints
-3. Recent developments and trends
-4. Important context and background
+                    content="""You are a research analyst. From the provided text, extract the following information relevant to the research angle. Structure your output as a JSON object with the specified keys.
 
-Provide a well-structured summary that will be useful for writing an article."""
+            - key_statistics: A list of 5-7 verifiable statistics with their sources.
+            - expert_quotes: A list of 3-5 insightful quotes from named experts or publications.
+            - case_studies: A list of 2-3 brief case studies of named companies or projects.
+            - key_definitions: A dictionary of important terms and their definitions.
+            - counter_arguments: A list of common counter-arguments or alternative viewpoints.
+
+            Ensure all extracted data is directly relevant to the research angle.
+            Return ONLY the JSON object, no additional text."""
                 ),
                 HumanMessage(
-                    content=f"Topic: {topic}\n\nSearch Results:\n{results_text}"
+                    content=f"Research Angle: {angle}\n\nSearch Results:\n{results_text}"
                 ),
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self.llm.invoke(prompt_template.format_messages())
 
-        return response.content
+        # Parse the JSON output
+        try:
+            brief = json.loads(response.content)
+            brief["raw_sources"] = search_results  # Keep raw sources for citation
+            return brief
+        except json.JSONDecodeError:
+            self.logger.error("Failed to parse research brief JSON")
+            return {
+                "key_statistics": [],
+                "expert_quotes": [],
+                "case_studies": [],
+                "key_definitions": {},
+                "counter_arguments": [],
+                "raw_sources": search_results,
+            }
 
     def research(self, topic: str) -> Dict[str, Any]:
         """Conduct full research on a topic.
@@ -137,16 +154,23 @@ Provide a well-structured summary that will be useful for writing an article."""
         # Search for information
         search_results = self.search_web(topic)
 
-        # Synthesize findings
+        # Create structured research brief
         if search_results:
-            synthesis = self.synthesize_research(topic, search_results)
+            research_brief = self.create_research_brief(topic, search_results)
         else:
-            synthesis = "No search results found. Proceeding with general knowledge."
+            research_brief = {
+                "key_statistics": [],
+                "expert_quotes": [],
+                "case_studies": [],
+                "key_definitions": {},
+                "counter_arguments": [],
+                "raw_sources": [],
+            }
 
         return {
             "topic": topic,
             "analysis": analysis["analysis"],
             "search_results": search_results,
-            "synthesis": synthesis,
+            "research_brief": research_brief,
             "sources_count": len(search_results),
         }

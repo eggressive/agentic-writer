@@ -93,7 +93,14 @@ def test_write_article(writer_agent, mock_llm):
     research_data = {
         "topic": "Test Topic",
         "analysis": "Test analysis",
-        "synthesis": "Test synthesis",
+        "research_brief": {
+            "key_statistics": ["Stat 1", "Stat 2"],
+            "expert_quotes": ["Quote 1"],
+            "case_studies": ["Case 1"],
+            "key_definitions": {"term1": "definition1"},
+            "counter_arguments": ["Counter 1"],
+            "raw_sources": [],
+        },
     }
 
     result = writer_agent.write_article(

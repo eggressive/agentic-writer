@@ -19,12 +19,69 @@ class WriterAgent:
         self.llm = llm
         self.logger = logging.getLogger(__name__)
 
+    def _format_research_brief(self, research_brief: Dict[str, Any]) -> str:
+        """Format structured research brief into text for article writing.
+
+        Args:
+            research_brief: Structured research brief dictionary
+
+        Returns:
+            Formatted text representation of the research brief
+        """
+        sections = []
+
+        # Key Statistics
+        key_statistics = research_brief.get("key_statistics", [])
+        if key_statistics:
+            sections.append("Key Statistics:")
+            for stat in key_statistics:
+                if isinstance(stat, dict):
+                    sections.append(f"- {stat.get('statistic', stat)}")
+                else:
+                    sections.append(f"- {stat}")
+
+        # Expert Quotes
+        expert_quotes = research_brief.get("expert_quotes", [])
+        if expert_quotes:
+            sections.append("\nExpert Quotes:")
+            for quote in expert_quotes:
+                if isinstance(quote, dict):
+                    sections.append(f"- {quote.get('quote', quote)}")
+                else:
+                    sections.append(f"- {quote}")
+
+        # Case Studies
+        case_studies = research_brief.get("case_studies", [])
+        if case_studies:
+            sections.append("\nCase Studies:")
+            for study in case_studies:
+                if isinstance(study, dict):
+                    sections.append(f"- {study.get('summary', study)}")
+                else:
+                    sections.append(f"- {study}")
+
+        # Key Definitions
+        key_definitions = research_brief.get("key_definitions", {})
+        if key_definitions:
+            sections.append("\nKey Definitions:")
+            for term, definition in key_definitions.items():
+                sections.append(f"- {term}: {definition}")
+
+        # Counter Arguments
+        counter_arguments = research_brief.get("counter_arguments", [])
+        if counter_arguments:
+            sections.append("\nCounter Arguments:")
+            for arg in counter_arguments:
+                sections.append(f"- {arg}")
+
+        return "\n".join(sections) if sections else ""
+
     def create_outline(self, topic: str, research: str) -> str:
         """Create an article outline based on research.
 
         Args:
             topic: Article topic
-            research: Research synthesis
+            research: Formatted research text
 
         Returns:
             Article outline
@@ -107,8 +164,9 @@ Requirements:
         """
         self.logger.info(f"Writing article on: {topic}")
 
-        # Extract research synthesis
-        research_synthesis = research_data.get("synthesis", "")
+        # Extract research brief and format it for use
+        research_brief = research_data.get("research_brief", {})
+        research_synthesis = self._format_research_brief(research_brief)
         research_analysis = research_data.get("analysis", "")
 
         # Create style instructions
@@ -218,14 +276,16 @@ Requirements:
         Returns:
             List of tags
         """
+        # Format research brief for tag generation
+        research_brief = research_data.get("research_brief", {})
+        research_text = self._format_research_brief(research_brief)[:500]
+
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
                     content="Generate 5-8 relevant tags for this article. Return only the tags, comma-separated."
                 ),
-                HumanMessage(
-                    content=f"Topic: {topic}\n\nResearch: {research_data.get('synthesis', '')[:500]}"
-                ),
+                HumanMessage(content=f"Topic: {topic}\n\nResearch: {research_text}"),
             ]
         )
 
