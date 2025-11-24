@@ -580,6 +580,15 @@ How was this tested?
 - Mentioned in release notes
 - Thank you! 🙏
 
+### Automated Releases
+
+We use [release-please](https://github.com/googleapis/release-please) for automated releases:
+
+- **Conventional commits** determine version bumps (`feat:` = minor, `fix:` = patch)
+- **Changelog** is automatically generated from commit messages
+- **Release PRs** are created automatically when changes are merged to main
+- **Auto-approval** - Release PRs from release-please are automatically approved and merged
+
 ## Community
 
 ### Communication Channels

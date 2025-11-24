@@ -4,10 +4,15 @@ on:
   pull_request:
     branches:
       - main
+    types: [opened]
 
 permissions:
   contents: write
   pull-requests: write
+
+concurrency:
+  group: auto-approve-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
 
 jobs:
   auto-approve:
@@ -17,9 +22,9 @@ jobs:
       - name: Approve PR
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-        run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
+        run: gh pr review --approve "${{ github.event.pull_request.html_url }}" || true
 
       - name: Enable auto-merge
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}" || true
