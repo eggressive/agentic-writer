@@ -308,6 +308,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/) and automate
 - Use conventional commit format (e.g., `feat:`, `fix:`, `docs:`)
 - Releases are automated based on your commits
 - Version bumping and changelog generation happen automatically
+- Release PRs from release-please are automatically approved and merged
 
 ## License
 
