@@ -113,3 +113,47 @@ def test_create_research_brief_json_parse_error(mock_ddgs, research_agent, mock_
     assert result["key_definitions"] == {}
     assert result["counter_arguments"] == []
     assert result["raw_sources"] == search_results
+
+
+@patch("src.agents.researcher.DDGS")
+def test_create_research_brief_non_object_json(mock_ddgs, research_agent, mock_llm):
+    """Test create_research_brief handles non-object JSON gracefully."""
+    search_results = [
+        {"title": "Article 1", "body": "Content 1", "href": "https://test1.com"},
+    ]
+
+    # Mock valid JSON that is not an object (a list)
+    mock_llm.invoke.return_value.content = '["item1", "item2"]'
+
+    # Call create_research_brief
+    result = research_agent.create_research_brief("test angle", search_results)
+
+    # Should return default structure with empty data
+    assert result["key_statistics"] == []
+    assert result["expert_quotes"] == []
+    assert result["case_studies"] == []
+    assert result["key_definitions"] == {}
+    assert result["counter_arguments"] == []
+    assert result["raw_sources"] == search_results
+
+
+@patch("src.agents.researcher.DDGS")
+def test_create_research_brief_string_json(mock_ddgs, research_agent, mock_llm):
+    """Test create_research_brief handles JSON string gracefully."""
+    search_results = [
+        {"title": "Article 1", "body": "Content 1", "href": "https://test1.com"},
+    ]
+
+    # Mock valid JSON that is a string
+    mock_llm.invoke.return_value.content = '"just a string"'
+
+    # Call create_research_brief
+    result = research_agent.create_research_brief("test angle", search_results)
+
+    # Should return default structure with empty data
+    assert result["key_statistics"] == []
+    assert result["expert_quotes"] == []
+    assert result["case_studies"] == []
+    assert result["key_definitions"] == {}
+    assert result["counter_arguments"] == []
+    assert result["raw_sources"] == search_results

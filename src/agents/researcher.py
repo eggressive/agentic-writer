@@ -169,6 +169,11 @@ Return ONLY the JSON object, no additional text."""
         # Parse the JSON output
         try:
             brief = json.loads(response.content)
+            if not isinstance(brief, dict):
+                self.logger.error(
+                    "Research brief JSON is not an object, falling back to empty brief"
+                )
+                return self._get_empty_research_brief(search_results)
             brief["raw_sources"] = search_results  # Keep raw sources for citation
             return brief
         except json.JSONDecodeError:
