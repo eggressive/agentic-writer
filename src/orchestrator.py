@@ -163,18 +163,18 @@ class ContentCreationOrchestrator:
 Content Creation Summary
 ========================
 
-Topic: {results.get('topic')}
-Status: {results.get('status')}
+Topic: {results.get("topic")}
+Status: {results.get("status")}
 
 Article Details:
-- Title: {article.get('title')}
-- Word Count: {article.get('word_count')}
-- Tags: {', '.join(article.get('tags', []))}
+- Title: {article.get("title")}
+- Word Count: {article.get("word_count")}
+- Tags: {", ".join(article.get("tags", []))}
 
 Pipeline Stages:
-- Research: {stages.get('research', {}).get('sources_count', 0)} sources found
+- Research: {stages.get("research", {}).get("sources_count", 0)} sources found
 - Writing: Completed
-- Images: {stages.get('images', {}).get('images_found', 0)} images found
+- Images: {stages.get("images", {}).get("images_found", 0)} images found
 - Publishing: Completed
 
 Publication Results:

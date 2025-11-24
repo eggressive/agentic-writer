@@ -1,11 +1,11 @@
-[tool.black]
+[tool.ruff]
 line-length = 88
-target-version = ['py38', 'py39', 'py310', 'py311']
-include = '\.pyi?$'
-extend-exclude = '''
-# A regex preceded with ^/ will apply only to files and directories
-# in the root of the project.
-^/output
-^/.venv
-^/htmlcov
-'''
+target-version = "py38"
+exclude = ["output", ".venv", "htmlcov"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]  # Enable pycodestyle (E), Pyflakes (F), and isort (I)
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

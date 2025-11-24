@@ -114,7 +114,7 @@ Return your analysis in a structured format."""
         # Prepare search results text
         results_text = "\n\n".join(
             [
-                f"Source {i+1}: {result.get('title', 'Unknown')}\n{result.get('body', '')}"
+                f"Source {i + 1}: {result.get('title', 'Unknown')}\n{result.get('body', '')}"
                 for i, result in enumerate(search_results[: self.max_sources])
             ]
         )
