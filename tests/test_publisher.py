@@ -3,6 +3,7 @@
 import json
 import tempfile
 from pathlib import Path
+from unittest.mock import patch
 import pytest
 from src.agents.publisher import PublisherAgent
 
@@ -80,3 +81,104 @@ def test_publish_unknown_platform(sample_article):
 
     assert "unknown" in results
     assert results["unknown"]["success"] is False
+
+
+def test_publish_to_medium_with_token(sample_article):
+    """Test Medium publishing with token (simulated success)."""
+    publisher = PublisherAgent(medium_token="test_token")
+    result = publisher.publish_to_medium(sample_article)
+
+    assert result["success"] is True
+    assert result["platform"] == "medium"
+    assert "message" in result
+    assert "url" in result
+
+
+def test_save_to_file_with_images():
+    """Test saving article with images to file system."""
+    article_with_images = {
+        "title": "Article With Images",
+        "topic": "Images Test",
+        "content": "This article has images.",
+        "word_count": 50,
+        "tags": ["images", "test"],
+        "meta_description": "An article with images",
+        "images": [
+            {
+                "description": "A beautiful sunset",
+                "url": "https://example.com/sunset.jpg",
+                "author": "John Doe",
+                "author_url": "https://example.com/johndoe",
+                "source": "Unsplash",
+            },
+            {
+                "description": "Mountain landscape",
+                "url": "https://example.com/mountain.jpg",
+                "author": "Jane Smith",
+                "author_url": "",
+                "source": "Unsplash",
+            },
+        ],
+    }
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        publisher = PublisherAgent()
+        result = publisher.save_to_file(article_with_images, output_dir=temp_dir)
+
+        assert result["success"] is True
+        assert result["platform"] == "file"
+
+        # Verify images are in the markdown
+        md_file = Path(result["markdown_file"])
+        with open(md_file, "r") as f:
+            content = f.read()
+            assert "## Visuals" in content
+            assert "A beautiful sunset" in content
+            assert "https://example.com/sunset.jpg" in content
+            assert "[John Doe]" in content
+            assert "Photo by Jane Smith on Unsplash" in content
+
+
+def test_save_to_file_exception_handling(sample_article):
+    """Test exception handling when saving to file fails."""
+    publisher = PublisherAgent()
+    # Try to save to a path that cannot be created (read-only or invalid)
+    result = publisher.save_to_file(sample_article, output_dir="/root/invalid_dir")
+
+    assert result["success"] is False
+    assert result["platform"] == "file"
+    assert "error" in result
+
+
+def test_publish_default_platforms(sample_article):
+    """Test publishing with default platforms (None)."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        publisher = PublisherAgent()
+        results = publisher.publish(sample_article, platforms=None, output_dir=temp_dir)
+
+        # Default should be file platform
+        assert "file" in results
+        assert results["file"]["success"] is True
+
+
+def test_publish_medium_platform_via_publish(sample_article):
+    """Test Medium publishing through the main publish method."""
+    publisher = PublisherAgent(medium_token="test_token")
+    results = publisher.publish(sample_article, platforms=["medium"])
+
+    assert "medium" in results
+    assert results["medium"]["success"] is True
+    assert results["medium"]["platform"] == "medium"
+
+
+def test_publish_to_medium_exception_handling(sample_article):
+    """Test Medium publishing exception handling."""
+    publisher = PublisherAgent(medium_token="test_token")
+
+    # Mock the logger.info to raise an exception to test the except block
+    with patch.object(publisher.logger, "info", side_effect=Exception("API Error")):
+        result = publisher.publish_to_medium(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "medium"
+    assert "API Error" in result["error"]
