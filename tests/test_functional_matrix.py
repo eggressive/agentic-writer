@@ -2,8 +2,10 @@
 
 import os
 import shutil
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
+
 from src.orchestrator import ContentCreationOrchestrator
 from src.utils.config import Config
 

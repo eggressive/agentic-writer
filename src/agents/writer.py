@@ -1,10 +1,11 @@
 """Writer agent for creating content based on research."""
 
 import logging
-from typing import Dict, Any, Optional
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+from typing import Any, Dict, Optional
+
 from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
 
 class WriterAgent:
@@ -150,6 +151,7 @@ Requirements:
         research_data: Dict[str, Any],
         style: Optional[str] = None,
         target_audience: Optional[str] = None,
+        persona: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """Write a complete article based on research.
 
@@ -158,6 +160,7 @@ Requirements:
             research_data: Research findings dictionary
             style: Writing style (e.g., "professional", "casual", "technical")
             target_audience: Target audience description
+            persona: Detailed reader persona from audience strategist
 
         Returns:
             Dictionary containing the article and metadata
@@ -176,6 +179,27 @@ Requirements:
         if target_audience:
             style_instruction += f"\nTarget Audience: {target_audience}"
 
+        # Add persona-based instructions if available
+        persona_instruction = ""
+        if persona and isinstance(persona, dict):
+            persona_name = persona.get("persona_name", "")
+            content_prefs = persona.get("content_preferences", {})
+            goals = persona.get("goals", {})
+            knowledge_state = persona.get("knowledge_state", {})
+
+            if persona_name:
+                persona_instruction += f"\nTarget Reader: {persona_name}"
+            if content_prefs.get("tone"):
+                persona_instruction += f"\nPreferred Tone: {content_prefs.get('tone')}"
+            if content_prefs.get("depth"):
+                persona_instruction += f"\nDepth Level: {content_prefs.get('depth')}"
+            if goals.get("primary_goal"):
+                persona_instruction += f"\nReader's Goal: {goals.get('primary_goal')}"
+            if knowledge_state.get("what_they_need"):
+                persona_instruction += (
+                    f"\nWhat Reader Needs: {knowledge_state.get('what_they_need')}"
+                )
+
         # Create outline
         outline = self.create_outline(topic, research_synthesis)
 
@@ -193,7 +217,7 @@ Requirements:
 - Add smooth transitions between sections
 - Cite key facts and statistics when relevant
 - Use markdown formatting (headers, bold, italics, lists)
-- Make it informative yet accessible{style_instruction}"""
+- Make it informative yet accessible{style_instruction}{persona_instruction}"""
                 ),
                 HumanMessage(
                     content=f"Topic: {topic}\n\nOutline:\n{outline}\n\nResearch:\n{research_synthesis}\n\nAnalysis:\n{research_analysis}"

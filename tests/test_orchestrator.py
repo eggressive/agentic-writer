@@ -1,8 +1,10 @@
 """Tests for the ContentCreationOrchestrator."""
 
 import tempfile
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
+
 from src.orchestrator import ContentCreationOrchestrator
 from src.utils.config import Config
 
@@ -18,18 +20,32 @@ def mock_config():
     )
 
 
+@patch("src.orchestrator.AudienceStrategist")
 @patch("src.orchestrator.ImageAgent")
 @patch("src.orchestrator.WriterAgent")
 @patch("src.orchestrator.ResearchAgent")
 @patch("src.orchestrator.PublisherAgent")
 @patch("src.orchestrator.ChatOpenAI")
 def test_create_content_defaults_platforms_to_file(
-    mock_llm, mock_publisher, mock_researcher, mock_writer, mock_image, mock_config
+    mock_llm,
+    mock_publisher,
+    mock_researcher,
+    mock_writer,
+    mock_image,
+    mock_audience,
+    mock_config,
 ):
     """Test create_content defaults platforms parameter to ['file']."""
     # Setup mocks
     mock_llm_instance = Mock()
     mock_llm.return_value = mock_llm_instance
+
+    mock_audience_instance = Mock()
+    mock_audience_instance.analyze.return_value = {
+        "persona_name": "Test Persona",
+        "demographics": {"job_title": "Developer", "industry": "Tech"},
+    }
+    mock_audience.return_value = mock_audience_instance
 
     mock_researcher_instance = Mock()
     mock_researcher_instance.research.return_value = {
@@ -81,18 +97,32 @@ def test_create_content_defaults_platforms_to_file(
         assert call_args[1]["platforms"] == ["file"]
 
 
+@patch("src.orchestrator.AudienceStrategist")
 @patch("src.orchestrator.ImageAgent")
 @patch("src.orchestrator.WriterAgent")
 @patch("src.orchestrator.ResearchAgent")
 @patch("src.orchestrator.PublisherAgent")
 @patch("src.orchestrator.ChatOpenAI")
 def test_create_content_handles_exception(
-    mock_llm, mock_publisher, mock_researcher, mock_writer, mock_image, mock_config
+    mock_llm,
+    mock_publisher,
+    mock_researcher,
+    mock_writer,
+    mock_image,
+    mock_audience,
+    mock_config,
 ):
     """Test create_content handles exceptions and sets failure status."""
     # Setup mocks
     mock_llm_instance = Mock()
     mock_llm.return_value = mock_llm_instance
+
+    mock_audience_instance = Mock()
+    mock_audience_instance.analyze.return_value = {
+        "persona_name": "Test Persona",
+        "demographics": {"job_title": "Developer", "industry": "Tech"},
+    }
+    mock_audience.return_value = mock_audience_instance
 
     mock_researcher_instance = Mock()
     mock_researcher_instance.research.side_effect = Exception("Research failed")

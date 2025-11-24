@@ -1,8 +1,10 @@
 """Tests for CLI commands."""
 
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
 from click.testing import CliRunner
+
 from src import __version__
 from src.cli import cli
 from src.utils.config import Config
