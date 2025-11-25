@@ -66,7 +66,6 @@ def test_extract_title_with_whitespace(writer_agent):
     assert title == "Title With Spaces"
 
 
-<<<<<<< HEAD
 def test_build_persona_context_without_persona(writer_agent):
     """Test _build_persona_context returns empty string for None persona."""
     result = writer_agent._build_persona_context(None)
@@ -136,6 +135,8 @@ def test_build_persona_context_with_non_string_pain_points(writer_agent):
 
     # Should convert non-strings to strings
     assert "Address Pain Points:" in result
+    # Verify the actual converted values appear (at least the string one)
+    assert "string point" in result
 
 
 def test_create_outline_with_persona(writer_agent, mock_llm):

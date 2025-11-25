@@ -52,20 +52,24 @@ class WriterAgent:
 
         # Include content preferences for full article writing
         if include_content_prefs:
-            if content_prefs.get("tone"):
-                context_parts.append(f"\nPreferred Tone: {content_prefs.get('tone')}")
-            if content_prefs.get("depth"):
-                context_parts.append(f"\nDepth Level: {content_prefs.get('depth')}")
+            tone = content_prefs.get("tone")
+            if tone:
+                context_parts.append(f"\nPreferred Tone: {tone}")
+            depth = content_prefs.get("depth")
+            if depth:
+                context_parts.append(f"\nDepth Level: {depth}")
 
-        if goals.get("primary_goal"):
+        primary_goal = goals.get("primary_goal")
+        if primary_goal:
             label = "Reader's Goal" if include_content_prefs else "Audience Goal"
-            context_parts.append(f"\n{label}: {goals.get('primary_goal')}")
+            context_parts.append(f"\n{label}: {primary_goal}")
 
-        if knowledge_state.get("what_they_need"):
+        what_they_need = knowledge_state.get("what_they_need")
+        if what_they_need:
             label = (
                 "What Reader Needs" if include_content_prefs else "Information Needs"
             )
-            context_parts.append(f"\n{label}: {knowledge_state.get('what_they_need')}")
+            context_parts.append(f"\n{label}: {what_they_need}")
 
         if pain_points:
             pain_points_str = ", ".join(str(p) for p in pain_points[:3])
@@ -73,10 +77,9 @@ class WriterAgent:
 
         # Include reading context for full article writing
         if include_content_prefs:
-            if reading_context.get("attention_span"):
-                context_parts.append(
-                    f"\nReader Time Available: {reading_context.get('attention_span')}"
-                )
+            attention_span = reading_context.get("attention_span")
+            if attention_span:
+                context_parts.append(f"\nReader Time Available: {attention_span}")
 
         return "".join(context_parts)
 
