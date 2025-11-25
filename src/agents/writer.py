@@ -38,20 +38,20 @@ class WriterAgent:
 
         context_parts = []
 
+        # Extract persona fields
         persona_name = persona.get("persona_name", "")
         goals = persona.get("goals", {})
         pain_points = persona.get("pain_points", [])
         knowledge_state = persona.get("knowledge_state", {})
+        content_prefs = persona.get("content_preferences", {})
+        reading_context = persona.get("reading_context", {})
 
         if persona_name:
             label = "Target Reader" if include_content_prefs else "Target Audience"
             context_parts.append(f"\n{label}: {persona_name}")
 
-        # Include content preferences and reading context for full article writing
+        # Include content preferences for full article writing
         if include_content_prefs:
-            content_prefs = persona.get("content_preferences", {})
-            reading_context = persona.get("reading_context", {})
-
             if content_prefs.get("tone"):
                 context_parts.append(f"\nPreferred Tone: {content_prefs.get('tone')}")
             if content_prefs.get("depth"):
@@ -73,7 +73,6 @@ class WriterAgent:
 
         # Include reading context for full article writing
         if include_content_prefs:
-            reading_context = persona.get("reading_context", {})
             if reading_context.get("attention_span"):
                 context_parts.append(
                     f"\nReader Time Available: {reading_context.get('attention_span')}"
