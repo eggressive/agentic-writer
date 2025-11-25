@@ -77,29 +77,53 @@ class WriterAgent:
 
         return "\n".join(sections) if sections else ""
 
-    def create_outline(self, topic: str, research: str) -> str:
+    def create_outline(
+        self, topic: str, research: str, persona: Optional[Dict[str, Any]] = None
+    ) -> str:
         """Create an article outline based on research.
 
         Args:
             topic: Article topic
             research: Formatted research text
+            persona: Detailed reader persona from audience strategist
 
         Returns:
             Article outline
         """
         self.logger.info(f"Creating outline for: {topic}")
 
+        # Build persona context for structure
+        persona_context = ""
+        if persona and isinstance(persona, dict):
+            persona_name = persona.get("persona_name", "")
+            goals = persona.get("goals", {})
+            pain_points = persona.get("pain_points", [])
+            knowledge_state = persona.get("knowledge_state", {})
+
+            if persona_name:
+                persona_context += f"\nTarget Audience: {persona_name}"
+            if goals.get("primary_goal"):
+                persona_context += f"\nAudience Goal: {goals.get('primary_goal')}"
+            if pain_points:
+                pain_points_str = ", ".join(pain_points[:3])
+                persona_context += f"\nAddress Pain Points: {pain_points_str}"
+            if knowledge_state.get("what_they_need"):
+                persona_context += (
+                    f"\nInformation Needs: {knowledge_state.get('what_they_need')}"
+                )
+
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content="""You are a professional content writer. Create a detailed article outline with:
+                    content=f"""You are a professional content writer. Create a detailed article outline with:
 1. An engaging title
 2. Introduction hook
 3. 3-5 main sections with subsections
 4. Conclusion
 5. Key points to cover in each section
 
-The outline should be logical, engaging, and comprehensive."""
+The outline should be logical, engaging, and comprehensive.
+Tailor the structure to the target audience:{persona_context}"""
                 ),
                 HumanMessage(content=f"Topic: {topic}\n\nResearch:\n{research}"),
             ]
@@ -210,7 +234,7 @@ Requirements:
                 )
 
         # Create outline
-        outline = self.create_outline(topic, research_synthesis)
+        outline = self.create_outline(topic, research_synthesis, persona)
 
         # Generate full article
         prompt = ChatPromptTemplate.from_messages(
