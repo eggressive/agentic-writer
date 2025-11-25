@@ -1,10 +1,17 @@
 """Main orchestrator for the content creation pipeline."""
 
 import logging
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
+
 from langchain_openai import ChatOpenAI
 
-from .agents import ResearchAgent, WriterAgent, ImageAgent, PublisherAgent
+from .agents import (
+    AudienceStrategist,
+    ImageAgent,
+    PublisherAgent,
+    ResearchAgent,
+    WriterAgent,
+)
 from .utils import Config
 
 
@@ -28,6 +35,7 @@ class ContentCreationOrchestrator:
         )
 
         # Initialize agents
+        self.audience_strategist = AudienceStrategist(llm=self.llm)
         self.research_agent = ResearchAgent(
             llm=self.llm, max_sources=config.max_research_sources
         )
@@ -72,8 +80,21 @@ class ContentCreationOrchestrator:
         results = {"topic": topic, "status": "in_progress", "stages": {}}
 
         try:
-            # Stage 1: Research
-            self.logger.info("Stage 1/4: Researching topic...")
+            # Stage 1: Audience Analysis
+            self.logger.info("Stage 1/5: Analyzing target audience...")
+            persona = self.audience_strategist.analyze(
+                topic, audience_hint=target_audience
+            )
+            results["stages"]["audience"] = {
+                "status": "completed",
+                "persona_name": persona.get("persona_name", "Unknown"),
+            }
+            self.logger.info(
+                f"Audience persona created: {persona.get('persona_name', 'Unknown')}"
+            )
+
+            # Stage 2: Research
+            self.logger.info("Stage 2/5: Researching topic...")
             research_data = self.research_agent.research(topic)
             results["stages"]["research"] = {
                 "status": "completed",
@@ -83,13 +104,14 @@ class ContentCreationOrchestrator:
                 f"Research completed with {research_data.get('sources_count', 0)} sources"
             )
 
-            # Stage 2: Writing
-            self.logger.info("Stage 2/4: Writing article...")
+            # Stage 3: Writing
+            self.logger.info("Stage 3/5: Writing article...")
             article_data = self.writer_agent.write_article(
                 topic=topic,
                 research_data=research_data,
                 style=style,
                 target_audience=target_audience,
+                persona=persona,
             )
             results["stages"]["writing"] = {
                 "status": "completed",
@@ -100,8 +122,8 @@ class ContentCreationOrchestrator:
                 f"Article completed: {article_data.get('title')} ({article_data.get('word_count')} words)"
             )
 
-            # Stage 3: Finding images
-            self.logger.info("Stage 3/4: Finding relevant images...")
+            # Stage 4: Finding images
+            self.logger.info("Stage 4/5: Finding relevant images...")
             images = self.image_agent.find_images(topic, article_data)
             article_data["images"] = images
             article_data["sources_count"] = research_data.get("sources_count", 0)
@@ -111,8 +133,8 @@ class ContentCreationOrchestrator:
             }
             self.logger.info(f"Found {len(images)} relevant images")
 
-            # Stage 4: Publishing
-            self.logger.info("Stage 4/4: Publishing content...")
+            # Stage 5: Publishing
+            self.logger.info("Stage 5/5: Publishing content...")
             publish_results = self.publisher_agent.publish(
                 article_data=article_data, platforms=platforms, output_dir=output_dir
             )
@@ -130,6 +152,7 @@ class ContentCreationOrchestrator:
                 "tags": article_data.get("tags"),
                 "meta_description": article_data.get("meta_description"),
             }
+            results["persona"] = persona
             results["publication"] = publish_results
 
             self.logger.info(
@@ -172,6 +195,7 @@ Article Details:
 - Tags: {", ".join(article.get("tags", []))}
 
 Pipeline Stages:
+- Audience: {stages.get("audience", {}).get("persona_name", "N/A")}
 - Research: {stages.get("research", {}).get("sources_count", 0)} sources found
 - Writing: Completed
 - Images: {stages.get("images", {}).get("images_found", 0)} images found

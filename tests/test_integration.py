@@ -1,8 +1,10 @@
 """Integration tests for the content creation pipeline."""
 
 import tempfile
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
+
 from src.orchestrator import ContentCreationOrchestrator
 from src.utils.config import Config
 

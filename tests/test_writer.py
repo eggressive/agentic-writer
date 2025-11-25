@@ -1,7 +1,9 @@
 """Tests for the WriterAgent."""
 
-import pytest
 from unittest.mock import Mock
+
+import pytest
+
 from src.agents.writer import WriterAgent
 
 

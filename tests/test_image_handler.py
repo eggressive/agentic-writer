@@ -1,7 +1,9 @@
 """Tests for the ImageAgent with Unsplash API improvements."""
 
-import pytest
 from unittest.mock import Mock, patch
+
+import pytest
+
 from src.agents.image_handler import ImageAgent
 
 

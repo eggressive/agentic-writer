@@ -12,8 +12,9 @@ Example:
         # test code using mock_llm
 """
 
-import pytest
 from unittest.mock import Mock
+
+import pytest
 
 
 @pytest.fixture

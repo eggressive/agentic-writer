@@ -9,8 +9,9 @@ The architecture documentation has been moved to the project Wiki.
 The system follows a multi-agent pipeline architecture:
 
 1. **Orchestrator**: Coordinates the workflow
+1. **Audience Strategist**: Creates detailed reader personas to guide content creation
 1. **Research Agent**: Gathers and synthesizes information
-1. **Writer Agent**: Generates content based on research
+1. **Writer Agent**: Generates content based on research and persona
 1. **Image Agent**: Curates visual content
 1. **Publisher Agent**: Handles multi-platform distribution
 
