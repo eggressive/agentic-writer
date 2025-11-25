@@ -105,7 +105,7 @@ class WriterAgent:
             if goals.get("primary_goal"):
                 persona_context += f"\nAudience Goal: {goals.get('primary_goal')}"
             if pain_points:
-                pain_points_str = ", ".join(pain_points[:3])
+                pain_points_str = ", ".join(str(p) for p in pain_points[:3])
                 persona_context += f"\nAddress Pain Points: {pain_points_str}"
             if knowledge_state.get("what_they_need"):
                 persona_context += (
