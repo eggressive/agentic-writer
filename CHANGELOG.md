@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.3...agentic-writer-v0.8.4) (2025-11-25)
+
+
+### Code Refactoring
+
+* extract _build_persona_context helper to reduce duplication in WriterAgent ([#60](https://github.com/eggressive/agentic-writer/issues/60)) ([8d10783](https://github.com/eggressive/agentic-writer/commit/8d10783ac97f4a04b3e650f78960bf90b67710f3))
+
+## [0.8.3](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.2...agentic-writer-v0.8.3) (2025-11-25)
+
+
+### Bug Fixes
+
+* empty persona context instruction in create_outline prompt ([#59](https://github.com/eggressive/agentic-writer/issues/59)) ([f1e0da4](https://github.com/eggressive/agentic-writer/commit/f1e0da41861a9603d3c12ea84ca7231a10f4db15))
+
+## [0.8.2](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.1...agentic-writer-v0.8.2) (2025-11-25)
+
+
+### Miscellaneous
+
+* add tests for create_outline method with persona parameter ([#58](https://github.com/eggressive/agentic-writer/issues/58)) ([9b73356](https://github.com/eggressive/agentic-writer/commit/9b7335630d94d62464fb611593a0d080be158c6b))
+
+## [0.8.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.0...agentic-writer-v0.8.1) (2025-11-25)
+
+
+### Miscellaneous
+
+* enhance create_outline method to include reader persona context ([#57](https://github.com/eggressive/agentic-writer/issues/57)) ([7c072da](https://github.com/eggressive/agentic-writer/commit/7c072da9f5be09307a312c548bd91e308386425d))
+
 ## [0.8.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.7.1...agentic-writer-v0.8.0) (2025-11-25)
 
 

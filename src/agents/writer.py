@@ -20,6 +20,69 @@ class WriterAgent:
         self.llm = llm
         self.logger = logging.getLogger(__name__)
 
+    def _build_persona_context(
+        self, persona: Optional[Dict[str, Any]], include_content_prefs: bool = False
+    ) -> str:
+        """Build persona context string from persona dictionary.
+
+        Args:
+            persona: Detailed reader persona from audience strategist
+            include_content_prefs: Whether to include content preferences
+                and reading context (used for full article writing)
+
+        Returns:
+            Formatted persona context string
+        """
+        if not persona or not isinstance(persona, dict):
+            return ""
+
+        context_parts = []
+
+        # Extract persona fields
+        persona_name = persona.get("persona_name", "")
+        goals = persona.get("goals", {})
+        pain_points = persona.get("pain_points", [])
+        knowledge_state = persona.get("knowledge_state", {})
+        content_prefs = persona.get("content_preferences", {})
+        reading_context = persona.get("reading_context", {})
+
+        if persona_name:
+            label = "Target Reader" if include_content_prefs else "Target Audience"
+            context_parts.append(f"\n{label}: {persona_name}")
+
+        # Include content preferences for full article writing
+        if include_content_prefs:
+            tone = content_prefs.get("tone")
+            if tone:
+                context_parts.append(f"\nPreferred Tone: {tone}")
+            depth = content_prefs.get("depth")
+            if depth:
+                context_parts.append(f"\nDepth Level: {depth}")
+
+        primary_goal = goals.get("primary_goal")
+        if primary_goal:
+            label = "Reader's Goal" if include_content_prefs else "Audience Goal"
+            context_parts.append(f"\n{label}: {primary_goal}")
+
+        what_they_need = knowledge_state.get("what_they_need")
+        if what_they_need:
+            label = (
+                "What Reader Needs" if include_content_prefs else "Information Needs"
+            )
+            context_parts.append(f"\n{label}: {what_they_need}")
+
+        if pain_points:
+            pain_points_str = ", ".join(str(p) for p in pain_points[:3])
+            context_parts.append(f"\nAddress Pain Points: {pain_points_str}")
+
+        # Include reading context for full article writing
+        if include_content_prefs:
+            attention_span = reading_context.get("attention_span")
+            if attention_span:
+                context_parts.append(f"\nReader Time Available: {attention_span}")
+
+        return "".join(context_parts)
+
     def _format_research_brief(self, research_brief: Dict[str, Any]) -> str:
         """Format structured research brief into text for article writing.
 
@@ -93,24 +156,17 @@ class WriterAgent:
         self.logger.info(f"Creating outline for: {topic}")
 
         # Build persona context for structure
-        persona_context = ""
-        if persona and isinstance(persona, dict):
-            persona_name = persona.get("persona_name", "")
-            goals = persona.get("goals", {})
-            pain_points = persona.get("pain_points", [])
-            knowledge_state = persona.get("knowledge_state", {})
+        persona_context = self._build_persona_context(
+            persona, include_content_prefs=False
+        )
 
-            if persona_name:
-                persona_context += f"\nTarget Audience: {persona_name}"
-            if goals.get("primary_goal"):
-                persona_context += f"\nAudience Goal: {goals.get('primary_goal')}"
-            if pain_points:
-                pain_points_str = ", ".join(str(p) for p in pain_points[:3])
-                persona_context += f"\nAddress Pain Points: {pain_points_str}"
-            if knowledge_state.get("what_they_need"):
-                persona_context += (
-                    f"\nInformation Needs: {knowledge_state.get('what_they_need')}"
-                )
+        base_instructions = (
+            """The outline should be logical, engaging, and comprehensive."""
+        )
+        if persona_context:
+            base_instructions += (
+                f"\nTailor the structure to the target audience: {persona_context}"
+            )
 
         prompt = ChatPromptTemplate.from_messages(
             [
@@ -122,8 +178,7 @@ class WriterAgent:
 4. Conclusion
 5. Key points to cover in each section
 
-The outline should be logical, engaging, and comprehensive.
-Tailor the structure to the target audience:{persona_context}"""
+{base_instructions}"""
                 ),
                 HumanMessage(content=f"Topic: {topic}\n\nResearch:\n{research}"),
             ]
@@ -204,34 +259,9 @@ Requirements:
             style_instruction += f"\nTarget Audience: {target_audience}"
 
         # Add persona-based instructions if available
-        persona_instruction = ""
-        if persona and isinstance(persona, dict):
-            persona_name = persona.get("persona_name", "")
-            content_prefs = persona.get("content_preferences", {})
-            goals = persona.get("goals", {})
-            knowledge_state = persona.get("knowledge_state", {})
-            pain_points = persona.get("pain_points", [])
-            reading_context = persona.get("reading_context", {})
-
-            if persona_name:
-                persona_instruction += f"\nTarget Reader: {persona_name}"
-            if content_prefs.get("tone"):
-                persona_instruction += f"\nPreferred Tone: {content_prefs.get('tone')}"
-            if content_prefs.get("depth"):
-                persona_instruction += f"\nDepth Level: {content_prefs.get('depth')}"
-            if goals.get("primary_goal"):
-                persona_instruction += f"\nReader's Goal: {goals.get('primary_goal')}"
-            if knowledge_state.get("what_they_need"):
-                persona_instruction += (
-                    f"\nWhat Reader Needs: {knowledge_state.get('what_they_need')}"
-                )
-            if pain_points:
-                pain_points_str = ", ".join(pain_points[:3])
-                persona_instruction += f"\nAddress Pain Points: {pain_points_str}"
-            if reading_context.get("attention_span"):
-                persona_instruction += (
-                    f"\nReader Time Available: {reading_context.get('attention_span')}"
-                )
+        persona_instruction = self._build_persona_context(
+            persona, include_content_prefs=True
+        )
 
         # Create outline
         outline = self.create_outline(topic, research_synthesis, persona)

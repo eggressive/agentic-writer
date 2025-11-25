@@ -66,6 +66,180 @@ def test_extract_title_with_whitespace(writer_agent):
     assert title == "Title With Spaces"
 
 
+def test_build_persona_context_without_persona(writer_agent):
+    """Test _build_persona_context returns empty string for None persona."""
+    result = writer_agent._build_persona_context(None)
+    assert result == ""
+
+    result = writer_agent._build_persona_context({})
+    assert result == ""
+
+
+def test_build_persona_context_basic(writer_agent):
+    """Test _build_persona_context for outline (include_content_prefs=False)."""
+    persona = {
+        "persona_name": "Tech Lead",
+        "goals": {"primary_goal": "Learn best practices"},
+        "pain_points": ["Time constraints", "Legacy code", "Documentation gaps"],
+        "knowledge_state": {"what_they_need": "Practical examples"},
+    }
+
+    result = writer_agent._build_persona_context(persona, include_content_prefs=False)
+
+    assert "Target Audience: Tech Lead" in result
+    assert "Audience Goal: Learn best practices" in result
+    assert (
+        "Address Pain Points: Time constraints, Legacy code, Documentation gaps"
+        in result
+    )
+    assert "Information Needs: Practical examples" in result
+    # Should NOT include content preferences
+    assert "Preferred Tone" not in result
+    assert "Depth Level" not in result
+    assert "Reader Time Available" not in result
+
+
+def test_build_persona_context_full(writer_agent):
+    """Test _build_persona_context for article (include_content_prefs=True)."""
+    persona = {
+        "persona_name": "Tech Lead",
+        "goals": {"primary_goal": "Learn best practices"},
+        "pain_points": ["Time constraints", "Legacy code", "Documentation gaps"],
+        "knowledge_state": {"what_they_need": "Practical examples"},
+        "content_preferences": {"tone": "professional", "depth": "advanced"},
+        "reading_context": {"attention_span": "15 minutes"},
+    }
+
+    result = writer_agent._build_persona_context(persona, include_content_prefs=True)
+
+    assert "Target Reader: Tech Lead" in result
+    assert "Reader's Goal: Learn best practices" in result
+    assert (
+        "Address Pain Points: Time constraints, Legacy code, Documentation gaps"
+        in result
+    )
+    assert "What Reader Needs: Practical examples" in result
+    assert "Preferred Tone: professional" in result
+    assert "Depth Level: advanced" in result
+    assert "Reader Time Available: 15 minutes" in result
+
+
+def test_build_persona_context_with_non_string_pain_points(writer_agent):
+    """Test _build_persona_context handles non-string pain points."""
+    persona = {
+        "persona_name": "Developer",
+        "pain_points": [{"issue": "bug"}, "string point", 123],
+    }
+
+    result = writer_agent._build_persona_context(persona)
+
+    # Should convert non-strings to strings
+    assert "Address Pain Points:" in result
+    # Verify the actual converted values appear (at least the string one)
+    assert "string point" in result
+
+
+def test_create_outline_with_persona(writer_agent, mock_llm):
+    """Test create_outline with a complete persona (happy path)."""
+    # Mock response
+    mock_llm.invoke.return_value.content = (
+        "# Article Title\n\n"
+        "## Introduction\nHook for business managers\n\n"
+        "## Section 1\nKey points addressing cost reduction"
+    )
+
+    persona = {
+        "persona_name": "Business Manager",
+        "goals": {
+            "primary_goal": "Reduce operational costs",
+            "secondary_goals": ["Improve efficiency"],
+        },
+        "pain_points": ["High overhead", "Complex processes", "Limited budget"],
+        "knowledge_state": {
+            "what_they_know": "Basic concepts",
+            "what_they_need": "Practical implementation strategies",
+        },
+    }
+
+    result = writer_agent.create_outline(
+        topic="Cost Optimization Strategies",
+        research="Research content about cost optimization",
+        persona=persona,
+    )
+
+    # Should return outline content
+    assert "Article Title" in result
+    assert mock_llm.invoke.called
+
+
+def test_create_outline_without_persona(writer_agent, mock_llm):
+    """Test create_outline without a persona (backward compatibility)."""
+    # Mock response
+    mock_llm.invoke.return_value.content = (
+        "# Generic Article Title\n\n"
+        "## Introduction\nGeneral hook\n\n"
+        "## Main Section\nContent description"
+    )
+
+    result = writer_agent.create_outline(
+        topic="General Topic",
+        research="Some research content",
+    )
+
+    # Should return outline content without persona context
+    assert "Generic Article Title" in result
+    assert mock_llm.invoke.called
+
+
+def test_create_outline_with_partial_persona(writer_agent, mock_llm):
+    """Test create_outline with an incomplete persona dict (partial data)."""
+    # Mock response
+    mock_llm.invoke.return_value.content = (
+        "# Partial Persona Article\n\n"
+        "## Introduction\nIntro content\n\n"
+        "## Section\nSection content"
+    )
+
+    # Persona with only some fields populated
+    partial_persona = {
+        "persona_name": "Developer",
+        # Missing goals, pain_points, and knowledge_state
+    }
+
+    result = writer_agent.create_outline(
+        topic="Development Best Practices",
+        research="Research about development practices",
+        persona=partial_persona,
+    )
+
+    # Should handle partial persona gracefully
+    assert "Partial Persona Article" in result
+    assert mock_llm.invoke.called
+
+
+def test_create_outline_with_empty_persona(writer_agent, mock_llm):
+    """Test create_outline with an empty persona dict."""
+    # Mock response
+    mock_llm.invoke.return_value.content = (
+        "# Empty Persona Article\n\n"
+        "## Introduction\nIntro content\n\n"
+        "## Section\nSection content"
+    )
+
+    # Empty persona dict
+    empty_persona = {}
+
+    result = writer_agent.create_outline(
+        topic="Some Topic",
+        research="Some research",
+        persona=empty_persona,
+    )
+
+    # Should handle empty persona gracefully (no persona context added)
+    assert "Empty Persona Article" in result
+    assert mock_llm.invoke.called
+
+
 def test_write_article(writer_agent, mock_llm):
     """Test write_article creates article with sections."""
     # Mock responses for outline, sections, meta, and tags
