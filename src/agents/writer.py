@@ -112,6 +112,14 @@ class WriterAgent:
                     f"\nInformation Needs: {knowledge_state.get('what_they_need')}"
                 )
 
+        base_instructions = (
+            """The outline should be logical, engaging, and comprehensive."""
+        )
+        if persona_context:
+            base_instructions += (
+                f"\nTailor the structure to the target audience:{persona_context}"
+            )
+
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
@@ -122,8 +130,7 @@ class WriterAgent:
 4. Conclusion
 5. Key points to cover in each section
 
-The outline should be logical, engaging, and comprehensive.
-Tailor the structure to the target audience:{persona_context}"""
+{base_instructions}"""
                 ),
                 HumanMessage(content=f"Topic: {topic}\n\nResearch:\n{research}"),
             ]
