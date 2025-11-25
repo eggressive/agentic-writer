@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.3](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.2...agentic-writer-v0.8.3) (2025-11-25)
+
+
+### Bug Fixes
+
+* empty persona context instruction in create_outline prompt ([#59](https://github.com/eggressive/agentic-writer/issues/59)) ([f1e0da4](https://github.com/eggressive/agentic-writer/commit/f1e0da41861a9603d3c12ea84ca7231a10f4db15))
+
 ## [0.8.2](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.1...agentic-writer-v0.8.2) (2025-11-25)
 
 
