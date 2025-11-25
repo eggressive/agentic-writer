@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.3...agentic-writer-v0.8.4) (2025-11-25)
+
+
+### Code Refactoring
+
+* extract _build_persona_context helper to reduce duplication in WriterAgent ([#60](https://github.com/eggressive/agentic-writer/issues/60)) ([8d10783](https://github.com/eggressive/agentic-writer/commit/8d10783ac97f4a04b3e650f78960bf90b67710f3))
+
 ## [0.8.3](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.8.2...agentic-writer-v0.8.3) (2025-11-25)
 
 
