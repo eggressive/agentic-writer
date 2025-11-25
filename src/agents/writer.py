@@ -117,7 +117,7 @@ class WriterAgent:
         )
         if persona_context:
             base_instructions += (
-                f"\nTailor the structure to the target audience:{persona_context}"
+                f"\nTailor the structure to the target audience: {persona_context}"
             )
 
         prompt = ChatPromptTemplate.from_messages(
