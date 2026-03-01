@@ -27,21 +27,36 @@ class ContentCreationOrchestrator:
         self.config = config
         self.logger = logging.getLogger(__name__)
 
-        # Initialize LLM
-        self.llm = ChatOpenAI(
+        # Initialize LLMs with different temperatures for different tasks
+        # Creative LLM (high temperature) - for angle finding, voice, audience analysis
+        self.llm_creative = ChatOpenAI(
             model=config.openai_model,
-            temperature=config.temperature,
+            temperature=config.temperature_creative,
+            api_key=config.openai_api_key,
+        )
+        
+        # Analytical LLM (low temperature) - for research, fact-checking
+        self.llm_analytical = ChatOpenAI(
+            model=config.openai_model,
+            temperature=config.temperature_analytical,
+            api_key=config.openai_api_key,
+        )
+        
+        # Writer LLM (medium temperature) - for content generation
+        self.llm_writer = ChatOpenAI(
+            model=config.openai_model,
+            temperature=config.temperature_writer,
             api_key=config.openai_api_key,
         )
 
-        # Initialize agents
-        self.audience_strategist = AudienceStrategist(llm=self.llm)
+        # Initialize agents with appropriate LLMs
+        self.audience_strategist = AudienceStrategist(llm=self.llm_creative)
         self.research_agent = ResearchAgent(
-            llm=self.llm, max_sources=config.max_research_sources
+            llm=self.llm_analytical, max_sources=config.max_research_sources
         )
-        self.writer_agent = WriterAgent(llm=self.llm)
+        self.writer_agent = WriterAgent(llm=self.llm_writer)
         self.image_agent = ImageAgent(
-            llm=self.llm,
+            llm=self.llm_analytical,
             unsplash_key=config.unsplash_access_key,
             per_page=config.unsplash_per_page,
             order_by=config.unsplash_order_by,
