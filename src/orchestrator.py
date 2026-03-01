@@ -140,6 +140,9 @@ class ContentCreationOrchestrator:
             # Stage 4: Finding images
             self.logger.info("Stage 4/5: Finding relevant images...")
             images = self.image_agent.find_images(topic, article_data)
+            images = self.image_agent.assign_image_placements(
+                article_data.get("content", ""), images
+            )
             article_data["images"] = images
             article_data["sources_count"] = research_data.get("sources_count", 0)
             results["stages"]["images"] = {

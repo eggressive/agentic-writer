@@ -1,6 +1,8 @@
 """Image handler agent for finding and managing images."""
 
+import json
 import logging
+import re
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -322,3 +324,86 @@ Placement: [Where in article]"""
         response = self.llm.invoke(prompt.format_messages())
 
         return response.content.split("\n\n")
+
+
+    def assign_image_placements(
+        self, article_content: str, images: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        """Assign images to relevant sections within the article.
+
+        Uses the LLM to match each image to the most relevant article section
+        based on the image description and section content.
+
+        Args:
+            article_content: The full article text (markdown with ## headings)
+            images: List of image dictionaries from find_images
+
+        Returns:
+            Updated image list with 'section' key set to the matched heading
+        """
+        if not images:
+            return images
+
+        headings = re.findall(r"^##\s+(.+)$", article_content, re.MULTILINE)
+
+        if not headings:
+            self.logger.warning("No headings found in article, skipping placement")
+            return images
+
+        image_descriptions = json.dumps(
+            [
+                {"index": i, "description": img.get("description", "")}
+                for i, img in enumerate(images)
+            ]
+        )
+        headings_json = json.dumps(headings)
+
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                SystemMessage(
+                    content=(
+                        "You are an image placement assistant. Match each image to "
+                        "the most relevant article section heading based on the image "
+                        "description and heading topic.\n\n"
+                        "Return ONLY a JSON array where each element has:\n"
+                        '- "image_index": the index of the image\n'
+                        '- "heading": the exact heading text it matches best\n\n'
+                        "Every image must be assigned to exactly one heading. "
+                        "Spread images across different headings when possible. "
+                        "Do not duplicate headings unless there are more images than headings.\n\n"
+                        "Return raw JSON only, no markdown fences."
+                    )
+                ),
+                HumanMessage(
+                    content=(
+                        f"Article headings: {headings_json}\n\n"
+                        f"Images: {image_descriptions}"
+                    )
+                ),
+            ]
+        )
+
+        try:
+            response = self.llm.invoke(prompt.format_messages())
+            text = response.content.strip()
+            # Strip markdown fences if present
+            text = re.sub(r"^```(?:json)?\s*", "", text)
+            text = re.sub(r"\s*```$", "", text)
+            assignments = json.loads(text)
+
+            for assignment in assignments:
+                idx = assignment["image_index"]
+                heading = assignment["heading"]
+                if 0 <= idx < len(images) and heading in headings:
+                    images[idx]["section"] = heading
+        except (json.JSONDecodeError, KeyError, TypeError) as e:
+            self.logger.warning(f"Failed to parse LLM placement response: {e}")
+        except Exception as e:
+            self.logger.warning(f"Failed to assign image placements: {e}")
+
+        # Fallback: assign unplaced images round-robin across headings
+        for i, img in enumerate(images):
+            if "section" not in img:
+                img["section"] = headings[i % len(headings)]
+
+        return images

@@ -2,8 +2,9 @@
 
 import json
 import logging
+import re
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 
 class PublisherAgent:
@@ -61,6 +62,103 @@ class PublisherAgent:
             self.logger.error(f"Medium publication failed: {str(e)}")
             return {"success": False, "platform": "medium", "error": str(e)}
 
+    @staticmethod
+    def _format_image_markdown(img: Dict[str, Any]) -> str:
+        """Format a single image as markdown with attribution."""
+        alt = img.get("description", "Image")
+        url = img.get("url", "")
+        author = img.get("author", "Unknown")
+        author_url = img.get("author_url", "")
+        source = img.get("source", "Unsplash")
+
+        lines = [f"![{alt}]({url})"]
+        if author_url:
+            lines.append(f"*Photo by [{author}]({author_url}) on {source}*")
+        else:
+            lines.append(f"*Photo by {author} on {source}*")
+        return "\n".join(lines)
+
+    @staticmethod
+    def _embed_images_in_content(
+        content: str, images: List[Dict[str, Any]]
+    ) -> str:
+        """Embed images after the first paragraph of their assigned sections.
+
+        Each image must have a 'section' key matching a ## heading in the
+        content.  Images without a matching section are appended at the end.
+
+        Args:
+            content: Article markdown text
+            images: Image dicts, each with a 'section' key
+
+        Returns:
+            Content string with images embedded inline
+        """
+        if not images:
+            return content
+
+        # Group images by their assigned section heading
+        section_images: Dict[str, List[Dict[str, Any]]] = {}
+        unplaced: List[Dict[str, Any]] = []
+        for img in images:
+            section = img.get("section")
+            if section:
+                section_images.setdefault(section, []).append(img)
+            else:
+                unplaced.append(img)
+
+        if not section_images and not unplaced:
+            return content
+
+        # Split content into lines and rebuild with images inserted
+        lines = content.split("\n")
+        result_lines: List[str] = []
+        current_heading: Optional[str] = None
+        found_first_paragraph = False
+
+        for line in lines:
+            result_lines.append(line)
+
+            # Detect ## headings
+            heading_match = re.match(r"^##\s+(.+)$", line)
+            if heading_match:
+                current_heading = heading_match.group(1).strip()
+                found_first_paragraph = False
+                continue
+
+            # After a heading, look for the end of the first paragraph
+            # (a non-empty line followed by an empty line or another heading)
+            if (
+                current_heading
+                and current_heading in section_images
+                and not found_first_paragraph
+            ):
+                stripped = line.strip()
+                # A blank line after we've seen content marks end of first paragraph
+                if stripped == "" and len(result_lines) >= 2:
+                    prev = result_lines[-2].strip() if len(result_lines) >= 2 else ""
+                    if prev and not prev.startswith("#"):
+                        found_first_paragraph = True
+                        for img in section_images[current_heading]:
+                            result_lines.append("")
+                            result_lines.append(
+                                PublisherAgent._format_image_markdown(img)
+                            )
+                        del section_images[current_heading]
+
+        # Any images whose sections weren't found in the text, plus unplaced
+        remaining = unplaced[:]
+        for imgs in section_images.values():
+            remaining.extend(imgs)
+
+        if remaining:
+            result_lines.append("")
+            for img in remaining:
+                result_lines.append("")
+                result_lines.append(PublisherAgent._format_image_markdown(img))
+
+        return "\n".join(result_lines)
+
     def save_to_file(
         self, article_data: Dict[str, Any], output_dir: str = "output"
     ) -> Dict[str, Any]:
@@ -96,26 +194,12 @@ class PublisherAgent:
                     f"**Meta Description:** {article_data.get('meta_description', '')}\n\n"
                 )
                 f.write("---\n\n")
-                f.write(article_data.get("content", ""))
 
-                # Add images if available
+                # Embed images within article sections instead of appending
+                content = article_data.get("content", "")
                 images = article_data.get("images", [])
-                if images:
-                    f.write("\n\n## Visuals\n\n")
-                    for img in images:
-                        alt = img.get("description", "Image")
-                        url = img.get("url", "")
-                        author = img.get("author", "Unknown")
-                        author_url = img.get("author_url", "")
-                        source = img.get("source", "Unsplash")
-
-                        f.write(f"![{alt}]({url})\n")
-                        if author_url:
-                            f.write(
-                                f"*Photo by [{author}]({author_url}) on {source}*\n\n"
-                            )
-                        else:
-                            f.write(f"*Photo by {author} on {source}*\n\n")
+                content = self._embed_images_in_content(content, images)
+                f.write(content)
 
             # Save metadata JSON
             json_file = output_path / f"{filename}_metadata.json"
