@@ -173,10 +173,26 @@ def config():
             f"  OpenAI: {'[green]✓ Set[/green]' if cfg.openai_api_key else '[red]✗ Not set[/red]'}"
         )
         console.print(
+            f"  Unsplash: {'[green]✓ Set[/green]' if cfg.unsplash_access_key else '[yellow]○ Optional[/yellow]'}"
+        )
+
+        console.print("\n[bold]Publishing Platforms:[/bold]")
+        console.print(
             f"  Medium: {'[green]✓ Set[/green]' if cfg.medium_access_token else '[yellow]○ Optional[/yellow]'}"
         )
+        ghost_ready = bool(cfg.ghost_api_url and cfg.ghost_admin_api_key)
         console.print(
-            f"  Unsplash: {'[green]✓ Set[/green]' if cfg.unsplash_access_key else '[yellow]○ Optional[/yellow]'}"
+            f"  Ghost: {'[green]✓ Set[/green]' if ghost_ready else '[yellow]○ Optional[/yellow]'}"
+        )
+        wp_ready = bool(
+            cfg.wordpress_url and cfg.wordpress_username and cfg.wordpress_app_password
+        )
+        console.print(
+            f"  WordPress: {'[green]✓ Set[/green]' if wp_ready else '[yellow]○ Optional[/yellow]'}"
+        )
+        hn_ready = bool(cfg.hashnode_api_key and cfg.hashnode_publication_id)
+        console.print(
+            f"  Hashnode: {'[green]✓ Set[/green]' if hn_ready else '[yellow]○ Optional[/yellow]'}"
         )
 
     except Exception as e:

@@ -10,13 +10,37 @@ from typing import Any, Dict, List, Optional
 class PublisherAgent:
     """Agent responsible for publishing content to platforms."""
 
-    def __init__(self, medium_token: Optional[str] = None):
+    def __init__(
+        self,
+        medium_token: Optional[str] = None,
+        ghost_api_url: Optional[str] = None,
+        ghost_admin_api_key: Optional[str] = None,
+        wordpress_url: Optional[str] = None,
+        wordpress_username: Optional[str] = None,
+        wordpress_app_password: Optional[str] = None,
+        hashnode_api_key: Optional[str] = None,
+        hashnode_publication_id: Optional[str] = None,
+    ):
         """Initialize the publisher agent.
 
         Args:
             medium_token: Optional Medium API token
+            ghost_api_url: Optional Ghost blog base URL (e.g. https://myblog.ghost.io)
+            ghost_admin_api_key: Optional Ghost Admin API key (id:secret format)
+            wordpress_url: Optional WordPress site URL
+            wordpress_username: Optional WordPress username
+            wordpress_app_password: Optional WordPress application password
+            hashnode_api_key: Optional Hashnode personal API key
+            hashnode_publication_id: Optional Hashnode publication/blog ID
         """
         self.medium_token = medium_token
+        self.ghost_api_url = ghost_api_url
+        self.ghost_admin_api_key = ghost_admin_api_key
+        self.wordpress_url = wordpress_url
+        self.wordpress_username = wordpress_username
+        self.wordpress_app_password = wordpress_app_password
+        self.hashnode_api_key = hashnode_api_key
+        self.hashnode_publication_id = hashnode_publication_id
         self.logger = logging.getLogger(__name__)
 
     def publish_to_medium(self, article_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -61,6 +85,146 @@ class PublisherAgent:
         except Exception as e:
             self.logger.error(f"Medium publication failed: {str(e)}")
             return {"success": False, "platform": "medium", "error": str(e)}
+
+    def publish_to_ghost(self, article_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Publish article to Ghost.
+
+        Uses the Ghost Admin API (POST /ghost/api/admin/posts/).
+        Requires a Ghost Admin API key in ``id:secret`` format.
+
+        Args:
+            article_data: Article data including title and content
+
+        Returns:
+            Publication result
+        """
+        if not self.ghost_api_url or not self.ghost_admin_api_key:
+            self.logger.warning(
+                "Ghost credentials not provided, skipping Ghost publication"
+            )
+            return {
+                "success": False,
+                "platform": "ghost",
+                "error": "Ghost API URL and Admin API key are required",
+            }
+
+        # Validate id:secret format early to avoid confusing failures later
+        key_parts = self.ghost_admin_api_key.split(":")
+        if len(key_parts) != 2 or not key_parts[0] or not key_parts[1]:
+            return {
+                "success": False,
+                "platform": "ghost",
+                "error": "Ghost Admin API key must be in 'id:secret' format",
+            }
+
+        try:
+            # Real implementation would:
+            # 1. Split ghost_admin_api_key into id:secret
+            # 2. Create a JWT token signed with the secret (HS256, 5-min expiry)
+            # 3. POST to {ghost_api_url}/ghost/api/admin/posts/ with
+            #    Authorization: Ghost {jwt} and the post payload
+            self.logger.info(f"Publishing to Ghost: {article_data.get('title')}")
+            self.logger.info(
+                "Ghost publication simulated (JWT + API implementation needed)"
+            )
+
+            return {
+                "success": False,
+                "platform": "ghost",
+                "error": "Ghost publication not implemented: simulated only (no API call performed)",
+            }
+
+        except Exception as e:
+            self.logger.error(f"Ghost publication failed: {str(e)}")
+            return {"success": False, "platform": "ghost", "error": str(e)}
+
+    def publish_to_wordpress(self, article_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Publish article to WordPress via the REST API.
+
+        Uses Basic Auth with an application password
+        (POST /wp-json/wp/v2/posts).
+
+        Args:
+            article_data: Article data including title and content
+
+        Returns:
+            Publication result
+        """
+        if (
+            not self.wordpress_url
+            or not self.wordpress_username
+            or not self.wordpress_app_password
+        ):
+            self.logger.warning(
+                "WordPress credentials not provided, skipping WordPress publication"
+            )
+            return {
+                "success": False,
+                "platform": "wordpress",
+                "error": "WordPress URL, username, and application password are required",
+            }
+
+        try:
+            # Real implementation would:
+            # 1. Base64-encode "username:app_password" for Basic Auth header
+            # 2. POST to {wordpress_url}/wp-json/wp/v2/posts with
+            #    title, content (HTML), tags, status="publish"
+            self.logger.info(f"Publishing to WordPress: {article_data.get('title')}")
+            self.logger.info(
+                "WordPress publication simulated (REST API implementation needed)"
+            )
+
+            return {
+                "success": False,
+                "platform": "wordpress",
+                "error": "WordPress publication not implemented: REST API call is currently simulated only",
+            }
+
+        except Exception as e:
+            self.logger.error(f"WordPress publication failed: {str(e)}")
+            return {"success": False, "platform": "wordpress", "error": str(e)}
+
+    def publish_to_hashnode(self, article_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Publish article to Hashnode via the GraphQL API.
+
+        Uses the ``publishPost`` mutation with a personal API key.
+
+        Args:
+            article_data: Article data including title and content
+
+        Returns:
+            Publication result
+        """
+        if not self.hashnode_api_key or not self.hashnode_publication_id:
+            self.logger.warning(
+                "Hashnode credentials not provided, skipping Hashnode publication"
+            )
+            return {
+                "success": False,
+                "platform": "hashnode",
+                "error": "Hashnode API key and publication ID are required",
+            }
+
+        try:
+            # Real implementation would:
+            # 1. Send POST to https://gql.hashnode.com with
+            #    Authorization: {hashnode_api_key} header
+            # 2. GraphQL mutation publishPost with title, contentMarkdown,
+            #    publicationId, and tags
+            self.logger.info(f"Publishing to Hashnode: {article_data.get('title')}")
+            self.logger.info(
+                "Hashnode publication simulated (GraphQL API implementation needed)"
+            )
+
+            return {
+                "success": False,
+                "platform": "hashnode",
+                "error": "Hashnode publication not implemented: GraphQL API call is currently simulated only",
+            }
+
+        except Exception as e:
+            self.logger.error(f"Hashnode publication failed: {str(e)}")
+            return {"success": False, "platform": "hashnode", "error": str(e)}
 
     @staticmethod
     def _format_image_markdown(img: Dict[str, Any]) -> str:
@@ -253,6 +417,12 @@ class PublisherAgent:
         for platform in platforms:
             if platform.lower() == "medium":
                 results["medium"] = self.publish_to_medium(article_data)
+            elif platform.lower() == "ghost":
+                results["ghost"] = self.publish_to_ghost(article_data)
+            elif platform.lower() == "wordpress":
+                results["wordpress"] = self.publish_to_wordpress(article_data)
+            elif platform.lower() == "hashnode":
+                results["hashnode"] = self.publish_to_hashnode(article_data)
             elif platform.lower() == "file":
                 results["file"] = self.save_to_file(article_data, output_dir)
             else:
