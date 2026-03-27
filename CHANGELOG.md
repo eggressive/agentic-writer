@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.11.0...agentic-writer-v0.12.0) (2026-03-27)
+
+
+### Features
+
+* add --dry-run flag to create command ([#69](https://github.com/eggressive/agentic-writer/issues/69)) ([08a0245](https://github.com/eggressive/agentic-writer/commit/08a0245434fa75b4be9fa5dd1bb44bc2312ac24a))
+
 ## [0.11.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.10.0...agentic-writer-v0.11.0) (2026-03-27)
 
 
