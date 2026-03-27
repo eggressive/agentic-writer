@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.14.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.13.2...agentic-writer-v0.14.0) (2026-03-27)
+
+
+### Features
+
+* add Ghost, WordPress, and Hashnode publishing platforms ([#74](https://github.com/eggressive/agentic-writer/issues/74)) ([a265f22](https://github.com/eggressive/agentic-writer/commit/a265f220aacf42fb8a93f3c220dcca962026fddd))
+
 ## [0.13.2](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.13.1...agentic-writer-v0.13.2) (2026-03-27)
 
 
