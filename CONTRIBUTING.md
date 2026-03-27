@@ -33,15 +33,20 @@ Thank you for your interest in contributing to Agentic-Writer! This document pro
 ### Pull Requests
 
 1. Fork the repository
-1. Create a feature branch (`git checkout -b feature/amazing-feature`)
+1. Create a feature branch (`git checkout -b feat/amazing-feature`)
 1. Make your changes
 1. Write or update tests
-1. Ensure all tests pass
-1. Format code with black
-1. Run linting with ruff
-1. Commit with clear messages
+1. Run the preflight checks (all three must pass before CI will accept your PR):
+
+   ```bash
+   black src/ tests/                            # fix formatting
+   ruff check src/ tests/ --fix                 # fix lint issues
+   pytest --cov=src --cov-fail-under=60         # run tests
+   ```
+
+1. Commit using [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, etc.)
 1. Push to your fork
-1. Open a Pull Request
+1. Open a Pull Request (the PR template will guide you)
 
 ## Development Setup
 
@@ -62,11 +67,12 @@ cd agentic-writer
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
+# Install all dependencies (includes dev tools: pytest, black, ruff)
 pip install -r requirements.txt
 
-# Install development dependencies
-pip install pytest pytest-cov black ruff
+# Set up pre-commit hooks (optional but recommended)
+pip install pre-commit
+pre-commit install
 
 # Set up environment
 cp .env.example .env
@@ -289,6 +295,15 @@ def research(self, topic: str) -> Dict[str, Any]:
 - Add examples for new features
 - Update DEMO.md with usage examples
 - Keep documentation in sync with code
+
+## CI Pipeline
+
+All PRs are validated by the CI pipeline (`.github/workflows/ci.yml`):
+
+1. **Preflight gate** — `black --check` and `ruff check` must pass
+1. **Test gate** — `pytest` with minimum 60% coverage
+
+See `.github/merge-policy.yml` for the machine-readable merge contract defining risk tiers and required checks per tier.
 
 ## Review Process
 

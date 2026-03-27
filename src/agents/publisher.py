@@ -79,9 +79,7 @@ class PublisherAgent:
         return "\n".join(lines)
 
     @staticmethod
-    def _embed_images_in_content(
-        content: str, images: List[Dict[str, Any]]
-    ) -> str:
+    def _embed_images_in_content(content: str, images: List[Dict[str, Any]]) -> str:
         """Embed images after the first paragraph of their assigned sections.
 
         Each image must have a 'section' key matching a ## heading in the

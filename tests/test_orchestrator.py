@@ -71,6 +71,7 @@ def test_create_content_defaults_platforms_to_file(
 
     mock_image_instance = Mock()
     mock_image_instance.find_images.return_value = []
+    mock_image_instance.assign_image_placements.return_value = []
     mock_image.return_value = mock_image_instance
 
     mock_publisher_instance = Mock()

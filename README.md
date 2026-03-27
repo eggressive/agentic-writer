@@ -14,8 +14,9 @@ An intelligent AI agent system that handles the entire content lifecycle, from r
 
 ## Architecture
 
-The system consists of four specialized agents:
+The system consists of five specialized agents:
 
+1. **AudienceStrategist** - Generates detailed reader personas to tailor content
 1. **ResearchAgent** - Conducts web research, analyzes topics, and synthesizes findings
 1. **WriterAgent** - Creates outlines, writes articles, generates metadata and tags
 1. **ImageAgent** - Searches for relevant images and curates visual content
@@ -134,23 +135,29 @@ agentic-writer/
 ├── src/
 │   ├── agents/
 │   │   ├── __init__.py
-│   │   ├── researcher.py      # Research agent
-│   │   ├── writer.py          # Writing agent
-│   │   ├── image_handler.py   # Image handling agent
-│   │   └── publisher.py       # Publishing agent
+│   │   ├── audience_strategist.py  # Audience analysis agent
+│   │   ├── researcher.py           # Research agent
+│   │   ├── writer.py               # Writing agent
+│   │   ├── image_handler.py        # Image handling agent
+│   │   └── publisher.py            # Publishing agent
 │   ├── utils/
 │   │   ├── __init__.py
-│   │   ├── config.py          # Configuration management
-│   │   └── logger.py          # Logging utilities
+│   │   ├── config.py               # Configuration management
+│   │   └── logger.py               # Logging utilities
 │   ├── __init__.py
-│   ├── orchestrator.py        # Main orchestration logic
-│   └── cli.py                 # Command-line interface
-├── tests/                     # Test suite
-├── output/                    # Default output directory
-├── main.py                    # Entry point
-├── setup.py                   # Package setup
-├── requirements.txt           # Dependencies
-├── .env.example              # Environment template
+│   ├── orchestrator.py             # Main orchestration logic
+│   └── cli.py                      # Command-line interface
+├── tests/                          # Test suite
+├── output/                         # Default output directory
+├── .github/
+│   ├── workflows/ci.yml            # CI pipeline (lint + test)
+│   └── merge-policy.yml            # Machine-readable merge contract
+├── main.py                         # Entry point
+├── setup.py                        # Package setup
+├── requirements.txt                # Dependencies
+├── CLAUDE.md                       # Agent guidance for Claude Code
+├── BACKLOG.md                      # Prioritized improvement backlog
+├── .env.example                    # Environment template
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -245,13 +252,13 @@ markdownlint-cli2 "**/*.md"
 markdownlint-cli2 --fix "**/*.md"
 ```
 
-#### Pre-commit Hook (Optional)
+#### Pre-commit Hooks (Optional)
 
-Add to `.git/hooks/pre-commit`:
+This project includes a `.pre-commit-config.yaml` with hooks for black, ruff, trailing whitespace, and YAML validation:
 
 ```bash
-#!/bin/sh
-markdownlint-cli2 "**/*.md" || exit 1
+pip install pre-commit
+pre-commit install
 ```
 
 ## Configuration Options
@@ -298,6 +305,15 @@ This project includes comprehensive documentation:
 - ❓ **[FAQ](https://github.com/eggressive/agentic-writer/wiki/FAQ)** - Frequently asked questions
 - 🔍 **[Troubleshooting](https://github.com/eggressive/agentic-writer/wiki/Troubleshooting)** - Common issues and solutions
 - 🤝 **[Contributing Guide](https://github.com/eggressive/agentic-writer/wiki/Contributing)** - How to contribute
+
+## CI Pipeline
+
+All pull requests are validated by the CI pipeline (`.github/workflows/ci.yml`):
+
+1. **Preflight gate** (fast) — `black --check` and `ruff check` must pass
+1. **Test gate** — `pytest` with a minimum 60% coverage threshold
+
+See `.github/merge-policy.yml` for the machine-readable merge contract defining risk tiers and required checks.
 
 ## Contributing
 

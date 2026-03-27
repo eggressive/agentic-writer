@@ -90,9 +90,9 @@ class Config(BaseModel):
             medium_access_token=os.getenv("MEDIUM_ACCESS_TOKEN"),
             unsplash_access_key=os.getenv("UNSPLASH_ACCESS_KEY"),
             openai_model=os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview"),
-            temperature=float(os.getenv("TEMPERATURE", "0.7"))
-            temperature_creative=float(os.getenv("TEMPERATURE_CREATIVE", "0.8"))
-            temperature_analytical=float(os.getenv("TEMPERATURE_ANALYTICAL", "0.2"))
+            temperature=float(os.getenv("TEMPERATURE", "0.7")),
+            temperature_creative=float(os.getenv("TEMPERATURE_CREATIVE", "0.8")),
+            temperature_analytical=float(os.getenv("TEMPERATURE_ANALYTICAL", "0.2")),
             temperature_writer=float(os.getenv("TEMPERATURE_WRITER", "0.7")),
             log_level=os.getenv("LOG_LEVEL", "INFO"),
             max_research_sources=max_research_sources,

@@ -134,7 +134,6 @@ def test_save_to_file_with_images():
         md_file = Path(result["markdown_file"])
         with open(md_file, "r") as f:
             content = f.read()
-            assert "## Visuals" in content
             assert "A beautiful sunset" in content
             assert "https://example.com/sunset.jpg" in content
             assert "[John Doe]" in content

@@ -1,0 +1,45 @@
+name: Agent Task
+description: A task that can be picked up by an AI coding agent
+labels: ["agent-ready"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      description: What needs to be done?
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this is done?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+
+  - type: dropdown
+    id: risk-tier
+    attributes:
+      label: Risk Tier
+      description: See .github/merge-policy.yml
+      options:
+        - low
+        - medium
+        - high
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected-files
+    attributes:
+      label: Affected Files
+      description: Which files or directories will likely be changed?
+      placeholder: src/agents/writer.py, tests/test_writer.py
+
+  - type: textarea
+    id: test-requirements
+    attributes:
+      label: Test Requirements
+      description: What tests should be added or updated?

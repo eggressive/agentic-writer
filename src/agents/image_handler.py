@@ -325,7 +325,6 @@ Placement: [Where in article]"""
 
         return response.content.split("\n\n")
 
-
     def assign_image_placements(
         self, article_content: str, images: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:

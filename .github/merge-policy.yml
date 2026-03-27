@@ -1,0 +1,61 @@
+# Machine-readable merge contract for agentic-writer
+# Agents and humans read this to know what's required before merge.
+# CI (.github/workflows/ci.yml) enforces the actual checks.
+
+version: 1
+
+risk_tiers:
+  low:
+    description: "Docs, comments, config, markdown-only changes"
+    file_patterns:
+      - "*.md"
+      - "*.json"
+      - "*.yml"
+      - "*.yaml"
+      - ".env.example"
+    required_checks:
+      - markdownlint
+    auto_merge: true
+
+  medium:
+    description: "Source code and test changes"
+    file_patterns:
+      - "src/**/*.py"
+      - "tests/**/*.py"
+    required_checks:
+      - formatting
+      - linting
+      - tests
+    auto_merge: false
+    review_required: true
+
+  high:
+    description: "CI/CD, dependencies, orchestrator, CLI entry points"
+    file_patterns:
+      - ".github/workflows/**"
+      - "requirements.txt"
+      - "setup.py"
+      - "pyproject.toml"
+      - "src/orchestrator.py"
+      - "src/cli.py"
+    required_checks:
+      - formatting
+      - linting
+      - tests
+    auto_merge: false
+    review_required: true
+
+evidence_requirements:
+  formatting:
+    tool: black
+    command: "black --check src/ tests/"
+  linting:
+    tool: ruff
+    command: "ruff check src/ tests/"
+  tests:
+    tool: pytest
+    command: "pytest --cov=src --cov-report=term-missing --cov-fail-under=60"
+    coverage_minimum: 60
+
+commit_convention: conventional-commits
+branch_naming: "{type}/{short-description}"

@@ -34,14 +34,14 @@ class ContentCreationOrchestrator:
             temperature=config.temperature_creative,
             api_key=config.openai_api_key,
         )
-        
+
         # Analytical LLM (low temperature) - for research, fact-checking
         self.llm_analytical = ChatOpenAI(
             model=config.openai_model,
             temperature=config.temperature_analytical,
             api_key=config.openai_api_key,
         )
-        
+
         # Writer LLM (medium temperature) - for content generation
         self.llm_writer = ChatOpenAI(
             model=config.openai_model,

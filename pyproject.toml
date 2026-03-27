@@ -5,6 +5,7 @@ exclude = ["output", ".venv", "htmlcov"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]  # Enable pycodestyle (E), Pyflakes (F), and isort (I)
+ignore = ["E501"]  # Line length handled by Black; long strings/comments are acceptable
 
 [tool.ruff.format]
 quote-style = "double"
