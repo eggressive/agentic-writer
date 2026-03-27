@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.10.0...agentic-writer-v0.11.0) (2026-03-27)
+
+
+### Features
+
+* implement Code Factory model for agent-driven development ([20ed49c](https://github.com/eggressive/agentic-writer/commit/20ed49c014dde3d36fb815337609a101dc3681a2))
+
 ## [0.10.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.9.0...agentic-writer-v0.10.0) (2026-03-01)
 
 
