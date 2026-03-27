@@ -3,10 +3,23 @@
 import logging
 from typing import Any, Dict, List, Optional
 
-from langchain_core.messages import HumanMessage, SystemMessage
+import openai
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
+
+_TRANSIENT_EXCEPTIONS = (
+    openai.RateLimitError,
+    openai.APIConnectionError,
+    openai.APITimeoutError,
+    openai.InternalServerError,
+)
 
 
 class WriterAgent:
@@ -22,10 +35,18 @@ class WriterAgent:
         self.logger = logging.getLogger(__name__)
 
     @retry(
-        stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10)
+        retry=retry_if_exception_type(_TRANSIENT_EXCEPTIONS),
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=4, max=10),
+        reraise=True,
     )
-    def _invoke_llm(self, messages: List) -> Any:
-        """Invoke the LLM with retry on failure.
+    def _invoke_llm(self, messages: List[BaseMessage]) -> Any:
+        """Invoke the LLM with retry on transient failures.
+
+        Retries up to 3 times on transient OpenAI errors (rate limits,
+        connection issues, timeouts, and server errors). Non-retriable
+        errors (e.g. auth, bad request) fail immediately. The original
+        exception is re-raised after all attempts are exhausted.
 
         Args:
             messages: Formatted messages to send to the LLM

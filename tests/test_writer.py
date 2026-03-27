@@ -2,6 +2,7 @@
 
 from unittest.mock import Mock, patch
 
+import openai
 import pytest
 
 from src.agents.writer import WriterAgent
@@ -308,12 +309,13 @@ def test_invoke_llm_succeeds_on_first_try(writer_agent, mock_llm):
 
 
 def test_invoke_llm_retries_on_transient_failure(writer_agent, mock_llm):
-    """_invoke_llm retries when LLM raises and succeeds on the second attempt."""
+    """_invoke_llm retries on transient OpenAI errors and succeeds on second attempt."""
     success_response = Mock()
     success_response.content = "Success after retry"
-    mock_llm.invoke.side_effect = [Exception("transient error"), success_response]
+    transient_exc = openai.APIConnectionError(request=Mock())
+    mock_llm.invoke.side_effect = [transient_exc, success_response]
 
-    with patch("time.sleep"):
+    with patch("tenacity.nap.sleep"):
         result = writer_agent._invoke_llm(["msg"])
 
     assert result.content == "Success after retry"
@@ -321,11 +323,11 @@ def test_invoke_llm_retries_on_transient_failure(writer_agent, mock_llm):
 
 
 def test_invoke_llm_raises_after_max_attempts(writer_agent, mock_llm):
-    """Regression: _invoke_llm raises RetryError after 3 consecutive failures."""
-    mock_llm.invoke.side_effect = Exception("persistent error")
+    """Regression: _invoke_llm re-raises the original exception after 3 failures."""
+    mock_llm.invoke.side_effect = openai.APIConnectionError(request=Mock())
 
-    with patch("time.sleep"):
-        with pytest.raises(Exception):
+    with patch("tenacity.nap.sleep"):
+        with pytest.raises(openai.APIConnectionError):
             writer_agent._invoke_llm(["msg"])
 
     assert mock_llm.invoke.call_count == 3
