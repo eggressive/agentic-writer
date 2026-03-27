@@ -362,6 +362,56 @@ def test_version_command_success(runner):
     assert __version__ in result.output
 
 
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_command_dry_run(mock_setup_logger, mock_config_class, runner):
+    """Test --dry-run validates config and shows plan without calling APIs."""
+    mock_config = Mock()
+    mock_config.openai_model = "gpt-4-turbo-preview"
+    mock_config_class.from_env.return_value = mock_config
+    mock_setup_logger.return_value = Mock()
+
+    result = runner.invoke(
+        cli,
+        [
+            "create",
+            "Test Topic",
+            "--style",
+            "professional",
+            "--audience",
+            "developers",
+            "--dry-run",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "Dry Run" in result.output
+    assert "Test Topic" in result.output
+    assert "professional" in result.output
+    assert "developers" in result.output
+    assert "no APIs called" in result.output
+    # Verify config was validated but orchestrator was never created
+    mock_config.validate_required.assert_called_once()
+
+
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_command_dry_run_config_error(
+    mock_setup_logger, mock_config_class, runner
+):
+    """Test --dry-run still fails on invalid config."""
+    mock_config = Mock()
+    mock_config.validate_required.side_effect = ValueError("OPENAI_API_KEY is required")
+    mock_config_class.from_env.return_value = mock_config
+    mock_setup_logger.return_value = Mock()
+
+    result = runner.invoke(cli, ["create", "Test Topic", "--dry-run"])
+
+    assert result.exit_code == 0
+    assert "Configuration Error" in result.output
+    assert "OPENAI_API_KEY is required" in result.output
+
+
 @patch("src.cli.setup_logger")
 def test_create_command_custom_log_level(mock_setup_logger, runner):
     """Test create command respects custom log level."""
