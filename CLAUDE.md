@@ -79,6 +79,7 @@ Run these before every commit. CI will reject PRs that fail any of them.
 ```bash
 black src/ tests/                                    # fix formatting
 ruff check src/ tests/ --fix                         # fix lint issues
+markdownlint-cli2 "**/*.md"                          # lint markdown
 pytest --cov=src --cov-fail-under=60                 # run tests
 ```
 

@@ -34,7 +34,13 @@ def cli():
 )
 @click.option("--output-dir", default="output", help="Output directory for files")
 @click.option("--log-level", default="INFO", help="Logging level")
-def create(topic, style, audience, platform, output_dir, log_level):
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate config and show what would run without calling APIs",
+)
+def create(topic, style, audience, platform, output_dir, log_level, dry_run):
     """Create and publish content on a given TOPIC.
 
     Example:
@@ -64,6 +70,23 @@ def create(topic, style, audience, platform, output_dir, log_level):
             progress.update(task, completed=True)
 
         console.print("[green]✓[/green] Configuration loaded")
+
+        if dry_run:
+            console.print(
+                Panel(
+                    f"[bold]Topic:[/bold] {topic}\n"
+                    f"[bold]Style:[/bold] {style or '(default)'}\n"
+                    f"[bold]Audience:[/bold] {audience or '(default)'}\n"
+                    f"[bold]Platforms:[/bold] {', '.join(platform)}\n"
+                    f"[bold]Output Dir:[/bold] {output_dir}\n"
+                    f"[bold]Model:[/bold] {config.openai_model}\n"
+                    f"[bold]Pipeline:[/bold] audience → research → write → images → publish",
+                    title="Dry Run",
+                    border_style="yellow",
+                )
+            )
+            console.print("[yellow]Dry run complete — no APIs called.[/yellow]")
+            return
 
         # Initialize orchestrator
         orchestrator = ContentCreationOrchestrator(config)
