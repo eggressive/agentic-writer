@@ -12,6 +12,13 @@ class Config(BaseModel):
 
     openai_api_key: str = Field(default="")
     medium_access_token: Optional[str] = Field(default=None)
+    ghost_api_url: Optional[str] = Field(default=None)
+    ghost_admin_api_key: Optional[str] = Field(default=None)
+    wordpress_url: Optional[str] = Field(default=None)
+    wordpress_username: Optional[str] = Field(default=None)
+    wordpress_app_password: Optional[str] = Field(default=None)
+    hashnode_api_key: Optional[str] = Field(default=None)
+    hashnode_publication_id: Optional[str] = Field(default=None)
     unsplash_access_key: Optional[str] = Field(default=None)
     openai_model: str = Field(default="gpt-4-turbo-preview")
     temperature: float = Field(default=0.7)
@@ -88,6 +95,13 @@ class Config(BaseModel):
         return cls(
             openai_api_key=os.getenv("OPENAI_API_KEY", ""),
             medium_access_token=os.getenv("MEDIUM_ACCESS_TOKEN"),
+            ghost_api_url=os.getenv("GHOST_API_URL"),
+            ghost_admin_api_key=os.getenv("GHOST_ADMIN_API_KEY"),
+            wordpress_url=os.getenv("WORDPRESS_URL"),
+            wordpress_username=os.getenv("WORDPRESS_USERNAME"),
+            wordpress_app_password=os.getenv("WORDPRESS_APP_PASSWORD"),
+            hashnode_api_key=os.getenv("HASHNODE_API_KEY"),
+            hashnode_publication_id=os.getenv("HASHNODE_PUBLICATION_ID"),
             unsplash_access_key=os.getenv("UNSPLASH_ACCESS_KEY"),
             openai_model=os.getenv("OPENAI_MODEL", "gpt-4-turbo-preview"),
             temperature=float(os.getenv("TEMPERATURE", "0.7")),

@@ -185,3 +185,199 @@ def test_publish_to_medium_exception_handling(sample_article):
     assert result["success"] is False
     assert result["platform"] == "medium"
     assert "API Error" in result["error"]
+
+
+# --- Ghost ---
+
+
+def test_publish_to_ghost_without_credentials(sample_article):
+    """Test Ghost publishing without credentials."""
+    publisher = PublisherAgent()
+    result = publisher.publish_to_ghost(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "ghost"
+    assert "required" in result["error"].lower()
+
+
+def test_publish_to_ghost_missing_api_key(sample_article):
+    """Test Ghost publishing with URL but no API key."""
+    publisher = PublisherAgent(ghost_api_url="https://myblog.ghost.io")
+    result = publisher.publish_to_ghost(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "ghost"
+
+
+def test_publish_to_ghost_with_credentials(sample_article):
+    """Test Ghost publishing with credentials (simulated success)."""
+    publisher = PublisherAgent(
+        ghost_api_url="https://myblog.ghost.io",
+        ghost_admin_api_key="test_id:test_secret",
+    )
+    result = publisher.publish_to_ghost(sample_article)
+
+    assert result["success"] is True
+    assert result["platform"] == "ghost"
+    assert "message" in result
+    assert "url" in result
+    assert "myblog.ghost.io" in result["url"]
+
+
+def test_publish_to_ghost_exception_handling(sample_article):
+    """Test Ghost publishing exception handling."""
+    publisher = PublisherAgent(
+        ghost_api_url="https://myblog.ghost.io",
+        ghost_admin_api_key="test_id:test_secret",
+    )
+    with patch.object(
+        publisher.logger, "info", side_effect=Exception("Ghost API Error")
+    ):
+        result = publisher.publish_to_ghost(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "ghost"
+    assert "Ghost API Error" in result["error"]
+
+
+def test_publish_ghost_via_publish_method(sample_article):
+    """Test Ghost publishing through the main publish method."""
+    publisher = PublisherAgent(
+        ghost_api_url="https://myblog.ghost.io",
+        ghost_admin_api_key="test_id:test_secret",
+    )
+    results = publisher.publish(sample_article, platforms=["ghost"])
+
+    assert "ghost" in results
+    assert results["ghost"]["success"] is True
+    assert results["ghost"]["platform"] == "ghost"
+
+
+# --- WordPress ---
+
+
+def test_publish_to_wordpress_without_credentials(sample_article):
+    """Test WordPress publishing without credentials."""
+    publisher = PublisherAgent()
+    result = publisher.publish_to_wordpress(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "wordpress"
+    assert "required" in result["error"].lower()
+
+
+def test_publish_to_wordpress_partial_credentials(sample_article):
+    """Test WordPress publishing with only URL (missing username/password)."""
+    publisher = PublisherAgent(wordpress_url="https://myblog.com")
+    result = publisher.publish_to_wordpress(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "wordpress"
+
+
+def test_publish_to_wordpress_with_credentials(sample_article):
+    """Test WordPress publishing with credentials (simulated success)."""
+    publisher = PublisherAgent(
+        wordpress_url="https://myblog.com",
+        wordpress_username="admin",
+        wordpress_app_password="xxxx yyyy zzzz",
+    )
+    result = publisher.publish_to_wordpress(sample_article)
+
+    assert result["success"] is True
+    assert result["platform"] == "wordpress"
+    assert "message" in result
+    assert "url" in result
+    assert "myblog.com" in result["url"]
+
+
+def test_publish_to_wordpress_exception_handling(sample_article):
+    """Test WordPress publishing exception handling."""
+    publisher = PublisherAgent(
+        wordpress_url="https://myblog.com",
+        wordpress_username="admin",
+        wordpress_app_password="xxxx yyyy zzzz",
+    )
+    with patch.object(publisher.logger, "info", side_effect=Exception("WP API Error")):
+        result = publisher.publish_to_wordpress(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "wordpress"
+    assert "WP API Error" in result["error"]
+
+
+def test_publish_wordpress_via_publish_method(sample_article):
+    """Test WordPress publishing through the main publish method."""
+    publisher = PublisherAgent(
+        wordpress_url="https://myblog.com",
+        wordpress_username="admin",
+        wordpress_app_password="xxxx yyyy zzzz",
+    )
+    results = publisher.publish(sample_article, platforms=["wordpress"])
+
+    assert "wordpress" in results
+    assert results["wordpress"]["success"] is True
+    assert results["wordpress"]["platform"] == "wordpress"
+
+
+# --- Hashnode ---
+
+
+def test_publish_to_hashnode_without_credentials(sample_article):
+    """Test Hashnode publishing without credentials."""
+    publisher = PublisherAgent()
+    result = publisher.publish_to_hashnode(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "hashnode"
+    assert "required" in result["error"].lower()
+
+
+def test_publish_to_hashnode_missing_publication_id(sample_article):
+    """Test Hashnode publishing with API key but no publication ID."""
+    publisher = PublisherAgent(hashnode_api_key="test_key")
+    result = publisher.publish_to_hashnode(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "hashnode"
+
+
+def test_publish_to_hashnode_with_credentials(sample_article):
+    """Test Hashnode publishing with credentials (simulated success)."""
+    publisher = PublisherAgent(
+        hashnode_api_key="test_hashnode_key",
+        hashnode_publication_id="pub123",
+    )
+    result = publisher.publish_to_hashnode(sample_article)
+
+    assert result["success"] is True
+    assert result["platform"] == "hashnode"
+    assert "message" in result
+    assert "url" in result
+
+
+def test_publish_to_hashnode_exception_handling(sample_article):
+    """Test Hashnode publishing exception handling."""
+    publisher = PublisherAgent(
+        hashnode_api_key="test_hashnode_key",
+        hashnode_publication_id="pub123",
+    )
+    with patch.object(publisher.logger, "info", side_effect=Exception("HN API Error")):
+        result = publisher.publish_to_hashnode(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "hashnode"
+    assert "HN API Error" in result["error"]
+
+
+def test_publish_hashnode_via_publish_method(sample_article):
+    """Test Hashnode publishing through the main publish method."""
+    publisher = PublisherAgent(
+        hashnode_api_key="test_hashnode_key",
+        hashnode_publication_id="pub123",
+    )
+    results = publisher.publish(sample_article, platforms=["hashnode"])
+
+    assert "hashnode" in results
+    assert results["hashnode"]["success"] is True
+    assert results["hashnode"]["platform"] == "hashnode"

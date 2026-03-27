@@ -63,7 +63,16 @@ class ContentCreationOrchestrator:
             content_filter=config.unsplash_content_filter,
             orientation=config.unsplash_orientation,
         )
-        self.publisher_agent = PublisherAgent(medium_token=config.medium_access_token)
+        self.publisher_agent = PublisherAgent(
+            medium_token=config.medium_access_token,
+            ghost_api_url=config.ghost_api_url,
+            ghost_admin_api_key=config.ghost_admin_api_key,
+            wordpress_url=config.wordpress_url,
+            wordpress_username=config.wordpress_username,
+            wordpress_app_password=config.wordpress_app_password,
+            hashnode_api_key=config.hashnode_api_key,
+            hashnode_publication_id=config.hashnode_publication_id,
+        )
 
         self.logger.info("Content creation orchestrator initialized")
 
