@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.13.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.12.1...agentic-writer-v0.13.0) (2026-03-27)
+
+
+### Features
+
+* add tenacity retry logic to WriterAgent LLM calls ([#72](https://github.com/eggressive/agentic-writer/issues/72)) ([1cd6ab2](https://github.com/eggressive/agentic-writer/commit/1cd6ab2693fd46d78addc313a8de45bcffbbc5fb))
+
 ## [0.12.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.12.0...agentic-writer-v0.12.1) (2026-03-27)
 
 
