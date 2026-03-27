@@ -362,9 +362,12 @@ def test_version_command_success(runner):
     assert __version__ in result.output
 
 
+@patch("src.cli.ContentCreationOrchestrator")
 @patch("src.cli.Config")
 @patch("src.cli.setup_logger")
-def test_create_command_dry_run(mock_setup_logger, mock_config_class, runner):
+def test_create_command_dry_run(
+    mock_setup_logger, mock_config_class, mock_orchestrator_class, runner
+):
     """Test --dry-run validates config and shows plan without calling APIs."""
     mock_config = Mock()
     mock_config.openai_model = "gpt-4-turbo-preview"
@@ -390,8 +393,8 @@ def test_create_command_dry_run(mock_setup_logger, mock_config_class, runner):
     assert "professional" in result.output
     assert "developers" in result.output
     assert "no APIs called" in result.output
-    # Verify config was validated but orchestrator was never created
     mock_config.validate_required.assert_called_once()
+    mock_orchestrator_class.assert_not_called()
 
 
 @patch("src.cli.Config")
