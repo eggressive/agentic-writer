@@ -102,11 +102,12 @@ When working autonomously (scheduled trigger, background agent), follow this loo
 3. **Branch:** `git checkout -b {type}/{short-description}` (e.g., `feat/add-dry-run-flag`)
 4. **Understand requirements:** Read the issue/backlog item and relevant source files
 5. **Implement:** Make changes, following the patterns in this file
-6. **Preflight:** Run the three commands above — fix any failures before proceeding
-7. **Commit:** Use conventional commits (`feat:`, `fix:`, `refactor:`, etc.)
-8. **Create PR:** `gh pr create` using the PR template (`.github/pull_request_template.md`)
-9. **CI feedback:** If CI fails, read the logs, fix, and push again
-10. **Done:** Move to the next task
+6. **Update backlog:** If the task came from `BACKLOG.md`, mark it done with ~~strikethrough~~ in the same branch
+7. **Preflight:** Run the four commands above — fix any failures before proceeding
+8. **Commit:** Use conventional commits (`feat:`, `fix:`, `refactor:`, etc.)
+9. **Create PR:** `gh pr create` using the PR template (`.github/pull_request_template.md`)
+10. **CI feedback:** If CI fails, read the logs, fix, and push again
+11. **Done:** Move to the next task
 
 ## Conventions
 
