@@ -210,18 +210,29 @@ def test_publish_to_ghost_missing_api_key(sample_article):
 
 
 def test_publish_to_ghost_with_credentials(sample_article):
-    """Test Ghost publishing with credentials (simulated success)."""
+    """Test Ghost publishing with credentials returns not-implemented error."""
     publisher = PublisherAgent(
         ghost_api_url="https://myblog.ghost.io",
         ghost_admin_api_key="test_id:test_secret",
     )
     result = publisher.publish_to_ghost(sample_article)
 
-    assert result["success"] is True
+    assert result["success"] is False
     assert result["platform"] == "ghost"
-    assert "message" in result
-    assert "url" in result
-    assert "myblog.ghost.io" in result["url"]
+    assert "not implemented" in result["error"].lower()
+
+
+def test_publish_to_ghost_invalid_key_format(sample_article):
+    """Test Ghost publishing with malformed API key (missing id:secret format)."""
+    publisher = PublisherAgent(
+        ghost_api_url="https://myblog.ghost.io",
+        ghost_admin_api_key="invalid_key_no_colon",
+    )
+    result = publisher.publish_to_ghost(sample_article)
+
+    assert result["success"] is False
+    assert result["platform"] == "ghost"
+    assert "id:secret" in result["error"]
 
 
 def test_publish_to_ghost_exception_handling(sample_article):
@@ -241,7 +252,7 @@ def test_publish_to_ghost_exception_handling(sample_article):
 
 
 def test_publish_ghost_via_publish_method(sample_article):
-    """Test Ghost publishing through the main publish method."""
+    """Test Ghost publishing through the main publish method returns not-implemented."""
     publisher = PublisherAgent(
         ghost_api_url="https://myblog.ghost.io",
         ghost_admin_api_key="test_id:test_secret",
@@ -249,7 +260,7 @@ def test_publish_ghost_via_publish_method(sample_article):
     results = publisher.publish(sample_article, platforms=["ghost"])
 
     assert "ghost" in results
-    assert results["ghost"]["success"] is True
+    assert results["ghost"]["success"] is False
     assert results["ghost"]["platform"] == "ghost"
 
 
@@ -276,7 +287,7 @@ def test_publish_to_wordpress_partial_credentials(sample_article):
 
 
 def test_publish_to_wordpress_with_credentials(sample_article):
-    """Test WordPress publishing with credentials (simulated success)."""
+    """Test WordPress publishing with credentials returns not-implemented error."""
     publisher = PublisherAgent(
         wordpress_url="https://myblog.com",
         wordpress_username="admin",
@@ -284,11 +295,9 @@ def test_publish_to_wordpress_with_credentials(sample_article):
     )
     result = publisher.publish_to_wordpress(sample_article)
 
-    assert result["success"] is True
+    assert result["success"] is False
     assert result["platform"] == "wordpress"
-    assert "message" in result
-    assert "url" in result
-    assert "myblog.com" in result["url"]
+    assert "not implemented" in result["error"].lower()
 
 
 def test_publish_to_wordpress_exception_handling(sample_article):
@@ -316,7 +325,7 @@ def test_publish_wordpress_via_publish_method(sample_article):
     results = publisher.publish(sample_article, platforms=["wordpress"])
 
     assert "wordpress" in results
-    assert results["wordpress"]["success"] is True
+    assert results["wordpress"]["success"] is False
     assert results["wordpress"]["platform"] == "wordpress"
 
 
@@ -343,17 +352,16 @@ def test_publish_to_hashnode_missing_publication_id(sample_article):
 
 
 def test_publish_to_hashnode_with_credentials(sample_article):
-    """Test Hashnode publishing with credentials (simulated success)."""
+    """Test Hashnode publishing with credentials returns not-implemented error."""
     publisher = PublisherAgent(
         hashnode_api_key="test_hashnode_key",
         hashnode_publication_id="pub123",
     )
     result = publisher.publish_to_hashnode(sample_article)
 
-    assert result["success"] is True
+    assert result["success"] is False
     assert result["platform"] == "hashnode"
-    assert "message" in result
-    assert "url" in result
+    assert "not implemented" in result["error"].lower()
 
 
 def test_publish_to_hashnode_exception_handling(sample_article):
@@ -379,5 +387,5 @@ def test_publish_hashnode_via_publish_method(sample_article):
     results = publisher.publish(sample_article, platforms=["hashnode"])
 
     assert "hashnode" in results
-    assert results["hashnode"]["success"] is True
+    assert results["hashnode"]["success"] is False
     assert results["hashnode"]["platform"] == "hashnode"

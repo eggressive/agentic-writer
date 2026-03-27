@@ -108,6 +108,15 @@ class PublisherAgent:
                 "error": "Ghost API URL and Admin API key are required",
             }
 
+        # Validate id:secret format early to avoid confusing failures later
+        key_parts = self.ghost_admin_api_key.split(":")
+        if len(key_parts) != 2 or not key_parts[0] or not key_parts[1]:
+            return {
+                "success": False,
+                "platform": "ghost",
+                "error": "Ghost Admin API key must be in 'id:secret' format",
+            }
+
         try:
             # Real implementation would:
             # 1. Split ghost_admin_api_key into id:secret
@@ -120,10 +129,9 @@ class PublisherAgent:
             )
 
             return {
-                "success": True,
+                "success": False,
                 "platform": "ghost",
-                "message": "Article ready for Ghost publication (API credentials required for actual publishing)",
-                "url": f"{self.ghost_api_url}/your-article-slug/",
+                "error": "Ghost publication not implemented: simulated only (no API call performed)",
             }
 
         except Exception as e:
@@ -167,10 +175,9 @@ class PublisherAgent:
             )
 
             return {
-                "success": True,
+                "success": False,
                 "platform": "wordpress",
-                "message": "Article ready for WordPress publication (credentials required for actual publishing)",
-                "url": f"{self.wordpress_url}/?p=1",
+                "error": "WordPress publication not implemented: REST API call is currently simulated only",
             }
 
         except Exception as e:
@@ -210,10 +217,9 @@ class PublisherAgent:
             )
 
             return {
-                "success": True,
+                "success": False,
                 "platform": "hashnode",
-                "message": "Article ready for Hashnode publication (API credentials required for actual publishing)",
-                "url": "https://hashnode.com/your-article",
+                "error": "Hashnode publication not implemented: GraphQL API call is currently simulated only",
             }
 
         except Exception as e:
