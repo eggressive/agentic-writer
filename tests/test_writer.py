@@ -1,6 +1,6 @@
 """Tests for the WriterAgent."""
 
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -291,3 +291,41 @@ def test_write_article(writer_agent, mock_llm):
     assert "meta_description" in result
     assert "tags" in result
     assert result["word_count"] > 0
+
+
+# --- Retry logic tests ---
+
+
+def test_invoke_llm_succeeds_on_first_try(writer_agent, mock_llm):
+    """Happy path: _invoke_llm returns LLM response without retrying."""
+    mock_llm.invoke.return_value.content = "Success"
+    messages = ["msg"]
+
+    result = writer_agent._invoke_llm(messages)
+
+    assert result.content == "Success"
+    mock_llm.invoke.assert_called_once_with(messages)
+
+
+def test_invoke_llm_retries_on_transient_failure(writer_agent, mock_llm):
+    """_invoke_llm retries when LLM raises and succeeds on the second attempt."""
+    success_response = Mock()
+    success_response.content = "Success after retry"
+    mock_llm.invoke.side_effect = [Exception("transient error"), success_response]
+
+    with patch("time.sleep"):
+        result = writer_agent._invoke_llm(["msg"])
+
+    assert result.content == "Success after retry"
+    assert mock_llm.invoke.call_count == 2
+
+
+def test_invoke_llm_raises_after_max_attempts(writer_agent, mock_llm):
+    """Regression: _invoke_llm raises RetryError after 3 consecutive failures."""
+    mock_llm.invoke.side_effect = Exception("persistent error")
+
+    with patch("time.sleep"):
+        with pytest.raises(Exception):
+            writer_agent._invoke_llm(["msg"])
+
+    assert mock_llm.invoke.call_count == 3
