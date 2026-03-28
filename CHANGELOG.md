@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.14.0...agentic-writer-v0.15.0) (2026-03-28)
+
+
+### Features
+
+* add Playwright-based Medium publisher (closes [#51](https://github.com/eggressive/agentic-writer/issues/51)) ([#78](https://github.com/eggressive/agentic-writer/issues/78)) ([65f3aad](https://github.com/eggressive/agentic-writer/commit/65f3aad76a5f91041cad79519cedc82e8a560cf1))
+
 ## [0.14.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.13.2...agentic-writer-v0.14.0) (2026-03-27)
 
 
