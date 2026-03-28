@@ -39,7 +39,7 @@ def test_publish_when_playwright_not_installed(publisher, sample_article):
         result = publisher.publish(sample_article)
 
     assert result["success"] is False
-    assert result["platform"] == "medium"
+    assert result["platform"] == "medium_playwright"
     assert "playwright" in result["error"].lower()
     assert _INSTALL_HINT in result["error"]
 
@@ -82,7 +82,7 @@ def test_publish_happy_path(publisher, sample_article):
         result = publisher.publish(sample_article)
 
     assert result["success"] is True
-    assert result["platform"] == "medium"
+    assert result["platform"] == "medium_playwright"
     assert result["url"] == expected_url
 
 
@@ -112,7 +112,7 @@ def test_publish_exception_returns_failure(publisher, sample_article):
         result = publisher.publish(sample_article)
 
     assert result["success"] is False
-    assert result["platform"] == "medium"
+    assert result["platform"] == "medium_playwright"
     assert "browser launch failed" in result["error"]
 
 
@@ -177,7 +177,7 @@ def test_publisher_agent_medium_playwright_no_credentials(sample_article):
     result = agent.publish_to_medium_playwright(sample_article)
 
     assert result["success"] is False
-    assert result["platform"] == "medium"
+    assert result["platform"] == "medium_playwright"
     assert "MEDIUM_EMAIL" in result["error"]
 
 
@@ -203,7 +203,11 @@ def test_publisher_agent_dispatch_medium_playwright(sample_article):
     agent = PublisherAgent(
         medium_email="user@example.com", medium_password="password123"
     )
-    mock_result = {"success": True, "platform": "medium", "url": "https://medium.com/x"}
+    mock_result = {
+        "success": True,
+        "platform": "medium_playwright",
+        "url": "https://medium.com/x",
+    }
 
     with patch.object(agent, "publish_to_medium_playwright", return_value=mock_result):
         results = agent.publish(sample_article, platforms=["medium_playwright"])

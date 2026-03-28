@@ -116,7 +116,7 @@ class PublisherAgent:
             )
             return {
                 "success": False,
-                "platform": "medium",
+                "platform": "medium_playwright",
                 "error": (
                     "MEDIUM_EMAIL and MEDIUM_PASSWORD are required for "
                     "Playwright-based Medium publishing"

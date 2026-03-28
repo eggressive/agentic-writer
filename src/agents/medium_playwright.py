@@ -56,7 +56,7 @@ class MediumPlaywrightPublisher:
         if not PLAYWRIGHT_AVAILABLE:
             return {
                 "success": False,
-                "platform": "medium",
+                "platform": "medium_playwright",
                 "error": _INSTALL_HINT,
             }
 
@@ -70,15 +70,27 @@ class MediumPlaywrightPublisher:
                 context = browser.new_context()
                 page = context.new_page()
 
-                self._login(page)
-                published_url = self._create_story(page, title, content, tags)
-
-                browser.close()
+                try:
+                    self._login(page)
+                    published_url = self._create_story(page, title, content, tags)
+                finally:
+                    try:
+                        context.close()
+                    except Exception as close_err:
+                        self.logger.warning(
+                            f"Failed to close Medium Playwright context: {close_err}"
+                        )
+                    try:
+                        browser.close()
+                    except Exception as close_err:
+                        self.logger.warning(
+                            f"Failed to close Medium Playwright browser: {close_err}"
+                        )
 
             self.logger.info(f"Published to Medium: {published_url}")
             return {
                 "success": True,
-                "platform": "medium",
+                "platform": "medium_playwright",
                 "url": published_url,
             }
 
@@ -86,7 +98,7 @@ class MediumPlaywrightPublisher:
             self.logger.error(f"Medium Playwright publication failed: {str(e)}")
             return {
                 "success": False,
-                "platform": "medium",
+                "platform": "medium_playwright",
                 "error": str(e),
             }
 
@@ -123,8 +135,14 @@ class MediumPlaywrightPublisher:
                 "Set a password on your Medium account or use session cookies."
             )
 
-        # Wait until we land on the Medium home page
+        # Wait until we leave the signin flow and land on Medium
         page.wait_for_url("https://medium.com/**", timeout=20_000)
+        current_url = page.url
+        if "/m/signin" in current_url or "/signin" in current_url:
+            raise RuntimeError(
+                "Login failed: still on signin page after submit. "
+                "Check your email and password."
+            )
         self.logger.info("Logged in to Medium successfully")
 
     def _create_story(self, page: Any, title: str, content: str, tags: list) -> str:
