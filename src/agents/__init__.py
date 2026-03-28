@@ -2,6 +2,7 @@
 
 from .audience_strategist import AudienceStrategist
 from .image_handler import ImageAgent
+from .medium_playwright import MediumPlaywrightPublisher
 from .publisher import PublisherAgent
 from .researcher import ResearchAgent
 from .writer import WriterAgent
@@ -12,4 +13,5 @@ __all__ = [
     "WriterAgent",
     "ImageAgent",
     "PublisherAgent",
+    "MediumPlaywrightPublisher",
 ]

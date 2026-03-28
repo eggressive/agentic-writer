@@ -65,6 +65,8 @@ class ContentCreationOrchestrator:
         )
         self.publisher_agent = PublisherAgent(
             medium_token=config.medium_access_token,
+            medium_email=config.medium_email,
+            medium_password=config.medium_password,
             ghost_api_url=config.ghost_api_url,
             ghost_admin_api_key=config.ghost_admin_api_key,
             wordpress_url=config.wordpress_url,

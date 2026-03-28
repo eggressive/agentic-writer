@@ -12,6 +12,8 @@ class Config(BaseModel):
 
     openai_api_key: str = Field(default="")
     medium_access_token: Optional[str] = Field(default=None)
+    medium_email: Optional[str] = Field(default=None)
+    medium_password: Optional[str] = Field(default=None)
     ghost_api_url: Optional[str] = Field(default=None)
     ghost_admin_api_key: Optional[str] = Field(default=None)
     wordpress_url: Optional[str] = Field(default=None)
@@ -95,6 +97,8 @@ class Config(BaseModel):
         return cls(
             openai_api_key=os.getenv("OPENAI_API_KEY", ""),
             medium_access_token=os.getenv("MEDIUM_ACCESS_TOKEN"),
+            medium_email=os.getenv("MEDIUM_EMAIL"),
+            medium_password=os.getenv("MEDIUM_PASSWORD"),
             ghost_api_url=os.getenv("GHOST_API_URL"),
             ghost_admin_api_key=os.getenv("GHOST_ADMIN_API_KEY"),
             wordpress_url=os.getenv("WORDPRESS_URL"),
