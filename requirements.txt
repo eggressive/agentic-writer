@@ -18,6 +18,10 @@ pillow>=10.0.0
 # Publishing platforms
 medium-api>=0.6.0
 
+# Optional: Playwright-based Medium publishing (Medium API is deprecated)
+# Install with: pip install "playwright>=1.40.0" && playwright install chromium
+# playwright>=1.40.0
+
 # Utilities
 python-dotenv>=1.0.0
 pydantic>=2.0.0

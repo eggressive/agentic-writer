@@ -6,6 +6,8 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from .medium_playwright import MediumPlaywrightPublisher
+
 
 class PublisherAgent:
     """Agent responsible for publishing content to platforms."""
@@ -13,6 +15,8 @@ class PublisherAgent:
     def __init__(
         self,
         medium_token: Optional[str] = None,
+        medium_email: Optional[str] = None,
+        medium_password: Optional[str] = None,
         ghost_api_url: Optional[str] = None,
         ghost_admin_api_key: Optional[str] = None,
         wordpress_url: Optional[str] = None,
@@ -24,7 +28,10 @@ class PublisherAgent:
         """Initialize the publisher agent.
 
         Args:
-            medium_token: Optional Medium API token
+            medium_token: Optional Medium API token (deprecated — Medium no longer issues
+                new tokens; use medium_email + medium_password for Playwright publishing)
+            medium_email: Optional Medium account email for Playwright-based publishing
+            medium_password: Optional Medium account password for Playwright-based publishing
             ghost_api_url: Optional Ghost blog base URL (e.g. https://myblog.ghost.io)
             ghost_admin_api_key: Optional Ghost Admin API key (id:secret format)
             wordpress_url: Optional WordPress site URL
@@ -34,6 +41,8 @@ class PublisherAgent:
             hashnode_publication_id: Optional Hashnode publication/blog ID
         """
         self.medium_token = medium_token
+        self.medium_email = medium_email
+        self.medium_password = medium_password
         self.ghost_api_url = ghost_api_url
         self.ghost_admin_api_key = ghost_admin_api_key
         self.wordpress_url = wordpress_url
@@ -85,6 +94,40 @@ class PublisherAgent:
         except Exception as e:
             self.logger.error(f"Medium publication failed: {str(e)}")
             return {"success": False, "platform": "medium", "error": str(e)}
+
+    def publish_to_medium_playwright(
+        self, article_data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Publish article to Medium via Playwright browser automation.
+
+        Uses ``MEDIUM_EMAIL`` and ``MEDIUM_PASSWORD`` credentials to log in to
+        Medium's web interface and create a story directly, bypassing the
+        deprecated Medium API.
+
+        Args:
+            article_data: Article data including title, content, and tags.
+
+        Returns:
+            Publication result with ``success``, ``platform``, and ``url`` or ``error``.
+        """
+        if not self.medium_email or not self.medium_password:
+            self.logger.warning(
+                "Medium email/password not provided, skipping Playwright publication"
+            )
+            return {
+                "success": False,
+                "platform": "medium",
+                "error": (
+                    "MEDIUM_EMAIL and MEDIUM_PASSWORD are required for "
+                    "Playwright-based Medium publishing"
+                ),
+            }
+
+        publisher = MediumPlaywrightPublisher(
+            email=self.medium_email,
+            password=self.medium_password,
+        )
+        return publisher.publish(article_data)
 
     def publish_to_ghost(self, article_data: Dict[str, Any]) -> Dict[str, Any]:
         """Publish article to Ghost.
@@ -417,6 +460,10 @@ class PublisherAgent:
         for platform in platforms:
             if platform.lower() == "medium":
                 results["medium"] = self.publish_to_medium(article_data)
+            elif platform.lower() == "medium_playwright":
+                results["medium_playwright"] = self.publish_to_medium_playwright(
+                    article_data
+                )
             elif platform.lower() == "ghost":
                 results["ghost"] = self.publish_to_ghost(article_data)
             elif platform.lower() == "wordpress":
