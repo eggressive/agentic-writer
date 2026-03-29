@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.15.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.15.0...agentic-writer-v0.15.1) (2026-03-29)
+
+
+### Code Refactoring
+
+* consolidate setup.py into pyproject.toml (PEP 621) ([#80](https://github.com/eggressive/agentic-writer/issues/80)) ([bae48f7](https://github.com/eggressive/agentic-writer/commit/bae48f7035e0b81f0be513e78877612d8df02894))
+
 ## [0.15.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.14.0...agentic-writer-v0.15.0) (2026-03-28)
 
 
