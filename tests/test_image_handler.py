@@ -538,9 +538,9 @@ def test_assign_image_placements_llm_json_error(image_agent_with_key, mock_llm):
 
     result = image_agent_with_key.assign_image_placements(article, images)
 
-    # Both images should receive a section via round-robin fallback
-    assert result[0]["section"] in ("Background", "Future")
-    assert result[1]["section"] in ("Background", "Future")
+    # Round-robin: headings[i % len(headings)] → deterministic mapping
+    assert result[0]["section"] == "Background"
+    assert result[1]["section"] == "Future"
 
 
 def test_assign_image_placements_llm_general_exception(image_agent_with_key, mock_llm):
@@ -574,6 +574,7 @@ def test_assign_image_placements_roundrobin_fallback(image_agent_with_key, mock_
 
     # First image explicitly assigned
     assert result[0]["section"] == "Intro"
-    # Remaining images get round-robin sections
-    assert result[1]["section"] in ("Intro", "Body")
-    assert result[2]["section"] in ("Intro", "Body")
+    # Remaining images get round-robin via headings[i % len(headings)]
+    # i=1 → headings[1 % 2] = "Body"; i=2 → headings[2 % 2] = "Intro"
+    assert result[1]["section"] == "Body"
+    assert result[2]["section"] == "Intro"

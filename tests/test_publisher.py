@@ -439,8 +439,12 @@ def test_embed_images_with_section_inserted_after_first_paragraph():
     ]
     result = PublisherAgent._embed_images_in_content(content, images)
     assert "https://example.com/intro.jpg" in result
-    # Image must appear before Conclusion heading
-    assert result.index("intro.jpg") < result.index("## Conclusion")
+    # Image must appear after the first paragraph and before the Conclusion heading
+    assert (
+        result.index("First paragraph text.")
+        < result.index("intro.jpg")
+        < result.index("## Conclusion")
+    )
 
 
 def test_embed_images_section_not_in_content_falls_to_end():
