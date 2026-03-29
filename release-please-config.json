@@ -5,7 +5,7 @@
       "package-name": "agentic-writer",
       "extra-files": [
         "src/__init__.py",
-        "setup.py"
+        "pyproject.toml"
       ],
       "changelog-sections": [
         { "type": "feat", "section": "Features" },
