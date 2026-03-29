@@ -489,3 +489,92 @@ def test_generate_image_suggestions_with_api_key(image_agent_with_key):
     # Should return list of suggestions
     assert isinstance(suggestions, list)
     assert len(suggestions) > 0
+
+
+# --- assign_image_placements ---
+
+
+def test_assign_image_placements_empty_images(image_agent_with_key):
+    """assign_image_placements returns immediately when images list is empty."""
+    article = "## Introduction\n\nSome text.\n\n## Conclusion\n\nEnd.\n"
+    result = image_agent_with_key.assign_image_placements(article, [])
+    assert result == []
+
+
+def test_assign_image_placements_no_headings(image_agent_with_key):
+    """assign_image_placements returns unchanged images when article has no ## headings."""
+    article = "Just a plain paragraph with no headings at all."
+    images = [{"url": "https://example.com/photo.jpg", "description": "A photo"}]
+    result = image_agent_with_key.assign_image_placements(article, images)
+    # Images returned unchanged, no section assigned
+    assert result == images
+    assert "section" not in result[0]
+
+
+def test_assign_image_placements_happy_path(image_agent_with_key, mock_llm):
+    """assign_image_placements assigns sections via LLM response."""
+    import json
+
+    article = "## Introduction\n\nFirst paragraph.\n\n## Conclusion\n\nLast words.\n"
+    images = [{"url": "https://example.com/photo.jpg", "description": "Intro photo"}]
+
+    llm_payload = json.dumps([{"image_index": 0, "heading": "Introduction"}])
+    mock_llm.invoke.return_value.content = llm_payload
+
+    result = image_agent_with_key.assign_image_placements(article, images)
+
+    assert result[0]["section"] == "Introduction"
+
+
+def test_assign_image_placements_llm_json_error(image_agent_with_key, mock_llm):
+    """assign_image_placements falls back to round-robin on JSON parse error."""
+    article = "## Background\n\nText.\n\n## Future\n\nMore text.\n"
+    images = [
+        {"url": "https://example.com/a.jpg", "description": "Image A"},
+        {"url": "https://example.com/b.jpg", "description": "Image B"},
+    ]
+
+    mock_llm.invoke.return_value.content = "not valid json"
+
+    result = image_agent_with_key.assign_image_placements(article, images)
+
+    # Round-robin: headings[i % len(headings)] → deterministic mapping
+    assert result[0]["section"] == "Background"
+    assert result[1]["section"] == "Future"
+
+
+def test_assign_image_placements_llm_general_exception(image_agent_with_key, mock_llm):
+    """assign_image_placements falls back to round-robin on unexpected LLM error."""
+    article = "## Overview\n\nSome content here.\n"
+    images = [{"url": "https://example.com/x.jpg", "description": "Overview image"}]
+
+    mock_llm.invoke.side_effect = RuntimeError("LLM unavailable")
+
+    result = image_agent_with_key.assign_image_placements(article, images)
+
+    assert result[0]["section"] == "Overview"
+
+
+def test_assign_image_placements_roundrobin_fallback(image_agent_with_key, mock_llm):
+    """assign_image_placements uses round-robin for images not covered by LLM assignments."""
+    import json
+
+    article = "## Intro\n\nText.\n\n## Body\n\nMore text.\n"
+    images = [
+        {"url": "https://example.com/1.jpg", "description": "First"},
+        {"url": "https://example.com/2.jpg", "description": "Second"},
+        {"url": "https://example.com/3.jpg", "description": "Third"},
+    ]
+
+    # LLM only assigns the first image; the rest get round-robin
+    llm_payload = json.dumps([{"image_index": 0, "heading": "Intro"}])
+    mock_llm.invoke.return_value.content = llm_payload
+
+    result = image_agent_with_key.assign_image_placements(article, images)
+
+    # First image explicitly assigned
+    assert result[0]["section"] == "Intro"
+    # Remaining images get round-robin via headings[i % len(headings)]
+    # i=1 → headings[1 % 2] = "Body"; i=2 → headings[2 % 2] = "Intro"
+    assert result[1]["section"] == "Body"
+    assert result[2]["section"] == "Intro"
