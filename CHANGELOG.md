@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.16.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.15.1...agentic-writer-v0.16.0) (2026-03-29)
+
+
+### Features
+
+* increase test coverage to 99% (backlog item) ([#82](https://github.com/eggressive/agentic-writer/issues/82)) ([23da0cc](https://github.com/eggressive/agentic-writer/commit/23da0cc5b6ead5fa11c6cba7fffe5faf7cfc13fd))
+
 ## [0.15.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.15.0...agentic-writer-v0.15.1) (2026-03-29)
 
 
