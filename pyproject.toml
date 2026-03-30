@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentic-writer"
-version = "0.16.0"
+version = "0.16.1"
 description = "Automated content creation and management using LangChain agents"
 readme = "README.md"
 license = { text = "MIT" }
