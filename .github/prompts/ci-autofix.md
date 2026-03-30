@@ -20,6 +20,7 @@ If none found, exit immediately.
 ## Step 3: Diagnose the failure
 
 Check out PR branch, read `gh run view --log-failed`. Categorize:
+
 - **Formatting/lint**: Auto-fixable with `black`/`ruff --fix`
 - **Test failure**: Read failing test + source, identify root cause
 - **Import/coverage**: Fix imports or add targeted tests

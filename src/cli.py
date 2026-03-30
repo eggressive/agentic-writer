@@ -1,6 +1,8 @@
 """Command-line interface for the content creation agent."""
 
 import click
+import openai
+import requests
 from rich.console import Console
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -197,6 +199,96 @@ def config():
 
     except Exception as e:
         console.print(f"[bold red]Error:[/bold red] {str(e)}")
+
+
+@cli.command()
+def health():
+    """Verify that configured API keys are working.
+
+    Makes lightweight API calls to OpenAI (required), Unsplash (optional),
+    and Medium (optional) to confirm credentials are valid before running
+    the full pipeline.
+
+    Exits with code 1 if any configured service fails its check.
+    """
+    cfg = Config.from_env()
+
+    console.print(
+        Panel.fit("[bold cyan]API Health Check[/bold cyan]", border_style="cyan")
+    )
+
+    results: list[tuple[str, str, str]] = []  # (service, status, message)
+
+    # --- OpenAI (required) ---
+    if not cfg.openai_api_key:
+        results.append(("OpenAI", "error", "API key not set"))
+    else:
+        try:
+            client = openai.OpenAI(api_key=cfg.openai_api_key)
+            client.models.list()
+            results.append(("OpenAI", "ok", ""))
+        except openai.AuthenticationError:
+            results.append(("OpenAI", "error", "Invalid API key"))
+        except Exception as e:
+            results.append(("OpenAI", "error", str(e)))
+
+    # --- Unsplash (optional) ---
+    if not cfg.unsplash_access_key:
+        results.append(("Unsplash", "skip", "Not configured (optional)"))
+    else:
+        try:
+            resp = requests.get(
+                "https://api.unsplash.com/photos",
+                params={"per_page": 1},
+                headers={"Authorization": f"Client-ID {cfg.unsplash_access_key}"},
+                timeout=10,
+            )
+            if resp.status_code == 200:
+                results.append(("Unsplash", "ok", ""))
+            elif resp.status_code == 401:
+                results.append(("Unsplash", "error", "Invalid API key (HTTP 401)"))
+            else:
+                results.append(("Unsplash", "error", f"HTTP {resp.status_code}"))
+        except Exception as e:
+            results.append(("Unsplash", "error", str(e)))
+
+    # --- Medium (optional) ---
+    if not cfg.medium_access_token:
+        results.append(("Medium", "skip", "Not configured (optional)"))
+    else:
+        try:
+            resp = requests.get(
+                "https://api.medium.com/v1/me",
+                headers={"Authorization": f"Bearer {cfg.medium_access_token}"},
+                timeout=10,
+            )
+            if resp.status_code == 200:
+                results.append(("Medium", "ok", ""))
+            elif resp.status_code == 401:
+                results.append(("Medium", "error", "Invalid token (HTTP 401)"))
+            else:
+                results.append(("Medium", "error", f"HTTP {resp.status_code}"))
+        except Exception as e:
+            results.append(("Medium", "error", str(e)))
+
+    # Display results
+    console.print()
+    any_error = False
+    for service, status, message in results:
+        if status == "ok":
+            console.print(f"  [bold]{service}[/bold]  [green]✓ OK[/green]")
+        elif status == "skip":
+            console.print(f"  [bold]{service}[/bold]  [yellow]○ {message}[/yellow]")
+        else:
+            console.print(f"  [bold]{service}[/bold]  [red]✗ {message}[/red]")
+            any_error = True
+
+    console.print()
+    if any_error:
+        console.print("[bold red]✗ One or more health checks failed.[/bold red]")
+        raise SystemExit(1)
+    else:
+        console.print("[bold green]✓ All configured services are healthy.[/bold green]")
 
 
 @cli.command()
