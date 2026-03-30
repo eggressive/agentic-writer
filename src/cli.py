@@ -1,5 +1,7 @@
 """Command-line interface for the content creation agent."""
 
+from __future__ import annotations
+
 import click
 import openai
 import requests
