@@ -486,6 +486,11 @@ class TestValidateCreateInputs:
         """Topic exactly at MAX_TOPIC_LENGTH is accepted."""
         validate_create_inputs("a" * MAX_TOPIC_LENGTH, None, "INFO")
 
+    def test_topic_at_max_length_with_trailing_spaces_passes(self):
+        """Topic at MAX_TOPIC_LENGTH with trailing whitespace is accepted (stripped check)."""
+        topic_with_spaces = "a" * MAX_TOPIC_LENGTH + "   "
+        validate_create_inputs(topic_with_spaces, None, "INFO")
+
     def test_invalid_style_raises(self):
         """Unknown style value raises BadParameter."""
         with pytest.raises(click.exceptions.BadParameter, match="Invalid style"):

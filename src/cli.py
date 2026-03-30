@@ -47,7 +47,7 @@ def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> 
             f"Topic must be at least {MIN_TOPIC_LENGTH} characters.",
             param_hint="'TOPIC'",
         )
-    if len(topic) > MAX_TOPIC_LENGTH:
+    if len(stripped) > MAX_TOPIC_LENGTH:
         raise click.BadParameter(
             f"Topic must be at most {MAX_TOPIC_LENGTH} characters.",
             param_hint="'TOPIC'",
