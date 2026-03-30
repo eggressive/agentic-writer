@@ -3,6 +3,7 @@
 from unittest.mock import Mock, patch
 
 import click
+import openai
 import pytest
 from click.testing import CliRunner
 
@@ -608,3 +609,162 @@ class TestCreateCommandValidationIntegration:
         assert result.exit_code == 0
         call_kwargs = mock_orchestrator.create_content.call_args
         assert call_kwargs.kwargs["topic"] == "AI in Healthcare"
+
+
+# --- health command tests ---
+
+
+def test_health_command_help(runner):
+    """Test that the health command shows help."""
+    result = runner.invoke(cli, ["health", "--help"])
+    assert result.exit_code == 0
+    assert "Verify that configured API keys are working" in result.output
+
+
+@patch("src.cli.requests.get")
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_all_configured_ok(
+    mock_config_class, mock_openai_class, mock_requests_get, runner
+):
+    """Happy path: all services configured and responding correctly."""
+    mock_config = Config(
+        openai_api_key="sk-test",
+        unsplash_access_key="unsplash-key",
+        medium_access_token="medium-token",
+    )
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_client = Mock()
+    mock_openai_class.return_value = mock_client
+
+    mock_resp = Mock()
+    mock_resp.status_code = 200
+    mock_requests_get.return_value = mock_resp
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 0
+    assert "✓ OK" in result.output
+    assert "All configured services are healthy" in result.output
+    mock_client.models.list.assert_called_once()
+    assert mock_requests_get.call_count == 2
+
+
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_optional_services_not_configured(
+    mock_config_class, mock_openai_class, runner
+):
+    """Optional services not configured show as skipped, not errors."""
+    mock_config = Config(openai_api_key="sk-test")
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_client = Mock()
+    mock_openai_class.return_value = mock_client
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 0
+    assert "All configured services are healthy" in result.output
+    assert "Not configured (optional)" in result.output
+
+
+@patch("src.cli.Config")
+def test_health_command_openai_key_missing(mock_config_class, runner):
+    """OpenAI key missing causes exit code 1."""
+    mock_config = Config(openai_api_key="")
+    mock_config_class.from_env.return_value = mock_config
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 1
+    assert "API key not set" in result.output
+    assert "One or more health checks failed" in result.output
+
+
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_openai_auth_error(mock_config_class, mock_openai_class, runner):
+    """Invalid OpenAI key causes exit code 1."""
+    mock_config = Config(openai_api_key="sk-invalid")
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_client = Mock()
+    mock_client.models.list.side_effect = openai.AuthenticationError(
+        message="Invalid API key",
+        response=Mock(status_code=401, headers={}),
+        body={"error": {"message": "Invalid API key"}},
+    )
+    mock_openai_class.return_value = mock_client
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 1
+    assert "Invalid API key" in result.output
+    assert "One or more health checks failed" in result.output
+
+
+@patch("src.cli.requests.get")
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_unsplash_auth_error(
+    mock_config_class, mock_openai_class, mock_requests_get, runner
+):
+    """Invalid Unsplash key causes exit code 1."""
+    mock_config = Config(openai_api_key="sk-test", unsplash_access_key="bad-key")
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_openai_class.return_value = Mock()
+
+    mock_resp = Mock()
+    mock_resp.status_code = 401
+    mock_requests_get.return_value = mock_resp
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 1
+    assert "Invalid API key (HTTP 401)" in result.output
+    assert "One or more health checks failed" in result.output
+
+
+@patch("src.cli.requests.get")
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_medium_auth_error(
+    mock_config_class, mock_openai_class, mock_requests_get, runner
+):
+    """Invalid Medium token causes exit code 1."""
+    mock_config = Config(openai_api_key="sk-test", medium_access_token="bad-token")
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_openai_class.return_value = Mock()
+
+    mock_resp = Mock()
+    mock_resp.status_code = 401
+    mock_requests_get.return_value = mock_resp
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 1
+    assert "Invalid token (HTTP 401)" in result.output
+    assert "One or more health checks failed" in result.output
+
+
+@patch("src.cli.requests.get")
+@patch("src.cli.openai.OpenAI")
+@patch("src.cli.Config")
+def test_health_command_network_error(
+    mock_config_class, mock_openai_class, mock_requests_get, runner
+):
+    """Network error on an optional service causes exit code 1."""
+    mock_config = Config(openai_api_key="sk-test", unsplash_access_key="key")
+    mock_config_class.from_env.return_value = mock_config
+
+    mock_openai_class.return_value = Mock()
+    mock_requests_get.side_effect = Exception("Connection refused")
+
+    result = runner.invoke(cli, ["health"])
+
+    assert result.exit_code == 1
+    assert "Connection refused" in result.output

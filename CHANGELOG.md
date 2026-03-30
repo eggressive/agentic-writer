@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.17.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.16.1...agentic-writer-v0.17.0) (2026-03-30)
+
+
+### Features
+
+* add health CLI command to verify API key connectivity ([#86](https://github.com/eggressive/agentic-writer/issues/86)) ([98042ff](https://github.com/eggressive/agentic-writer/commit/98042ffd5a8c44b72977104c2053c43f17c9196f))
+
+## [0.16.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.16.0...agentic-writer-v0.16.1) (2026-03-30)
+
+
+### Documentation
+
+* add CI autofix loop to daily trigger and document in CLAUDE.md ([fe41e92](https://github.com/eggressive/agentic-writer/commit/fe41e925f652aa129a367901163594687460d11f))
+
 ## [0.16.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.15.1...agentic-writer-v0.16.0) (2026-03-29)
 
 
