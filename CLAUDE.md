@@ -109,6 +109,38 @@ When working autonomously (scheduled trigger, background agent), follow this loo
 10. **CI feedback:** If CI fails, read the logs, fix, and push again
 11. **Done:** Move to the next task
 
+## CI Autofix Loop
+
+The daily trigger (`trig_01Sb2fKE8qhRAqCb8tddMsJp`) includes CI repair as **Priority 0** — before PR remediation and new work. No extra triggers or GitHub secrets required.
+
+A dedicated hourly trigger exists (`trig_01SfFsnvVFjnye1ymJcju1a8`) but is **disabled by default**. Enable it via `/schedule` if you need faster CI feedback during active development.
+
+### How it works
+
+1. Daily trigger runs at 07:00 UTC, checks all open PRs for failed CI
+2. PRs with `skip-autofix` label are skipped
+3. Max 2 `<!-- ci-autofix -->` comments per PR — after that, flags "needs human review"
+4. Checks out the PR branch, reads `gh run view --log-failed`
+5. Up to 3 fix attempts per PR — runs full preflight before committing
+6. Commits, pushes, and comments on the PR with outcome
+7. Processes ONE failed PR, then moves to review comments and new work
+
+### Safety rails
+
+- Only modifies `src/` and `tests/` — will not touch workflows, config, or credentials
+- Never force-pushes or rewrites history
+- Skips workflow YAML and credentials failures (comments "needs human review")
+
+### Kill switch
+
+```bash
+# Disable autofix on a specific PR
+gh pr edit <number> --add-label skip-autofix
+
+# For urgent fixes needing faster turnaround, trigger manually:
+# claude /schedule → run trig_01Sb2fKE8qhRAqCb8tddMsJp
+```
+
 ## Conventions
 
 - New agents go in `src/agents/`, export via `__init__.py`, register in orchestrator
