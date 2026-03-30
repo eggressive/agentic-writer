@@ -585,3 +585,26 @@ class TestCreateCommandValidationIntegration:
 
         assert result.exit_code == 0
         mock_orchestrator.create_content.assert_called_once()
+
+    @patch("src.cli.ContentCreationOrchestrator")
+    @patch("src.cli.Config")
+    @patch("src.cli.setup_logger")
+    def test_topic_is_stripped_before_pipeline(
+        self,
+        mock_setup_logger,
+        mock_config_class,
+        mock_orchestrator_class,
+        runner,
+        mock_orchestrator,
+    ):
+        """Topic with surrounding whitespace is stripped before being passed downstream."""
+        mock_config = Mock()
+        mock_config_class.from_env.return_value = mock_config
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(cli, ["create", "  AI in Healthcare  "])
+
+        assert result.exit_code == 0
+        call_kwargs = mock_orchestrator.create_content.call_args
+        assert call_kwargs.kwargs["topic"] == "AI in Healthcare"
