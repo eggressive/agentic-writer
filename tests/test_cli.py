@@ -610,6 +610,31 @@ class TestCreateCommandValidationIntegration:
         call_kwargs = mock_orchestrator.create_content.call_args
         assert call_kwargs.kwargs["topic"] == "AI in Healthcare"
 
+    @patch("src.cli.ContentCreationOrchestrator")
+    @patch("src.cli.Config")
+    @patch("src.cli.setup_logger")
+    def test_style_is_normalized_to_lowercase_before_pipeline(
+        self,
+        mock_setup_logger,
+        mock_config_class,
+        mock_orchestrator_class,
+        runner,
+        mock_orchestrator,
+    ):
+        """Style with mixed case is lowercased before being passed downstream."""
+        mock_config = Mock()
+        mock_config_class.from_env.return_value = mock_config
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(
+            cli, ["create", "AI in Healthcare", "--style", "Professional"]
+        )
+
+        assert result.exit_code == 0
+        call_kwargs = mock_orchestrator.create_content.call_args
+        assert call_kwargs.kwargs["style"] == "professional"
+
 
 # --- health command tests ---
 

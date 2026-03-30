@@ -110,6 +110,8 @@ def create(topic, style, audience, platform, output_dir, log_level, dry_run):
     validate_create_inputs(topic, style, log_level)
     topic = topic.strip()
     log_level = log_level.upper()
+    if style is not None:
+        style = style.lower().strip()
 
     # Setup
     logger = setup_logger(level=log_level)
