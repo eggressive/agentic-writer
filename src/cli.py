@@ -57,7 +57,7 @@ def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> 
             param_hint="'TOPIC'",
         )
 
-    if style is not None and style.lower() not in VALID_STYLES:
+    if style is not None and style.strip().lower() not in VALID_STYLES:
         valid = ", ".join(sorted(VALID_STYLES))
         raise click.BadParameter(
             f"Invalid style '{style}'. Valid styles: {valid}.",

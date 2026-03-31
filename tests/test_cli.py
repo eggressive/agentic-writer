@@ -511,6 +511,11 @@ class TestValidateCreateInputs:
         validate_create_inputs("Valid Topic", "Professional", "INFO")
         validate_create_inputs("Valid Topic", "TECHNICAL", "INFO")
 
+    def test_style_with_surrounding_whitespace_passes(self):
+        """Style with surrounding whitespace is accepted (stripped before check)."""
+        validate_create_inputs("Valid Topic", "professional ", "INFO")
+        validate_create_inputs("Valid Topic", " Professional ", "INFO")
+
     def test_invalid_log_level_raises(self):
         """Unknown log level raises BadParameter."""
         with pytest.raises(click.exceptions.BadParameter, match="Invalid log level"):
