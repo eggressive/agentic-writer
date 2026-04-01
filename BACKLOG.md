@@ -7,9 +7,9 @@ Mark items as done with ~~strikethrough~~ when completed via PR.
 
 ## Priority 1 (High Impact)
 
-1. **Increase test coverage to 80%** — identify untested branches in `src/agents/` and `src/orchestrator.py`, add unit tests following existing mock patterns in `tests/conftest.py`
-2. **Add `--dry-run` CLI flag** — show what the pipeline would do without calling OpenAI or writing files; useful for validating config and arguments
-3. **Add retry logic to WriterAgent** — `ResearchAgent` uses `tenacity.retry` for web calls; `WriterAgent` has no retry on LLM failures, add the same pattern
+1. ~~**Increase test coverage to 80%** — identify untested branches in `src/agents/` and `src/orchestrator.py`, add unit tests following existing mock patterns in `tests/conftest.py`~~
+2. ~~**Add `--dry-run` CLI flag** — show what the pipeline would do without calling OpenAI or writing files; useful for validating config and arguments~~
+3. ~~**Add retry logic to WriterAgent** — `ResearchAgent` uses `tenacity.retry` for web calls; `WriterAgent` has no retry on LLM failures, add the same pattern~~
 
 ## Priority 2 (Medium Impact)
 

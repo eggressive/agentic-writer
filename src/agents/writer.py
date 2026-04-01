@@ -1,11 +1,12 @@
 """Writer agent for creating content based on research."""
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 
 class WriterAgent:
@@ -19,6 +20,20 @@ class WriterAgent:
         """
         self.llm = llm
         self.logger = logging.getLogger(__name__)
+
+    @retry(
+        stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10)
+    )
+    def _invoke_llm(self, messages: List) -> Any:
+        """Invoke the LLM with retry logic on transient failures.
+
+        Args:
+            messages: Formatted messages to send to the LLM
+
+        Returns:
+            LLM response object
+        """
+        return self.llm.invoke(messages)
 
     def _build_persona_context(
         self, persona: Optional[Dict[str, Any]], include_content_prefs: bool = False
@@ -184,7 +199,7 @@ class WriterAgent:
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self._invoke_llm(prompt.format_messages())
 
         return response.content
 
@@ -220,7 +235,7 @@ Requirements:
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self._invoke_llm(prompt.format_messages())
 
         return response.content
 
@@ -288,7 +303,7 @@ Requirements:
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self._invoke_llm(prompt.format_messages())
         article_content = response.content
 
         # Generate title
@@ -349,7 +364,7 @@ Requirements:
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self._invoke_llm(prompt.format_messages())
 
         return response.content.strip()
 
@@ -376,7 +391,7 @@ Requirements:
             ]
         )
 
-        response = self.llm.invoke(prompt.format_messages())
+        response = self._invoke_llm(prompt.format_messages())
         tags = [tag.strip() for tag in response.content.split(",")]
 
         return tags[:8]  # Limit to 8 tags
