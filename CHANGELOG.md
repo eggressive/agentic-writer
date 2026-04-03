@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.17.0...agentic-writer-v0.18.0) (2026-04-03)
+
+
+### Features
+
+* add input validation for CLI create command ([#84](https://github.com/eggressive/agentic-writer/issues/84)) ([cef65dc](https://github.com/eggressive/agentic-writer/commit/cef65dce4d782c9c5c55fe9863ab6a827c54f29a))
+
 ## [0.17.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.16.1...agentic-writer-v0.17.0) (2026-03-30)
 
 
