@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.18.0...agentic-writer-v0.18.1) (2026-04-03)
+
+
+### Miscellaneous
+
+* pin dependency versions with ~= for reproducible builds ([#88](https://github.com/eggressive/agentic-writer/issues/88)) ([299dd32](https://github.com/eggressive/agentic-writer/commit/299dd325b8d303cbae6803afd0adf124aae55648))
+
 ## [0.18.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.17.0...agentic-writer-v0.18.0) (2026-04-03)
 
 
