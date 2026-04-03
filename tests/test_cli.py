@@ -2,12 +2,20 @@
 
 from unittest.mock import Mock, patch
 
+import click
 import openai
 import pytest
 from click.testing import CliRunner
 
 from src import __version__
-from src.cli import cli
+from src.cli import (
+    MAX_TOPIC_LENGTH,
+    MIN_TOPIC_LENGTH,
+    VALID_LOG_LEVELS,
+    VALID_STYLES,
+    cli,
+    validate_create_inputs,
+)
 from src.utils.config import Config
 
 
@@ -435,6 +443,202 @@ def test_create_command_custom_log_level(mock_setup_logger, runner):
 
         # Verify logger was setup with correct level
         mock_setup_logger.assert_called_once_with(level="DEBUG")
+
+
+# ---------------------------------------------------------------------------
+# Input validation tests
+# ---------------------------------------------------------------------------
+
+
+class TestValidateCreateInputs:
+    """Unit tests for the validate_create_inputs helper."""
+
+    def test_valid_inputs_pass(self):
+        """Valid topic, style, and log_level raise no error."""
+        validate_create_inputs("Artificial Intelligence", "professional", "INFO")
+
+    def test_topic_empty_raises(self):
+        """Empty topic raises BadParameter."""
+        with pytest.raises(click.exceptions.BadParameter, match="empty"):
+            validate_create_inputs("", None, "INFO")
+
+    def test_topic_whitespace_only_raises(self):
+        """Whitespace-only topic raises BadParameter."""
+        with pytest.raises(click.exceptions.BadParameter, match="empty"):
+            validate_create_inputs("   ", None, "INFO")
+
+    def test_topic_too_short_raises(self):
+        """Topic shorter than MIN_TOPIC_LENGTH raises BadParameter."""
+        short = "a" * (MIN_TOPIC_LENGTH - 1)
+        with pytest.raises(click.exceptions.BadParameter, match="at least"):
+            validate_create_inputs(short, None, "INFO")
+
+    def test_topic_at_min_length_passes(self):
+        """Topic exactly at MIN_TOPIC_LENGTH is accepted."""
+        validate_create_inputs("a" * MIN_TOPIC_LENGTH, None, "INFO")
+
+    def test_topic_too_long_raises(self):
+        """Topic exceeding MAX_TOPIC_LENGTH raises BadParameter."""
+        long_topic = "a" * (MAX_TOPIC_LENGTH + 1)
+        with pytest.raises(click.exceptions.BadParameter, match="at most"):
+            validate_create_inputs(long_topic, None, "INFO")
+
+    def test_topic_at_max_length_passes(self):
+        """Topic exactly at MAX_TOPIC_LENGTH is accepted."""
+        validate_create_inputs("a" * MAX_TOPIC_LENGTH, None, "INFO")
+
+    def test_topic_at_max_length_with_trailing_spaces_passes(self):
+        """Topic at MAX_TOPIC_LENGTH with trailing whitespace is accepted (stripped check)."""
+        topic_with_spaces = "a" * MAX_TOPIC_LENGTH + "   "
+        validate_create_inputs(topic_with_spaces, None, "INFO")
+
+    def test_invalid_style_raises(self):
+        """Unknown style value raises BadParameter."""
+        with pytest.raises(click.exceptions.BadParameter, match="Invalid style"):
+            validate_create_inputs("Valid Topic", "jargon", "INFO")
+
+    def test_style_none_is_valid(self):
+        """Style=None (omitted) is always valid."""
+        validate_create_inputs("Valid Topic", None, "INFO")
+
+    def test_all_valid_styles_pass(self):
+        """Every style in VALID_STYLES is accepted."""
+        for style in VALID_STYLES:
+            validate_create_inputs("Valid Topic", style, "INFO")
+
+    def test_style_case_insensitive(self):
+        """Style matching is case-insensitive."""
+        validate_create_inputs("Valid Topic", "Professional", "INFO")
+        validate_create_inputs("Valid Topic", "TECHNICAL", "INFO")
+
+    def test_style_with_surrounding_whitespace_passes(self):
+        """Style with surrounding whitespace is accepted (stripped before check)."""
+        validate_create_inputs("Valid Topic", "professional ", "INFO")
+        validate_create_inputs("Valid Topic", " Professional ", "INFO")
+
+    def test_invalid_log_level_raises(self):
+        """Unknown log level raises BadParameter."""
+        with pytest.raises(click.exceptions.BadParameter, match="Invalid log level"):
+            validate_create_inputs("Valid Topic", None, "VERBOSE")
+
+    def test_all_valid_log_levels_pass(self):
+        """Every level in VALID_LOG_LEVELS is accepted."""
+        for level in VALID_LOG_LEVELS:
+            validate_create_inputs("Valid Topic", None, level)
+
+    def test_log_level_case_insensitive(self):
+        """Log-level matching is case-insensitive."""
+        validate_create_inputs("Valid Topic", None, "debug")
+        validate_create_inputs("Valid Topic", None, "Warning")
+
+
+class TestCreateCommandValidationIntegration:
+    """Integration tests: validation errors surface correctly in the CLI."""
+
+    def test_empty_topic_exits_with_error(self, runner):
+        """Empty topic string causes exit code 2 (UsageError)."""
+        result = runner.invoke(cli, ["create", "  "])
+        assert result.exit_code == 2
+        assert "Error" in result.output
+
+    def test_too_long_topic_exits_with_error(self, runner):
+        """Oversized topic causes exit code 2."""
+        long_topic = "a" * (MAX_TOPIC_LENGTH + 1)
+        result = runner.invoke(cli, ["create", long_topic])
+        assert result.exit_code == 2
+        assert "at most" in result.output
+
+    def test_invalid_style_exits_with_error(self, runner):
+        """Unknown style causes exit code 2."""
+        result = runner.invoke(cli, ["create", "Valid Topic", "--style", "jargon"])
+        assert result.exit_code == 2
+        assert "Invalid style" in result.output
+
+    def test_invalid_log_level_exits_with_error(self, runner):
+        """Unknown log level causes exit code 2."""
+        result = runner.invoke(cli, ["create", "Valid Topic", "--log-level", "VERBOSE"])
+        assert result.exit_code == 2
+        assert "Invalid log level" in result.output
+
+    @patch("src.cli.ContentCreationOrchestrator")
+    @patch("src.cli.Config")
+    @patch("src.cli.setup_logger")
+    def test_valid_inputs_proceed_normally(
+        self,
+        mock_setup_logger,
+        mock_config_class,
+        mock_orchestrator_class,
+        runner,
+        mock_orchestrator,
+    ):
+        """Valid inputs pass validation and invoke the pipeline."""
+        mock_config = Mock()
+        mock_config_class.from_env.return_value = mock_config
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(
+            cli,
+            [
+                "create",
+                "Artificial Intelligence in Healthcare",
+                "--style",
+                "professional",
+                "--log-level",
+                "DEBUG",
+            ],
+        )
+
+        assert result.exit_code == 0
+        mock_orchestrator.create_content.assert_called_once()
+
+    @patch("src.cli.ContentCreationOrchestrator")
+    @patch("src.cli.Config")
+    @patch("src.cli.setup_logger")
+    def test_topic_is_stripped_before_pipeline(
+        self,
+        mock_setup_logger,
+        mock_config_class,
+        mock_orchestrator_class,
+        runner,
+        mock_orchestrator,
+    ):
+        """Topic with surrounding whitespace is stripped before being passed downstream."""
+        mock_config = Mock()
+        mock_config_class.from_env.return_value = mock_config
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(cli, ["create", "  AI in Healthcare  "])
+
+        assert result.exit_code == 0
+        call_kwargs = mock_orchestrator.create_content.call_args
+        assert call_kwargs.kwargs["topic"] == "AI in Healthcare"
+
+    @patch("src.cli.ContentCreationOrchestrator")
+    @patch("src.cli.Config")
+    @patch("src.cli.setup_logger")
+    def test_style_is_normalized_to_lowercase_before_pipeline(
+        self,
+        mock_setup_logger,
+        mock_config_class,
+        mock_orchestrator_class,
+        runner,
+        mock_orchestrator,
+    ):
+        """Style with mixed case is lowercased before being passed downstream."""
+        mock_config = Mock()
+        mock_config_class.from_env.return_value = mock_config
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(
+            cli, ["create", "AI in Healthcare", "--style", "Professional"]
+        )
+
+        assert result.exit_code == 0
+        call_kwargs = mock_orchestrator.create_content.call_args
+        assert call_kwargs.kwargs["style"] == "professional"
 
 
 # --- health command tests ---

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import click
 import openai
 import requests
@@ -13,6 +15,61 @@ from .orchestrator import ContentCreationOrchestrator
 from .utils import Config, setup_logger
 
 console = Console()
+
+VALID_STYLES = {
+    "professional",
+    "casual",
+    "technical",
+    "academic",
+    "conversational",
+    "formal",
+    "informal",
+}
+VALID_LOG_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
+MAX_TOPIC_LENGTH = 500
+MIN_TOPIC_LENGTH = 3
+
+
+def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> None:
+    """Validate inputs for the create command.
+
+    Args:
+        topic: The content topic provided by the user.
+        style: Optional writing style.
+        log_level: Logging verbosity level.
+
+    Raises:
+        click.BadParameter: If any argument fails validation.
+    """
+    stripped = topic.strip()
+    if not stripped:
+        raise click.BadParameter(
+            "Topic cannot be empty or whitespace.", param_hint="'TOPIC'"
+        )
+    if len(stripped) < MIN_TOPIC_LENGTH:
+        raise click.BadParameter(
+            f"Topic must be at least {MIN_TOPIC_LENGTH} characters.",
+            param_hint="'TOPIC'",
+        )
+    if len(stripped) > MAX_TOPIC_LENGTH:
+        raise click.BadParameter(
+            f"Topic must be at most {MAX_TOPIC_LENGTH} characters.",
+            param_hint="'TOPIC'",
+        )
+
+    if style is not None and style.strip().lower() not in VALID_STYLES:
+        valid = ", ".join(sorted(VALID_STYLES))
+        raise click.BadParameter(
+            f"Invalid style '{style}'. Valid styles: {valid}.",
+            param_hint="'--style'",
+        )
+
+    if log_level.upper() not in VALID_LOG_LEVELS:
+        valid = ", ".join(sorted(VALID_LOG_LEVELS))
+        raise click.BadParameter(
+            f"Invalid log level '{log_level}'. Valid levels: {valid}.",
+            param_hint="'--log-level'",
+        )
 
 
 @click.group()
@@ -50,6 +107,12 @@ def create(topic, style, audience, platform, output_dir, log_level, dry_run):
     Example:
         content-agent create "Artificial Intelligence in Healthcare" --style professional
     """
+    validate_create_inputs(topic, style, log_level)
+    topic = topic.strip()
+    log_level = log_level.upper()
+    if style is not None:
+        style = style.lower().strip()
+
     # Setup
     logger = setup_logger(level=log_level)
 
