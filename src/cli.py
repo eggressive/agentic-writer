@@ -39,19 +39,27 @@ def cli():
 @click.option("--output-dir", default="output", help="Output directory for files")
 @click.option("--log-level", default="INFO", help="Logging level")
 @click.option(
+    "--log-format",
+    default="text",
+    type=click.Choice(["text", "json"], case_sensitive=False),
+    help="Log output format (text or json)",
+)
+@click.option(
     "--dry-run",
     is_flag=True,
     default=False,
     help="Validate config and show what would run without calling APIs",
 )
-def create(topic, style, audience, platform, output_dir, log_level, dry_run):
+def create(
+    topic, style, audience, platform, output_dir, log_level, log_format, dry_run
+):
     """Create and publish content on a given TOPIC.
 
     Example:
         content-agent create "Artificial Intelligence in Healthcare" --style professional
     """
     # Setup
-    logger = setup_logger(level=log_level)
+    logger = setup_logger(level=log_level, log_format=log_format)
 
     console.print(
         Panel.fit(

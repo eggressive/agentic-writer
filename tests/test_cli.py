@@ -122,7 +122,7 @@ def test_create_command_success(
     assert "Content creation completed successfully" in result.output
     mock_config_class.from_env.assert_called_once()
     mock_config.validate_required.assert_called_once()
-    mock_setup_logger.assert_called_once_with(level="INFO")
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
     mock_orchestrator_class.assert_called_once_with(mock_config)
     mock_orchestrator.create_content.assert_called_once_with(
         topic="Test Topic",
@@ -201,7 +201,7 @@ def test_create_command_default_values(
     assert call_kwargs["target_audience"] is None
     assert call_kwargs["platforms"] == ["file"]
     assert call_kwargs["output_dir"] == "output"
-    mock_setup_logger.assert_called_once_with(level="INFO")
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
 
 
 @patch("src.cli.Config")
@@ -434,7 +434,7 @@ def test_create_command_custom_log_level(mock_setup_logger, runner):
         )
 
         # Verify logger was setup with correct level
-        mock_setup_logger.assert_called_once_with(level="DEBUG")
+        mock_setup_logger.assert_called_once_with(level="DEBUG", log_format="text")
 
 
 # --- health command tests ---
@@ -594,3 +594,55 @@ def test_health_command_network_error(
 
     assert result.exit_code == 1
     assert "Connection refused" in result.output
+
+
+def test_create_command_help_shows_log_format(runner):
+    """--log-format option is visible in create help."""
+    result = runner.invoke(cli, ["create", "--help"])
+    assert result.exit_code == 0
+    assert "--log-format" in result.output
+
+
+@patch("src.cli.ContentCreationOrchestrator")
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_command_log_format_json_passed_to_setup_logger(
+    mock_setup_logger, mock_config_class, mock_orchestrator_class, runner, mock_config
+):
+    """--log-format json is forwarded to setup_logger."""
+    mock_config_class.from_env.return_value = mock_config
+    mock_orchestrator_class.return_value = Mock()
+    mock_orchestrator_class.return_value.create_content.return_value = {
+        "status": "error",
+        "error": "test",
+    }
+
+    runner.invoke(cli, ["create", "Test topic", "--log-format", "json"])
+
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="json")
+
+
+@patch("src.cli.ContentCreationOrchestrator")
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_command_log_format_text_default(
+    mock_setup_logger, mock_config_class, mock_orchestrator_class, runner, mock_config
+):
+    """Omitting --log-format defaults to text."""
+    mock_config_class.from_env.return_value = mock_config
+    mock_orchestrator_class.return_value = Mock()
+    mock_orchestrator_class.return_value.create_content.return_value = {
+        "status": "error",
+        "error": "test",
+    }
+
+    runner.invoke(cli, ["create", "Test topic"])
+
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
+
+
+def test_create_command_log_format_invalid_choice(runner):
+    """An invalid --log-format value is rejected by Click."""
+    result = runner.invoke(cli, ["create", "Test topic", "--log-format", "xml"])
+    assert result.exit_code != 0
+    assert "xml" in result.output or "Invalid value" in result.output
