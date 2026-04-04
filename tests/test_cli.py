@@ -437,6 +437,112 @@ def test_create_command_custom_log_level(mock_setup_logger, runner):
         mock_setup_logger.assert_called_once_with(level="DEBUG")
 
 
+# --- input validation tests ---
+
+
+def test_create_empty_topic_rejected(runner):
+    """Whitespace-only topic is rejected with a clear error."""
+    result = runner.invoke(cli, ["create", "   "])
+    assert result.exit_code == 2
+    assert "Topic cannot be empty" in result.output
+
+
+def test_create_topic_too_long_rejected(runner):
+    """Topic exceeding 500 characters is rejected."""
+    long_topic = "x" * 501
+    result = runner.invoke(cli, ["create", long_topic])
+    assert result.exit_code == 2
+    assert "too long" in result.output
+    assert "500" in result.output
+
+
+def test_create_invalid_style_rejected(runner):
+    """Unknown style value is rejected with list of valid options."""
+    result = runner.invoke(cli, ["create", "My Topic", "--style", "freeform"])
+    assert result.exit_code == 2
+    assert "Invalid style 'freeform'" in result.output
+    assert "professional" in result.output
+
+
+@pytest.mark.parametrize(
+    "style",
+    [
+        "professional",
+        "casual",
+        "technical",
+        "academic",
+        "conversational",
+        "storytelling",
+    ],
+)
+@patch("src.cli.ContentCreationOrchestrator")
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_valid_styles_accepted(
+    mock_setup_logger,
+    mock_config_class,
+    mock_orchestrator_class,
+    style,
+    runner,
+    mock_orchestrator,
+):
+    """All documented style values are accepted."""
+    mock_config_class.from_env.return_value = Mock()
+    mock_orchestrator_class.return_value = mock_orchestrator
+    mock_setup_logger.return_value = Mock()
+
+    result = runner.invoke(cli, ["create", "My Topic", "--style", style])
+    assert result.exit_code == 0
+
+
+def test_create_invalid_platform_rejected(runner):
+    """Unknown platform is rejected with list of valid options."""
+    result = runner.invoke(cli, ["create", "My Topic", "--platform", "twitter"])
+    assert result.exit_code == 2
+    assert "Unknown platform 'twitter'" in result.output
+    assert "file" in result.output
+
+
+@pytest.mark.parametrize(
+    "platform",
+    ["file", "medium", "medium_playwright", "ghost", "wordpress", "hashnode"],
+)
+@patch("src.cli.ContentCreationOrchestrator")
+@patch("src.cli.Config")
+@patch("src.cli.setup_logger")
+def test_create_valid_platforms_accepted(
+    mock_setup_logger,
+    mock_config_class,
+    mock_orchestrator_class,
+    platform,
+    runner,
+    mock_orchestrator,
+):
+    """All supported platform values are accepted."""
+    mock_config_class.from_env.return_value = Mock()
+    mock_orchestrator_class.return_value = mock_orchestrator
+    mock_setup_logger.return_value = Mock()
+
+    result = runner.invoke(cli, ["create", "My Topic", "--platform", platform])
+    assert result.exit_code == 0
+
+
+def test_create_topic_max_length_accepted(runner):
+    """Topic exactly at max length (500 chars) is accepted."""
+    with patch("src.cli.Config") as mock_config_class, patch(
+        "src.cli.setup_logger"
+    ) as mock_setup_logger, patch(
+        "src.cli.ContentCreationOrchestrator"
+    ) as mock_orchestrator_class:
+        mock_config_class.from_env.return_value = Mock()
+        mock_orchestrator_class.return_value = mock_orchestrator
+        mock_setup_logger.return_value = Mock()
+
+        result = runner.invoke(cli, ["create", "x" * 500])
+        # Should not fail on length validation (exit 2)
+        assert result.exit_code != 2 or "too long" not in result.output
+
+
 # --- health command tests ---
 
 

@@ -14,6 +14,21 @@ from .utils import Config, setup_logger
 
 console = Console()
 
+VALID_STYLES = frozenset(
+    {
+        "professional",
+        "casual",
+        "technical",
+        "academic",
+        "conversational",
+        "storytelling",
+    }
+)
+VALID_PLATFORMS = frozenset(
+    {"file", "medium", "medium_playwright", "ghost", "wordpress", "hashnode"}
+)
+TOPIC_MAX_LENGTH = 500
+
 
 @click.group()
 def cli():
@@ -50,6 +65,29 @@ def create(topic, style, audience, platform, output_dir, log_level, dry_run):
     Example:
         content-agent create "Artificial Intelligence in Healthcare" --style professional
     """
+    # Input validation
+    topic = topic.strip()
+    if not topic:
+        raise click.BadParameter(
+            "Topic cannot be empty or whitespace.", param_hint="'TOPIC'"
+        )
+    if len(topic) > TOPIC_MAX_LENGTH:
+        raise click.BadParameter(
+            f"Topic is too long ({len(topic)} chars). Maximum is {TOPIC_MAX_LENGTH}.",
+            param_hint="'TOPIC'",
+        )
+    if style is not None and style.lower() not in VALID_STYLES:
+        raise click.BadParameter(
+            f"Invalid style '{style}'. Choose from: {', '.join(sorted(VALID_STYLES))}.",
+            param_hint="'--style'",
+        )
+    for p in platform:
+        if p.lower() not in VALID_PLATFORMS:
+            raise click.BadParameter(
+                f"Unknown platform '{p}'. Choose from: {', '.join(sorted(VALID_PLATFORMS))}.",
+                param_hint="'--platform'",
+            )
+
     # Setup
     logger = setup_logger(level=log_level)
 

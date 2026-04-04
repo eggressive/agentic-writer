@@ -13,7 +13,7 @@ Mark items as done with ~~strikethrough~~ when completed via PR.
 
 ## Priority 2 (Medium Impact)
 
-1. **Add input validation for CLI arguments** — validate topic length (non-empty, reasonable max), validate style values, surface clear error messages
+1. ~~**Add input validation for CLI arguments** — validate topic length (non-empty, reasonable max), validate style values, surface clear error messages~~
 1. ~~**Add `health` CLI command** — verify API keys work (OpenAI, Unsplash, Medium) with lightweight API calls before running the full pipeline~~
 1. ~~**Consolidate setup.py into pyproject.toml** — move package metadata, dependencies, and entry points from `setup.py` to `pyproject.toml` (PEP 621)~~
 
