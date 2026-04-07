@@ -26,17 +26,21 @@ VALID_STYLES = {
     "informal",
 }
 VALID_LOG_LEVELS = {"DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"}
+VALID_LOG_FORMATS = {"text", "json"}
 MAX_TOPIC_LENGTH = 500
 MIN_TOPIC_LENGTH = 3
 
 
-def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> None:
+def validate_create_inputs(
+    topic: str, style: Optional[str], log_level: str, log_format: str = "text"
+) -> None:
     """Validate inputs for the create command.
 
     Args:
         topic: The content topic provided by the user.
         style: Optional writing style.
         log_level: Logging verbosity level.
+        log_format: Log output format ("text" or "json").
 
     Raises:
         click.BadParameter: If any argument fails validation.
@@ -71,6 +75,13 @@ def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> 
             param_hint="'--log-level'",
         )
 
+    if log_format.lower() not in VALID_LOG_FORMATS:
+        valid = ", ".join(sorted(VALID_LOG_FORMATS))
+        raise click.BadParameter(
+            f"Invalid log format '{log_format}'. Valid formats: {valid}.",
+            param_hint="'--log-format'",
+        )
+
 
 @click.group()
 def cli():
@@ -96,25 +107,33 @@ def cli():
 @click.option("--output-dir", default="output", help="Output directory for files")
 @click.option("--log-level", default="INFO", help="Logging level")
 @click.option(
+    "--log-format",
+    default="text",
+    help="Log output format: text (default) or json",
+)
+@click.option(
     "--dry-run",
     is_flag=True,
     default=False,
     help="Validate config and show what would run without calling APIs",
 )
-def create(topic, style, audience, platform, output_dir, log_level, dry_run):
+def create(
+    topic, style, audience, platform, output_dir, log_level, log_format, dry_run
+):
     """Create and publish content on a given TOPIC.
 
     Example:
         content-agent create "Artificial Intelligence in Healthcare" --style professional
     """
-    validate_create_inputs(topic, style, log_level)
+    validate_create_inputs(topic, style, log_level, log_format)
     topic = topic.strip()
     log_level = log_level.upper()
+    log_format = log_format.lower()
     if style is not None:
         style = style.lower().strip()
 
     # Setup
-    logger = setup_logger(level=log_level)
+    logger = setup_logger(level=log_level, log_format=log_format)
 
     console.print(
         Panel.fit(
