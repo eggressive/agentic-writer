@@ -63,6 +63,15 @@ def test_json_formatter_contains_required_fields():
     assert "timestamp" in data
 
 
+def test_json_formatter_timestamp_is_iso8601_utc():
+    """Timestamp is a UTC ISO-8601 string (ends with +00:00)."""
+    fmt = JsonFormatter()
+    data = json.loads(fmt.format(_make_record("ts check")))
+    ts = data["timestamp"]
+    assert "T" in ts
+    assert ts.endswith("+00:00")
+
+
 def test_json_formatter_exc_info_included():
     """JsonFormatter includes exc_info when an exception is logged."""
     fmt = JsonFormatter()
