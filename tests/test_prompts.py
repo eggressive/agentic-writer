@@ -27,7 +27,7 @@ class TestAudiencePrompts:
         assert isinstance(PERSONA_SYSTEM_PROMPT, str)
 
     def test_persona_system_prompt_non_empty(self):
-        assert len(PERSONA_SYSTEM_PROMPT) > 0
+        assert PERSONA_SYSTEM_PROMPT.strip()
 
     def test_persona_system_prompt_contains_json_hint(self):
         assert "JSON" in PERSONA_SYSTEM_PROMPT
@@ -42,7 +42,7 @@ class TestResearcherPrompts:
         assert isinstance(ANALYZE_TOPIC_SYSTEM_PROMPT, str)
 
     def test_analyze_topic_prompt_non_empty(self):
-        assert len(ANALYZE_TOPIC_SYSTEM_PROMPT) > 0
+        assert ANALYZE_TOPIC_SYSTEM_PROMPT.strip()
 
     def test_research_brief_prompt_is_string(self):
         assert isinstance(RESEARCH_BRIEF_SYSTEM_PROMPT, str)
@@ -78,7 +78,7 @@ class TestWriterPrompts:
         assert isinstance(SECTION_SYSTEM_PROMPT, str)
 
     def test_section_prompt_non_empty(self):
-        assert len(SECTION_SYSTEM_PROMPT) > 0
+        assert SECTION_SYSTEM_PROMPT.strip()
 
     def test_article_template_is_string(self):
         assert isinstance(ARTICLE_SYSTEM_PROMPT_TEMPLATE, str)
@@ -124,7 +124,7 @@ class TestImagePrompts:
         assert isinstance(IMAGE_QUERIES_SYSTEM_PROMPT, str)
 
     def test_queries_prompt_non_empty(self):
-        assert len(IMAGE_QUERIES_SYSTEM_PROMPT) > 0
+        assert IMAGE_QUERIES_SYSTEM_PROMPT.strip()
 
     def test_suggestions_prompt_is_string(self):
         assert isinstance(IMAGE_SUGGESTIONS_SYSTEM_PROMPT, str)
