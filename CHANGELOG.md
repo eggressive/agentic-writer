@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Refactored
+
+* Extract inline prompt strings into `src/prompts/` package (`audience.py`, `researcher.py`,
+  `writer.py`, `image.py`) with 11 named constants for improved maintainability
+* Fix double-escaped quotes in `RESEARCH_BRIEF_SYSTEM_PROMPT` so expert-quote examples
+  render as plain `"` rather than `\"` in the LLM prompt
+* Sync `src/__init__.py` `__version__` with `pyproject.toml` (0.18.1)
+* Remove redundant quoting from `click.BadParameter(param_hint=...)` values so CLI error
+  messages format correctly (e.g. `'TOPIC'` → `TOPIC`)
+
 ## [0.18.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.18.0...agentic-writer-v0.18.1) (2026-04-03)
 
 

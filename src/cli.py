@@ -44,31 +44,31 @@ def validate_create_inputs(topic: str, style: Optional[str], log_level: str) -> 
     stripped = topic.strip()
     if not stripped:
         raise click.BadParameter(
-            "Topic cannot be empty or whitespace.", param_hint="'TOPIC'"
+            "Topic cannot be empty or whitespace.", param_hint="TOPIC"
         )
     if len(stripped) < MIN_TOPIC_LENGTH:
         raise click.BadParameter(
             f"Topic must be at least {MIN_TOPIC_LENGTH} characters.",
-            param_hint="'TOPIC'",
+            param_hint="TOPIC",
         )
     if len(stripped) > MAX_TOPIC_LENGTH:
         raise click.BadParameter(
             f"Topic must be at most {MAX_TOPIC_LENGTH} characters.",
-            param_hint="'TOPIC'",
+            param_hint="TOPIC",
         )
 
     if style is not None and style.strip().lower() not in VALID_STYLES:
         valid = ", ".join(sorted(VALID_STYLES))
         raise click.BadParameter(
             f"Invalid style '{style}'. Valid styles: {valid}.",
-            param_hint="'--style'",
+            param_hint="--style",
         )
 
     if log_level.upper() not in VALID_LOG_LEVELS:
         valid = ", ".join(sorted(VALID_LOG_LEVELS))
         raise click.BadParameter(
             f"Invalid log level '{log_level}'. Valid levels: {valid}.",
-            param_hint="'--log-level'",
+            param_hint="--log-level",
         )
 
 
