@@ -51,7 +51,12 @@ def setup_logger(
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(getattr(logging, level.upper()))
 
-    if log_format == "json":
+    normalized_format = log_format.strip().lower()
+    if normalized_format not in {"text", "json"}:
+        raise ValueError(
+            f"Unsupported log_format {log_format!r}. Valid values: 'text', 'json'."
+        )
+    if normalized_format == "json":
         formatter: logging.Formatter = JsonFormatter()
     else:
         if format_string is None:

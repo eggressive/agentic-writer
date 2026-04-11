@@ -121,3 +121,20 @@ def test_setup_logger_json_format_produces_valid_json_output(capsys):
     data = json.loads(captured.out.strip())
     assert data["message"] == "structured message"
     assert data["level"] == "INFO"
+
+
+def test_setup_logger_normalizes_log_format_case():
+    """setup_logger accepts uppercase/mixed-case log_format values."""
+    logger = setup_logger(name="case_test_json", log_format="JSON")
+    assert isinstance(logger.handlers[0].formatter, JsonFormatter)
+
+    logger2 = setup_logger(name="case_test_text", log_format="TEXT")
+    assert not isinstance(logger2.handlers[0].formatter, JsonFormatter)
+
+
+def test_setup_logger_invalid_log_format_raises():
+    """setup_logger raises ValueError for unsupported log_format values."""
+    import pytest
+
+    with pytest.raises(ValueError, match="Unsupported log_format"):
+        setup_logger(name="bad_format_test", log_format="xml")
