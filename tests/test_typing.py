@@ -16,6 +16,7 @@ def test_py_typed_marker_is_empty():
     """py.typed must be a zero-byte file per PEP 561."""
     package_dir = pathlib.Path(src.__file__).parent
     marker = package_dir / "py.typed"
+    assert marker.exists(), "py.typed marker file is missing from the src package"
     assert marker.stat().st_size == 0, "py.typed must be empty (zero bytes)"
 
 
