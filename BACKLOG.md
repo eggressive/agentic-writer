@@ -20,6 +20,6 @@ Mark items as done with ~~strikethrough~~ when completed via PR.
 ## Priority 3 (Incremental)
 
 1. ~~**Pin dependency versions** — replace `>=` with `~=` or exact pins in `requirements.txt` for reproducible builds~~
-1. **Extract prompt templates** — move inline prompt strings from agents into `src/prompts/` directory for easier tuning without touching agent logic
+1. ~~**Extract prompt templates** — move inline prompt strings from agents into `src/prompts/` directory for easier tuning without touching agent logic~~
 1. ~~**Add structured JSON logging option** — add `--log-format json` flag for machine-readable log output~~
-1. **Add type stubs / py.typed marker** — enable downstream type checking for anyone importing the package
+1. ~~**Add type stubs / py.typed marker** — enable downstream type checking for anyone importing the package~~

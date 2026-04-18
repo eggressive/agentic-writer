@@ -14,6 +14,14 @@ from tenacity import (
     wait_exponential,
 )
 
+from src.prompts.writer import (
+    ARTICLE_SYSTEM_PROMPT_TEMPLATE,
+    META_DESCRIPTION_SYSTEM_PROMPT,
+    OUTLINE_SYSTEM_PROMPT_TEMPLATE,
+    SECTION_SYSTEM_PROMPT,
+    TAGS_SYSTEM_PROMPT,
+)
+
 _TRANSIENT_EXCEPTIONS = (
     openai.RateLimitError,
     openai.APIConnectionError,
@@ -207,14 +215,9 @@ class WriterAgent:
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content=f"""You are a professional content writer. Create a detailed article outline with:
-1. An engaging title
-2. Introduction hook
-3. 3-5 main sections with subsections
-4. Conclusion
-5. Key points to cover in each section
-
-{base_instructions}"""
+                    content=OUTLINE_SYSTEM_PROMPT_TEMPLATE.format(
+                        base_instructions=base_instructions
+                    )
                 ),
                 HumanMessage(content=f"Topic: {topic}\n\nResearch:\n{research}"),
             ]
@@ -241,15 +244,7 @@ class WriterAgent:
 
         prompt = ChatPromptTemplate.from_messages(
             [
-                SystemMessage(
-                    content="""You are a professional content writer. Write an engaging, informative section for an article.
-Requirements:
-- Use clear, accessible language
-- Include specific examples and details
-- Maintain a professional yet conversational tone
-- Use proper formatting with paragraphs
-- Aim for 200-400 words per section"""
-                ),
+                SystemMessage(content=SECTION_SYSTEM_PROMPT),
                 HumanMessage(
                     content=f"Section Title: {section_title}\n\nSection Context:\n{section_context}\n\nFull Context:\n{full_context}"
                 ),
@@ -306,17 +301,10 @@ Requirements:
         prompt = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content=f"""You are a professional content writer. Write a comprehensive, engaging article based on the provided research and outline.
-
-Requirements:
-- Follow the outline structure
-- Write 1200-1500 words
-- Use clear, engaging language
-- Include an introduction, body sections, and conclusion
-- Add smooth transitions between sections
-- Cite key facts and statistics when relevant
-- Use markdown formatting (headers, bold, italics, lists)
-- Make it informative yet accessible{style_instruction}{persona_instruction}"""
+                    content=ARTICLE_SYSTEM_PROMPT_TEMPLATE.format(
+                        style_instruction=style_instruction,
+                        persona_instruction=persona_instruction,
+                    )
                 ),
                 HumanMessage(
                     content=f"Topic: {topic}\n\nOutline:\n{outline}\n\nResearch:\n{research_synthesis}\n\nAnalysis:\n{research_analysis}"
@@ -376,9 +364,7 @@ Requirements:
         """
         prompt = ChatPromptTemplate.from_messages(
             [
-                SystemMessage(
-                    content="Generate a compelling meta description (150-160 characters) for this article."
-                ),
+                SystemMessage(content=META_DESCRIPTION_SYSTEM_PROMPT),
                 HumanMessage(
                     content=f"Topic: {topic}\n\nContent preview:\n{content[:500]}"
                 ),
@@ -405,9 +391,7 @@ Requirements:
 
         prompt = ChatPromptTemplate.from_messages(
             [
-                SystemMessage(
-                    content="Generate 5-8 relevant tags for this article. Return only the tags, comma-separated."
-                ),
+                SystemMessage(content=TAGS_SYSTEM_PROMPT),
                 HumanMessage(content=f"Topic: {topic}\n\nResearch: {research_text}"),
             ]
         )

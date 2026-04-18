@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentic-writer"
-version = "0.18.1"
+version = "0.20.0"
 description = "Automated content creation and management using LangChain agents"
 readme = "README.md"
 license = { text = "MIT" }
@@ -20,6 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
 ]
 dependencies = [
     "langchain>=0.1.0",
@@ -56,6 +57,9 @@ content-agent = "src.cli:cli"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["src*"]
+
+[tool.setuptools.package-data]
+"src" = ["py.typed"]
 
 [tool.ruff]
 line-length = 88

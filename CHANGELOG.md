@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.19.0...agentic-writer-v0.20.0) (2026-04-12)
+
+
+### Features
+
+* add py.typed PEP 561 marker for downstream type checking ([#93](https://github.com/eggressive/agentic-writer/issues/93)) ([041916c](https://github.com/eggressive/agentic-writer/commit/041916c0d68a046b2b836a2a1e6c1ffe61deba02))
+
+## [0.19.0](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.18.1...agentic-writer-v0.19.0) (2026-04-11)
+
+
+### Features
+
+* extract inline prompt strings into src/prompts/ module ([#89](https://github.com/eggressive/agentic-writer/issues/89)) ([35ecb00](https://github.com/eggressive/agentic-writer/commit/35ecb00af755cae81df5cd967ab821838fd09dc3))
+
+## [Unreleased]
+
+### Refactored
+
+* Extract inline prompt strings into `src/prompts/` package (`audience.py`, `researcher.py`,
+  `writer.py`, `image.py`) with 11 named constants for improved maintainability
+* Fix double-escaped quotes in `RESEARCH_BRIEF_SYSTEM_PROMPT` so expert-quote examples
+  render as plain `"` rather than `\"` in the LLM prompt
+* Sync `src/__init__.py` `__version__` with `pyproject.toml` (0.18.1)
+* Remove redundant quoting from `click.BadParameter(param_hint=...)` values so CLI error
+  messages format correctly (e.g. `'TOPIC'` → `TOPIC`)
+
 ## [0.18.1](https://github.com/eggressive/agentic-writer/compare/agentic-writer-v0.18.0...agentic-writer-v0.18.1) (2026-04-03)
 
 
