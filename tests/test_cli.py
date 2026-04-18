@@ -130,7 +130,7 @@ def test_create_command_success(
     assert "Content creation completed successfully" in result.output
     mock_config_class.from_env.assert_called_once()
     mock_config.validate_required.assert_called_once()
-    mock_setup_logger.assert_called_once_with(level="INFO")
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
     mock_orchestrator_class.assert_called_once_with(mock_config)
     mock_orchestrator.create_content.assert_called_once_with(
         topic="Test Topic",
@@ -209,7 +209,7 @@ def test_create_command_default_values(
     assert call_kwargs["target_audience"] is None
     assert call_kwargs["platforms"] == ["file"]
     assert call_kwargs["output_dir"] == "output"
-    mock_setup_logger.assert_called_once_with(level="INFO")
+    mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
 
 
 @patch("src.cli.Config")
@@ -442,7 +442,7 @@ def test_create_command_custom_log_level(mock_setup_logger, runner):
         )
 
         # Verify logger was setup with correct level
-        mock_setup_logger.assert_called_once_with(level="DEBUG")
+        mock_setup_logger.assert_called_once_with(level="DEBUG", log_format="text")
 
 
 # ---------------------------------------------------------------------------
@@ -798,3 +798,59 @@ def test_health_command_network_error(
 
     assert result.exit_code == 1
     assert "Connection refused" in result.output
+
+
+# ---------------------------------------------------------------------------
+# --log-format tests
+# ---------------------------------------------------------------------------
+
+
+@patch("src.cli.setup_logger")
+def test_create_command_default_log_format_is_text(mock_setup_logger, runner):
+    """Default --log-format is 'text'."""
+    mock_setup_logger.return_value = Mock()
+
+    with patch("src.cli.Config") as mock_config_class:
+        mock_config = Mock()
+        mock_config.validate_required.side_effect = ValueError("early exit")
+        mock_config_class.from_env.return_value = mock_config
+
+        runner.invoke(cli, ["create", "Test Topic"])
+
+        mock_setup_logger.assert_called_once_with(level="INFO", log_format="text")
+
+
+@patch("src.cli.setup_logger")
+def test_create_command_json_log_format(mock_setup_logger, runner):
+    """--log-format json passes 'json' to setup_logger."""
+    mock_setup_logger.return_value = Mock()
+
+    with patch("src.cli.Config") as mock_config_class:
+        mock_config = Mock()
+        mock_config.validate_required.side_effect = ValueError("early exit")
+        mock_config_class.from_env.return_value = mock_config
+
+        runner.invoke(cli, ["create", "Test Topic", "--log-format", "json"])
+
+        mock_setup_logger.assert_called_once_with(level="INFO", log_format="json")
+
+
+def test_create_command_invalid_log_format_exits_with_error(runner):
+    """Unknown --log-format value causes exit code 2."""
+    result = runner.invoke(cli, ["create", "Valid Topic", "--log-format", "xml"])
+    assert result.exit_code == 2
+    assert "Invalid log format" in result.output
+
+
+class TestValidateCreateInputsLogFormat:
+    """Unit tests for log_format validation in validate_create_inputs."""
+
+    def test_valid_text_format_passes(self):
+        validate_create_inputs("Topic", None, "INFO", "text")
+
+    def test_valid_json_format_passes(self):
+        validate_create_inputs("Topic", None, "INFO", "json")
+
+    def test_invalid_format_raises(self):
+        with pytest.raises(click.exceptions.BadParameter, match="Invalid log format"):
+            validate_create_inputs("Topic", None, "INFO", "xml")
